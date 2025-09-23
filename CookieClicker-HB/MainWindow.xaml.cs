@@ -19,5 +19,10 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
+
+        ListOfEnemyTemplate listOfEnemys = new ListOfEnemyTemplate();
+
+
+        listOfEnemys.deleteEnemyByIndex(42);
     }
 }
