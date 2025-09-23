@@ -33,6 +33,7 @@ namespace CookieClicker_HB
         public EnemyTemplate getEnemyByIndex(int index)
         {
             return enemies[index];
+            // надо будет на строне приёма сделать обработчиr для случаев когда нет такого indexa
         }
         public void deleteEnemyByName(string name)
         {
@@ -46,8 +47,6 @@ namespace CookieClicker_HB
             {
                 MessageBox.Show($"What's wrong, Emelya? There's no {name}");
             }
-
-            // надо будет на строне приёма сделать обработчиr для случаев когда нет такого имени
         }
         public void deleteEnemyByIndex(int index)
         {
@@ -61,8 +60,18 @@ namespace CookieClicker_HB
                 MessageBox.Show($"What's wrong, Emelya? Really? {index}? There aren't that many elements here to delete " +
                     $"something. Even a pack of Emelya crackers doesn't have that many elements.");
             }
+        }
 
+        public List<string> getListOfEnemyNames()
+        {
+            List<string> allNamesList = new List<string>();
 
+            foreach (EnemyTemplate enemy in enemies)
+            {
+                allNamesList.Add(enemy.Name);
+            }
+
+            return allNamesList;
         }
 
     }
