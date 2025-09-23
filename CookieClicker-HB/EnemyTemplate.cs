@@ -22,8 +22,46 @@ namespace CookieClicker_HB
             _goldModifier = goldModifier;
             _spawnRate = spawnRate;
         }
-
-        
+        // название врага
+        public string Name
+        { 
+            get{ return _name; }
+            set { _name = value;}
+        }
+        // название... иконки? АСЬ?
+        public string IconName
+        {
+            get { return _iconName; }
+            set { _iconName = value; }
+        }
+        // атрибуты для хпшек
+        public int BaseLife
+        {
+            get { return _baseLife; }
+            set { _baseLife = value; }
+        }
+        public double LifeModifier
+        {
+            get { return _lifeModifier; }
+            set { _lifeModifier = value; }
+        }
+        // атрибуты для золота
+        public int BaseGold
+        {
+            get { return _baseGold; }
+            set { _baseGold = value; }
+        }
+        public double GoldModifier
+        {
+            get { return _goldModifier; }
+            set { _goldModifier = value; }
+        }
+        //вероятность спавна
+        public double SpawnRate
+        {
+            get { return _spawnRate; }
+            set { _spawnRate = value; }
+        }
 
 
 
