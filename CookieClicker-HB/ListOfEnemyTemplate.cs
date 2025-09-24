@@ -12,7 +12,7 @@ using System.Text.Json.Serialization;
 
 namespace CookieClicker_HB
 {
-    class ListOfEnemyTemplate
+    class ListOfEnemyTemplate : UniversalListTemplate
     {
         List<EnemyTemplate> enemies;
 
