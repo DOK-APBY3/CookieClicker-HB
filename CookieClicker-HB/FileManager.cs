@@ -9,7 +9,7 @@ using System.Windows;
 
 namespace CookieClicker_HB
 {
-    class FileManager
+     class FileManager
     {
 
         private readonly string lastFilePathFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "WpfBUZMAZ_lastFile.txt");
@@ -26,22 +26,17 @@ namespace CookieClicker_HB
         }
         private void LastSavedLoader()
         {
-
-            if (File.Exists(lastFilePathFile))
+            if (File.Exists(lastFilePath))
             {
-                string lastFilePath = File.ReadAllText(lastFilePathFile);
-                if (File.Exists(lastFilePath))
-                {
-                    ListOfEnemyTemplate loader = new ListOfEnemyTemplate();
-                    loader.loadFromJson(lastFilePath);
-                }
+                ListOfEnemyTemplate loader = new ListOfEnemyTemplate();
+                loader.loadFromJson(lastFilePath);
             }
         }
 
-        private void LoadFromFile(object sender, RoutedEventArgs e)
+        private void LoadFromSelectedFile()
         {
-            SaveFileDialog dlg = new SaveFileDialog();
-            
+            OpenFileDialog dlg = new OpenFileDialog();
+
             dlg.FileName = "Document";
             dlg.DefaultExt = ".json";
             dlg.Filter = "Text documents (.json)|*.json";
@@ -52,6 +47,20 @@ namespace CookieClicker_HB
             loader.loadFromJson(lb1);
         }
 
+
+        public void SaveToSelectedFile()
+        {
+            SaveFileDialog dlg = new SaveFileDialog();
+
+            dlg.FileName = "Document";
+            dlg.DefaultExt = ".json";
+            dlg.Filter = "Text documents (.json)|*.json";
+            dlg.ShowDialog();
+            string lb1 = dlg.FileName;
+
+            ListOfEnemyTemplate loader = new ListOfEnemyTemplate();
+            loader.saveToJson(lb1);
+        }
 
     }
 }
