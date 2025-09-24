@@ -5,6 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Xml.Linq;
+using System.Text.Json;
+using System.IO;
+using System.Text.Json.Serialization;
+
 
 namespace CookieClicker_HB
 {
@@ -72,6 +76,36 @@ namespace CookieClicker_HB
             }
 
             return allNamesList;
+        }
+
+
+        public void saveToJson(string path)
+        {
+            string jsonString = JsonSerializer.Serialize(enemies); // сериализация списка (хз что это, наверное когда фильм режут на сериал чтобы больше денег нафармить)
+            File.WriteAllText(path, jsonString); // сохранялка (джисус крайст, итс Json Борн)
+        }
+
+        public void loadFromJson(string path)
+        {
+            string jsonLoadString = File.ReadAllText(path);
+            List<EnemyTemplate> people = new List<EnemyTemplate>();
+
+            JsonDocument doc = JsonDocument.Parse(jsonLoadString); // Парсинг JSON
+            
+            foreach (JsonElement elem in doc.RootElement.EnumerateArray())
+            {
+                string name = elem.GetProperty("Name").GetString();
+                string iconName = elem.GetProperty("IconName").GetString();
+                int baseLife = elem.GetProperty("BaseLife").GetInt32();
+                int baseGold = elem.GetProperty("BaseGold").GetInt32();
+                double lifeMod = elem.GetProperty("LifeModifier").GetDouble();
+                double goldMod = elem.GetProperty("GoldModifier").GetDouble();
+                double spawnRate = elem.GetProperty("SpawnRate").GetDouble();
+
+                EnemyTemplate person = new EnemyTemplate(name, iconName, baseLife, baseGold, lifeMod, goldMod, spawnRate);
+                people.Add(person);
+            }
+            
         }
 
     }

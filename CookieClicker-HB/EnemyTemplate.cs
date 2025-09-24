@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace CookieClicker_HB
@@ -22,41 +23,52 @@ namespace CookieClicker_HB
             _goldModifier = goldModifier;
             _spawnRate = spawnRate;
         }
-        // название врага
-        public string Name
+        
+
+        [JsonInclude] // атрибуты нужны чтобы сохранять в json, ставим их тут чтобы не было проблем из-за приватности полей
+        public string Name // название врага
         { 
             get{ return _name; }
             set { _name = value;}
         }
-        // название... иконки? АСЬ?
-        public string IconName
+        
+        [JsonInclude]
+        public string IconName // название... иконки? АСЬ?
         {
             get { return _iconName; }
             set { _iconName = value; }
         }
+
         // атрибуты для хпшек
+        [JsonInclude]
         public int BaseLife
         {
             get { return _baseLife; }
             set { _baseLife = value; }
         }
+        [JsonInclude]
         public double LifeModifier
         {
             get { return _lifeModifier; }
             set { _lifeModifier = value; }
         }
+
         // атрибуты для золота
+        [JsonInclude]
         public int BaseGold
         {
             get { return _baseGold; }
             set { _baseGold = value; }
         }
+        [JsonInclude]
         public double GoldModifier
         {
             get { return _goldModifier; }
             set { _goldModifier = value; }
         }
+
         //вероятность спавна
+        [JsonInclude]
         public double SpawnRate
         {
             get { return _spawnRate; }
