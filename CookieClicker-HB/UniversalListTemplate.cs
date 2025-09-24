@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace CookieClicker_HB
 {
-    class UniversalListTemplate
+    abstract class UniversalListTemplate
     {
 
+        public abstract void saveToJson(string path, UniversalListTemplate data);
 
     }
 }

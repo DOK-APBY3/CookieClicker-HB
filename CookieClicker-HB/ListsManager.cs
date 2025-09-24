@@ -15,7 +15,6 @@ namespace CookieClicker_HB
     class ListsManager
     {
         
-
         public List<EnemyTemplate> EnemyList1 { get; set; } = new List<EnemyTemplate>();
         public List<EnemyTemplate> EnemyList2 { get; set; } = new List<EnemyTemplate>();
 
