@@ -79,11 +79,16 @@ namespace CookieClicker_HB
         }
 
 
-        public override void saveToJson(string path, UniversalListTemplate data)
+        public override void saveToJson(string path)
         {
-            string jsonString = JsonSerializer.Serialize(data); // сериализация списка (хз что это, наверное когда фильм режут на сериал чтобы больше денег нафармить)
+            string jsonString = JsonSerializer.Serialize(enemies); // сериализация списка (хз что это, наверное когда фильм режут на сериал чтобы больше денег нафармить)
             File.WriteAllText(path, jsonString); // сохранялка (джисус крайст, итс Json Борн)
+
+
+            var t = JsonSerializer.Deserialize < List<EnemyTemplate>("");
         }
+
+
 
         public void loadFromJson(string path)
         {

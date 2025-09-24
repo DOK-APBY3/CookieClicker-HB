@@ -54,7 +54,7 @@ namespace CookieClicker_HB
         }
 
 
-        public void SaveToSelectedFile(UniversalListTemplate data)
+        public void SaveToSelectedFile(UniversalListTemplate sourse)
         {
             SaveFileDialog dlg = new SaveFileDialog();
 
@@ -64,9 +64,11 @@ namespace CookieClicker_HB
             dlg.ShowDialog();
             string lb1 = dlg.FileName;
 
-            
-            data.saveToJson(lb1, data);
+
+            sourse.saveToJson(lb1);
         }
+
+        
 
     }
 }

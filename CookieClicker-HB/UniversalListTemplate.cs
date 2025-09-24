@@ -10,7 +10,7 @@ namespace CookieClicker_HB
     abstract class UniversalListTemplate
     {
 
-        public abstract void saveToJson(string path, UniversalListTemplate data);
+        public abstract void saveToJson(string path);
 
     }
 }

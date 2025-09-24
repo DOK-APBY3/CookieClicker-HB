@@ -9,9 +9,12 @@ namespace CookieClicker_HB
 {
     class EnemyTemplate
     {
-        private string _name, _iconName;
-        private int _baseLife, _baseGold;
-        private double _lifeModifier, _goldModifier, _spawnRate;
+        [JsonInclude]
+        string _name, _iconName;
+        [JsonInclude]
+        int _baseLife, _baseGold;
+        [JsonInclude]
+        double _lifeModifier, _goldModifier, _spawnRate;
 
         public EnemyTemplate(string name, string iconName, int baseLife, int baseGold, double lifeModifier, double goldModifier, double spawnRate)
         {
@@ -25,14 +28,14 @@ namespace CookieClicker_HB
         }
         
 
-        [JsonInclude] // атрибуты нужны чтобы сохранять в json, ставим их тут чтобы не было проблем из-за приватности полей
+        // атрибуты нужны чтобы сохранять в json, ставим их тут чтобы не было проблем из-за приватности полей
         public string Name // название врага
         { 
             get{ return _name; }
             set { _name = value;}
         }
         
-        [JsonInclude]
+        
         public string IconName // название... иконки? АСЬ?
         {
             get { return _iconName; }
@@ -40,7 +43,7 @@ namespace CookieClicker_HB
         }
 
         // атрибуты для хпшек
-        [JsonInclude]
+        
         public int BaseLife
         {
             get { return _baseLife; }
