@@ -85,32 +85,15 @@ namespace CookieClicker_HB
             File.WriteAllText(path, jsonString); // сохранялка (джисус крайст, итс Json Борн)
 
 
-            var t = JsonSerializer.Deserialize < List<EnemyTemplate>("");
+            
         }
 
 
 
         public void loadFromJson(string path)
         {
-            string jsonLoadString = File.ReadAllText(path);
-            List<EnemyTemplate> people = new List<EnemyTemplate>();
+            List<EnemyTemplate> t = JsonSerializer.Deserialize <List<EnemyTemplate>>(path);
 
-            JsonDocument doc = JsonDocument.Parse(jsonLoadString); // Парсинг JSON
-            
-            foreach (JsonElement elem in doc.RootElement.EnumerateArray())
-            {
-                string name = elem.GetProperty("Name").GetString();
-                string iconName = elem.GetProperty("IconName").GetString();
-                int baseLife = elem.GetProperty("BaseLife").GetInt32();
-                int baseGold = elem.GetProperty("BaseGold").GetInt32();
-                double lifeMod = elem.GetProperty("LifeModifier").GetDouble();
-                double goldMod = elem.GetProperty("GoldModifier").GetDouble();
-                double spawnRate = elem.GetProperty("SpawnRate").GetDouble();
-
-                EnemyTemplate person = new EnemyTemplate(name, iconName, baseLife, baseGold, lifeMod, goldMod, spawnRate);
-                people.Add(person);
-            }
-            
         }
 
     }

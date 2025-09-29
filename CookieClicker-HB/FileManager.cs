@@ -15,6 +15,7 @@ namespace CookieClicker_HB
         private readonly string lastFilePathFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "WpfBUZMAZ_lastFile.txt");
         private string lastFilePath;
 
+        ListsManager UniLoader = new ListsManager();
         ListOfEnemyTemplate loader = new ListOfEnemyTemplate();
 
         public FileManager()
