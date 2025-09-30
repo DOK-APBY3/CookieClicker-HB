@@ -14,7 +14,9 @@ namespace CookieClicker_HB
 {
     class ListOfEnemyTemplate : UniversalListTemplate
     {
-        List<EnemyTemplate> enemies;
+
+        [JsonInclude]
+        public List<EnemyTemplate> enemies;
 
         public ListOfEnemyTemplate()
         {
@@ -23,9 +25,14 @@ namespace CookieClicker_HB
 
         public void addEnemy(string name, string iconName, int baseLife, int baseGold, double lifeModifier, double goldModifier, double spawnRate)
         {
-            EnemyTemplate tmpEnemy = new EnemyTemplate(name, iconName, baseLife, baseGold, lifeModifier, goldModifier, spawnRate);
-            enemies.Add(tmpEnemy);
+            enemies.Add(new EnemyTemplate(name, iconName, baseLife, baseGold, lifeModifier, goldModifier, spawnRate));
         }
+
+        public override List<EnemyTemplate> GetCurrentList()
+        {
+            return enemies;
+        }
+
 
         public EnemyTemplate getEnemyByName(string name)
         {
@@ -85,7 +92,6 @@ namespace CookieClicker_HB
             File.WriteAllText(path, jsonString); // сохранялка (джисус крайст, итс Json Борн)
 
 
-            
         }
 
 

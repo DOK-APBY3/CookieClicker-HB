@@ -7,10 +7,11 @@ using System.Threading.Tasks;
 
 namespace CookieClicker_HB
 {
-    abstract class UniversalListTemplate
+    public abstract class UniversalListTemplate
     {
 
         public abstract void saveToJson(string path);
 
+        public abstract List<EnemyTemplate> GetCurrentList();
     }
 }

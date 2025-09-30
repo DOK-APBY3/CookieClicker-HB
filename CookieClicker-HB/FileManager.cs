@@ -1,29 +1,28 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
-using System.IO;
-using Microsoft.Win32;
 using System.Windows;
+using System.Windows.Shapes;
 
 namespace CookieClicker_HB
 {
-     class FileManager
+     static class FileManager
     {
 
-        private readonly string lastFilePathFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "WpfBUZMAZ_lastFile.txt");
-        private string lastFilePath;
+        private static readonly string lastFilePathFile =  System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "WpfBUZMAZ_lastFile.txt");
+        private static string lastFilePath;
 
-        ListOfEnemyTemplate loader = new ListOfEnemyTemplate();
+        static ListOfEnemyTemplate loader = new ListOfEnemyTemplate();
 
-        public FileManager()
-        {
-
-        }
+        
 
 
-        private void LastSavedFinder()
+        private static void LastSavedFinder()
         {
 
             if (File.Exists(lastFilePathFile))
@@ -31,7 +30,7 @@ namespace CookieClicker_HB
                 lastFilePath = File.ReadAllText(lastFilePathFile);
             }
         }
-        private void LastSavedLoader()
+        private static void LastSavedLoader()
         {
             if (File.Exists(lastFilePath))
             {
@@ -40,7 +39,7 @@ namespace CookieClicker_HB
             }
         }
 
-        private void LoadFromSelectedFile()
+        public static void LoadFromSelectedFile()
         {
             OpenFileDialog dlg = new OpenFileDialog();
 
@@ -54,7 +53,7 @@ namespace CookieClicker_HB
         }
 
 
-        public void SaveToSelectedFile()
+        public static void SaveToSelectedFile(Dictionary<string, List<EnemyTemplate>> data)
         {
             SaveFileDialog dlg = new SaveFileDialog();
 
@@ -62,11 +61,11 @@ namespace CookieClicker_HB
             dlg.DefaultExt = ".json";
             dlg.Filter = "Text documents (.json)|*.json";
             dlg.ShowDialog();
-            string lb1 = dlg.FileName;
+            string path = dlg.FileName;
 
-            ListsManager.SaveToJson(lb1);
+            string json = JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true });
+            File.WriteAllText(path, json);
 
-            //sourse.saveToJson(lb1);
         }
 
         

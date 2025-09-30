@@ -17,30 +17,47 @@ namespace CookieClicker_HB;
 /// </summary>
 public partial class MainWindow : Window
 {
-
-    FileManager saveLoader = new FileManager();
+    Random rnd = new Random();
 
     public MainWindow()
     {
         InitializeComponent();
 
+
+
         ListOfEnemyTemplate listOfEnemys = new ListOfEnemyTemplate();
-        ListsManager.addToGL("listOfEnemys", listOfEnemys);
-
-        listOfEnemys.addEnemy("valik", "KUZN", 3, 3, 3.4, 5.7, 0.66);
-        listOfEnemys.addEnemy("zlata", "KNYAZZ", 3, 3, 3.4, 5.7, 0.66);
-
+        listOfEnemys.addEnemy("valik", "KUZN",
+            rnd.Next(1, 10),
+            rnd.Next(1, 10),
+            Math.Round(rnd.NextDouble() * 10, 2),
+            Math.Round(rnd.NextDouble() * 10, 2),
+            Math.Round(rnd.NextDouble(), 2));
+        listOfEnemys.addEnemy("zlata", "KNYAZZ",
+            rnd.Next(1, 10),
+            rnd.Next(1, 10),
+            Math.Round(rnd.NextDouble() * 10, 2),
+            Math.Round(rnd.NextDouble() * 10, 2),
+            Math.Round(rnd.NextDouble(), 2));
+        ListsManager.addToGL("1st", listOfEnemys);
 
         ListOfEnemyTemplate listOfEnemys2 = new ListOfEnemyTemplate();
-        ListsManager.addToGL("listOfEnemys2", listOfEnemys2);
+        listOfEnemys2.addEnemy("valik", "KUZN", 
+            rnd.Next(1, 10),
+            rnd.Next(1, 10),
+            Math.Round(rnd.NextDouble() * 10, 2),
+            Math.Round(rnd.NextDouble() * 10, 2),
+            Math.Round(rnd.NextDouble(), 2));
+        listOfEnemys2.addEnemy("zlata", "KNYAZZ",
+            rnd.Next(1, 10),
+            rnd.Next(1, 10),
+            Math.Round(rnd.NextDouble() * 10, 2),
+            Math.Round(rnd.NextDouble() * 10, 2),
+            Math.Round(rnd.NextDouble(), 2));
+        ListsManager.addToGL("2st", listOfEnemys2);
 
-        listOfEnemys2.addEnemy("valik", "KUZN", 3, 3, 3.4, 5.7, 0.66);
-        listOfEnemys2.addEnemy("zlata", "KNYAZZ", 3, 3, 3.4, 5.7, 0.66);
 
+        ListsManager.SaveToJson();
 
-        saveLoader.SaveToSelectedFile();
-
-
-        listOfEnemys.deleteEnemyByIndex(42);
+        //listOfEnemys.deleteEnemyByIndex(42);
     }
 }

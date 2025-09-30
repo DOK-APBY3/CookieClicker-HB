@@ -14,46 +14,34 @@ namespace CookieClicker_HB
 {
     static class ListsManager
     {
-        
-        
+        // Храним сразу сериализуемые данные
+        private static Dictionary<string, UniversalListTemplate> allLists = new Dictionary<string, UniversalListTemplate>();
 
-        //public List<UniversalListTemplate> allLists = new List<UniversalListTemplate>();
-
-        public static Dictionary<string, UniversalListTemplate> allLists = new Dictionary<string, UniversalListTemplate>();
-
-        public static void addToGL(string listName, UniversalListTemplate data)//add to Global List
+        public static void addToGL(string listName, UniversalListTemplate data)
         {
-            allLists.Add(listName, data);
+            allLists[listName] = data;
+        }
+         
+
+        public static void SaveToJson()
+        {
+            Dictionary<string, List<EnemyTemplate>> dctWithAllLists = new Dictionary<string, List<EnemyTemplate>>();
+
+            foreach (var item in allLists)
+            {
+                dctWithAllLists[item.Key] = item.Value.GetCurrentList();
+            }
+
+            FileManager.SaveToSelectedFile(dctWithAllLists);
+
+
         }
 
-        
-
-
-        public static void SaveToJson(string path)
-        {
-            string json = JsonSerializer.Serialize(allLists, new JsonSerializerOptions { WriteIndented = true });
-            File.WriteAllText(path, json);
-
-        }
 
         public static void LoadFromJson(string path)
         {
 
-
-            List<UniversalListTemplate> t = JsonSerializer.Deserialize<List<UniversalListTemplate>>(path);
         }
 
-        private static EnemyTemplate ParseEnemyTemplate(JsonElement elem)
-        {
-            string name = elem.GetProperty("Name").GetString();
-            string iconName = elem.GetProperty("IconName").GetString();
-            int baseLife = elem.GetProperty("BaseLife").GetInt32();
-            int baseGold = elem.GetProperty("BaseGold").GetInt32();
-            double lifeMod = elem.GetProperty("LifeModifier").GetDouble();
-            double goldMod = elem.GetProperty("GoldModifier").GetDouble();
-            double spawnRate = elem.GetProperty("SpawnRate").GetDouble();
-
-            return new EnemyTemplate(name, iconName, baseLife, baseGold, lifeMod, goldMod, spawnRate);
-        }
     }
 }
