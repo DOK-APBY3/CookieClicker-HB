@@ -19,16 +19,26 @@ public partial class MainWindow : Window
 {
 
     FileManager saveLoader = new FileManager();
+
     public MainWindow()
     {
         InitializeComponent();
 
         ListOfEnemyTemplate listOfEnemys = new ListOfEnemyTemplate();
+        ListsManager.addToGL("listOfEnemys", listOfEnemys);
 
         listOfEnemys.addEnemy("valik", "KUZN", 3, 3, 3.4, 5.7, 0.66);
         listOfEnemys.addEnemy("zlata", "KNYAZZ", 3, 3, 3.4, 5.7, 0.66);
 
-        saveLoader.SaveToSelectedFile(listOfEnemys);
+
+        ListOfEnemyTemplate listOfEnemys2 = new ListOfEnemyTemplate();
+        ListsManager.addToGL("listOfEnemys2", listOfEnemys2);
+
+        listOfEnemys2.addEnemy("valik", "KUZN", 3, 3, 3.4, 5.7, 0.66);
+        listOfEnemys2.addEnemy("zlata", "KNYAZZ", 3, 3, 3.4, 5.7, 0.66);
+
+
+        saveLoader.SaveToSelectedFile();
 
 
         listOfEnemys.deleteEnemyByIndex(42);

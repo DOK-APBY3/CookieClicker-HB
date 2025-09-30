@@ -12,28 +12,38 @@ using System.Text.Json.Serialization;
 
 namespace CookieClicker_HB
 {
-    class ListsManager
+    static class ListsManager
     {
         
         
 
-        public List<UniversalListTemplate> allLists = new List<UniversalListTemplate>();
+        //public List<UniversalListTemplate> allLists = new List<UniversalListTemplate>();
 
-        public void SaveToJson(string path)
+        public static Dictionary<string, UniversalListTemplate> allLists = new Dictionary<string, UniversalListTemplate>();
+
+        public static void addToGL(string listName, UniversalListTemplate data)//add to Global List
+        {
+            allLists.Add(listName, data);
+        }
+
+        
+
+
+        public static void SaveToJson(string path)
         {
             string json = JsonSerializer.Serialize(allLists, new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText(path, json);
 
         }
 
-        public void LoadFromJson(string path)
+        public static void LoadFromJson(string path)
         {
 
 
             List<UniversalListTemplate> t = JsonSerializer.Deserialize<List<UniversalListTemplate>>(path);
         }
 
-        private EnemyTemplate ParseEnemyTemplate(JsonElement elem)
+        private static EnemyTemplate ParseEnemyTemplate(JsonElement elem)
         {
             string name = elem.GetProperty("Name").GetString();
             string iconName = elem.GetProperty("IconName").GetString();

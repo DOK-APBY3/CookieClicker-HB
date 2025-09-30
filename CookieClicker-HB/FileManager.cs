@@ -15,7 +15,6 @@ namespace CookieClicker_HB
         private readonly string lastFilePathFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "WpfBUZMAZ_lastFile.txt");
         private string lastFilePath;
 
-        ListsManager UniLoader = new ListsManager();
         ListOfEnemyTemplate loader = new ListOfEnemyTemplate();
 
         public FileManager()
@@ -55,7 +54,7 @@ namespace CookieClicker_HB
         }
 
 
-        public void SaveToSelectedFile(UniversalListTemplate sourse)
+        public void SaveToSelectedFile()
         {
             SaveFileDialog dlg = new SaveFileDialog();
 
@@ -65,8 +64,9 @@ namespace CookieClicker_HB
             dlg.ShowDialog();
             string lb1 = dlg.FileName;
 
+            ListsManager.SaveToJson(lb1);
 
-            sourse.saveToJson(lb1);
+            //sourse.saveToJson(lb1);
         }
 
         
