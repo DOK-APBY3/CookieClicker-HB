@@ -23,41 +23,34 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
 
+        
 
-
-        ListOfEnemyTemplate listOfEnemys = new ListOfEnemyTemplate();
-        listOfEnemys.addEnemy("valik", "KUZN",
-            rnd.Next(1, 10),
-            rnd.Next(1, 10),
-            Math.Round(rnd.NextDouble() * 10, 2),
-            Math.Round(rnd.NextDouble() * 10, 2),
-            Math.Round(rnd.NextDouble(), 2));
-        listOfEnemys.addEnemy("zlata", "KNYAZZ",
-            rnd.Next(1, 10),
-            rnd.Next(1, 10),
-            Math.Round(rnd.NextDouble() * 10, 2),
-            Math.Round(rnd.NextDouble() * 10, 2),
-            Math.Round(rnd.NextDouble(), 2));
-        ListsManager.addToGL("1st", listOfEnemys);
-
-        ListOfEnemyTemplate listOfEnemys2 = new ListOfEnemyTemplate();
-        listOfEnemys2.addEnemy("valik", "KUZN", 
-            rnd.Next(1, 10),
-            rnd.Next(1, 10),
-            Math.Round(rnd.NextDouble() * 10, 2),
-            Math.Round(rnd.NextDouble() * 10, 2),
-            Math.Round(rnd.NextDouble(), 2));
-        listOfEnemys2.addEnemy("zlata", "KNYAZZ",
-            rnd.Next(1, 10),
-            rnd.Next(1, 10),
-            Math.Round(rnd.NextDouble() * 10, 2),
-            Math.Round(rnd.NextDouble() * 10, 2),
-            Math.Round(rnd.NextDouble(), 2));
-        ListsManager.addToGL("2st", listOfEnemys2);
-
-
-        ListsManager.SaveToJson();
+        //ListsManager.SaveToJson();
 
         //listOfEnemys.deleteEnemyByIndex(42);
+
+
+        ListsManager.LoadingEvent += takeListsFromFileManager;
+
+        FileManager.LoadFromSelectedFile();
     }
+
+    public void enemy_AddRandomByNameToList(string name, string iconName, ListOfEnemyTemplate neededList)
+    {
+        neededList.addEnemy(name, iconName,
+            rnd.Next(1, 10),
+            rnd.Next(1, 10),
+            Math.Round(rnd.NextDouble() * 10, 2),
+            Math.Round(rnd.NextDouble() * 10, 2),
+            Math.Round(rnd.NextDouble(), 2));
+    }
+
+     
+
+    public void takeListsFromFileManager(Dictionary<string, UniversalListTemplate> allLists)
+    {
+        ListOfEnemyTemplate LET1st = allLists["LET|1st"] as ListOfEnemyTemplate;
+        ListOfEnemyTemplate LET2st = allLists["LET|2st"] as ListOfEnemyTemplate;
+    }
+
 }

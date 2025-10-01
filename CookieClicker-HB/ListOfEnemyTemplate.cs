@@ -12,7 +12,7 @@ using System.Text.Json.Serialization;
 
 namespace CookieClicker_HB
 {
-    class ListOfEnemyTemplate : UniversalListTemplate
+    public class ListOfEnemyTemplate : UniversalListTemplate
     {
 
         [JsonInclude]
@@ -26,6 +26,14 @@ namespace CookieClicker_HB
         public void addEnemy(string name, string iconName, int baseLife, int baseGold, double lifeModifier, double goldModifier, double spawnRate)
         {
             enemies.Add(new EnemyTemplate(name, iconName, baseLife, baseGold, lifeModifier, goldModifier, spawnRate));
+        }
+
+        public override void addListOfEnemys(List<EnemyTemplate> data)
+        {
+            foreach (EnemyTemplate enemy in data)
+            {
+                enemies.Add(new EnemyTemplate(enemy.Name, enemy.IconName, enemy.BaseLife, enemy.BaseGold, enemy.LifeModifier, enemy.GoldModifier, enemy.SpawnRate));
+            }
         }
 
         public override List<EnemyTemplate> GetCurrentList()
@@ -95,11 +103,14 @@ namespace CookieClicker_HB
         }
 
 
+        
+
 
         public void loadFromJson(string path)
         {
-            List<EnemyTemplate> t = JsonSerializer.Deserialize <List<EnemyTemplate>>(path);
+            Dictionary<string, List<EnemyTemplate>> t = JsonSerializer.Deserialize <Dictionary<string, List<EnemyTemplate>>>(path);
 
+            
         }
 
     }

@@ -47,9 +47,13 @@ namespace CookieClicker_HB
             dlg.DefaultExt = ".json";
             dlg.Filter = "Text documents (.json)|*.json";
             dlg.ShowDialog();
-            string lb1 = dlg.FileName;
+            string path = dlg.FileName;
 
-            loader.loadFromJson(lb1);
+            string jsonString = File.ReadAllText(path);
+
+            Dictionary<string, List<EnemyTemplate>> loadingDct = JsonSerializer.Deserialize<Dictionary<string, List<EnemyTemplate>>>(jsonString);
+
+            ListsManager.LoadFromJson(loadingDct);
         }
 
 

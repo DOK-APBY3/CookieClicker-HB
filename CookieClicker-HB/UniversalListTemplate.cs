@@ -13,5 +13,7 @@ namespace CookieClicker_HB
         public abstract void saveToJson(string path);
 
         public abstract List<EnemyTemplate> GetCurrentList();
+
+        public abstract void addListOfEnemys(List<EnemyTemplate> data);
     }
 }
