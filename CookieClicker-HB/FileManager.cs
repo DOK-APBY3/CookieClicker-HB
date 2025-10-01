@@ -39,7 +39,24 @@ namespace CookieClicker_HB
             }
         }
 
-        public static void LoadFromSelectedFile()
+        public static void LoadFromSelectedFile(ListOfEnemyTemplate sourse)
+        {
+            OpenFileDialog dlg = new OpenFileDialog();
+
+            dlg.FileName = "Document";
+            dlg.DefaultExt = ".json";
+            dlg.Filter = "Text documents (.json)|*.json";
+            dlg.ShowDialog();
+            string path = dlg.FileName;
+
+            string jsonString = File.ReadAllText(path);
+
+            
+            sourse.loadFromJson(jsonString);
+            
+        }
+
+        public static void UniLoadFromSelectedFile()
         {
             OpenFileDialog dlg = new OpenFileDialog();
 
@@ -57,7 +74,21 @@ namespace CookieClicker_HB
         }
 
 
-        public static void SaveToSelectedFile(Dictionary<string, List<EnemyTemplate>> data)
+        public static void SaveToSelectedFile(ListOfEnemyTemplate sourse)
+        {
+            SaveFileDialog dlg = new SaveFileDialog();
+
+            dlg.FileName = "Document";
+            dlg.DefaultExt = ".json";
+            dlg.Filter = "Text documents (.json)|*.json";
+            dlg.ShowDialog();
+            string path = dlg.FileName;
+
+            sourse.saveToJson(path);
+
+        }
+
+        public static void UniSaveToSelectedFile(Dictionary<string, List<EnemyTemplate>> data)
         {
             SaveFileDialog dlg = new SaveFileDialog();
 
@@ -71,8 +102,6 @@ namespace CookieClicker_HB
             File.WriteAllText(path, json);
 
         }
-
-        
 
     }
 }

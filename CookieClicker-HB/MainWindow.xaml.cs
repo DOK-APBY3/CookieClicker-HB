@@ -23,34 +23,27 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
 
-        
+        ListOfEnemyTemplate enemyList1 = new ListOfEnemyTemplate();
 
-        //ListsManager.SaveToJson();
+        enemy_AddRandomByNameToList("labubsli", "stalnoy zad", "bosses", enemyList1);
+
+        FileManager.SaveToSelectedFile(enemyList1);
 
         //listOfEnemys.deleteEnemyByIndex(42);
 
 
-        ListsManager.LoadingEvent += takeListsFromFileManager;
+        
 
-        FileManager.LoadFromSelectedFile();
+        FileManager.LoadFromSelectedFile(enemyList1);
     }
 
-    public void enemy_AddRandomByNameToList(string name, string iconName, ListOfEnemyTemplate neededList)
+    public void enemy_AddRandomByNameToList(string name, string iconName, string groupe, ListOfEnemyTemplate neededList)
     {
-        neededList.addEnemy(name, iconName,
+        neededList.addEnemy(name, iconName, groupe,
             rnd.Next(1, 10),
             rnd.Next(1, 10),
             Math.Round(rnd.NextDouble() * 10, 2),
             Math.Round(rnd.NextDouble() * 10, 2),
             Math.Round(rnd.NextDouble(), 2));
     }
-
-     
-
-    public void takeListsFromFileManager(Dictionary<string, UniversalListTemplate> allLists)
-    {
-        ListOfEnemyTemplate LET1st = allLists["LET|1st"] as ListOfEnemyTemplate;
-        ListOfEnemyTemplate LET2st = allLists["LET|2st"] as ListOfEnemyTemplate;
-    }
-
 }

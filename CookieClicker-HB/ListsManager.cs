@@ -44,7 +44,7 @@ namespace CookieClicker_HB
                 dctWithAllLists[item.Key] = item.Value.GetCurrentList();// заполняем его
             }
 
-            FileManager.SaveToSelectedFile(dctWithAllLists);// передаём словарь сохранятелю
+            //FileManager.SaveToSelectedFile(dctWithAllLists);// передаём словарь сохранятелю
 
 
         }

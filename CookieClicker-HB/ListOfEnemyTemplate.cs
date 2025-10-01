@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Xml.Linq;
-using System.Text.Json;
-using System.IO;
-using System.Text.Json.Serialization;
 
 
 namespace CookieClicker_HB
@@ -23,22 +24,23 @@ namespace CookieClicker_HB
             enemies = new List<EnemyTemplate>();
         }
 
-        public void addEnemy(string name, string iconName, int baseLife, int baseGold, double lifeModifier, double goldModifier, double spawnRate)
+        public void addEnemy(string name, string iconName, string groupe, int baseLife, int baseGold, double lifeModifier, double goldModifier, double spawnRate)
         {
-            enemies.Add(new EnemyTemplate(name, iconName, baseLife, baseGold, lifeModifier, goldModifier, spawnRate));
+            enemies.Add(new EnemyTemplate(name, iconName, groupe, baseLife, baseGold, lifeModifier, goldModifier, spawnRate));
         }
 
         public override void addListOfEnemys(List<EnemyTemplate> data)
         {
+
             foreach (EnemyTemplate enemy in data)
             {
-                enemies.Add(new EnemyTemplate(enemy.Name, enemy.IconName, enemy.BaseLife, enemy.BaseGold, enemy.LifeModifier, enemy.GoldModifier, enemy.SpawnRate));
+                enemies.Add(new EnemyTemplate(enemy.Name, enemy.IconName, enemy.Groupe, enemy.BaseLife, enemy.BaseGold, enemy.LifeModifier, enemy.GoldModifier, enemy.SpawnRate));
             }
         }
 
         public override List<EnemyTemplate> GetCurrentList()
         {
-            return enemies;
+            return new List<EnemyTemplate>(enemies);
         }
 
 
@@ -98,19 +100,15 @@ namespace CookieClicker_HB
         {
             string jsonString = JsonSerializer.Serialize(enemies); // сериализация списка (хз что это, наверное когда фильм режут на сериал чтобы больше денег нафармить)
             File.WriteAllText(path, jsonString); // сохранялка (джисус крайст, итс Json Борн)
-
-
         }
 
 
         
 
 
-        public void loadFromJson(string path)
+        public void loadFromJson(string result)
         {
-            Dictionary<string, List<EnemyTemplate>> t = JsonSerializer.Deserialize <Dictionary<string, List<EnemyTemplate>>>(path);
-
-            
+            enemies = JsonSerializer.Deserialize<List<EnemyTemplate>>(result);
         }
 
     }

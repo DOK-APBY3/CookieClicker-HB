@@ -7,16 +7,17 @@ using System.Threading.Tasks;
 
 namespace CookieClicker_HB
 {
-    public class EnemyTemplate
+    public class EnemyTemplate : UniversalCreatureTemplate
     {
-        private string _name, _iconName;
+        private string _name, _iconName, _groupe;
         private int _baseLife, _baseGold;
         private double _lifeModifier, _goldModifier, _spawnRate;
 
-        public EnemyTemplate(string name, string iconName, int baseLife, int baseGold, double lifeModifier, double goldModifier, double spawnRate)
+        public EnemyTemplate(string name, string iconName, string groupe, int baseLife, int baseGold, double lifeModifier, double goldModifier, double spawnRate)
         {
             _name = name;
             _iconName = iconName;
+            _groupe = groupe;
             _baseLife = baseLife;
             _baseGold = baseGold;
             _lifeModifier = lifeModifier;
@@ -36,6 +37,13 @@ namespace CookieClicker_HB
         {
             get { return _iconName; }
             set { _iconName = value; }
+        }
+
+        [JsonInclude]
+        public string Groupe
+        {
+            get{ return _groupe; }
+            set { _groupe = value;}
         }
 
         // атрибуты для хпшек
