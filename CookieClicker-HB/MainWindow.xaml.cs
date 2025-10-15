@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.IO;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -11,13 +12,27 @@ using System.Windows.Shapes;
 
 namespace CookieClicker_HB;
 
-/// <summary>
-/// Interaction logic for MainWindow.xaml
-/// </summary>
 public partial class MainWindow : Window
 {
+    List<EnemyIcon> listOfEnemyIcons = new List<EnemyIcon>();
+
     public MainWindow()
     {
         InitializeComponent();
+    }
+
+    public void LoadAllIconsFromFolder(string path)
+    {
+        string fileType = "*.png";
+
+        string[] paths = Directory.GetFiles(path, fileType);
+
+        foreach (string iconPath in paths)
+        {
+            string[] m = iconPath.Split(new char[] { '\\' });
+
+            listOfEnemyIcons.Add(new EnemyIcon(m.Last(), iconPath));
+
+        }
     }
 }
