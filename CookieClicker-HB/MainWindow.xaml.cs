@@ -40,6 +40,9 @@ public partial class MainWindow : Window
 
             listOfEnemyIcons.Add(new EnemyIcon(m.Last(), iconPath));
         }
+
+        IconListBox.ItemsSource = listOfEnemyIcons;
+        //IconListBox.DataContext = listOfEnemyIcons;
     }
 
 
