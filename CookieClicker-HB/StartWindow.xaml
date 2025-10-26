@@ -1,0 +1,34 @@
+﻿<Window x:Class="CookieClicker_HB.StartWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CookieClicker_HB"
+        mc:Ignorable="d"
+        Title="StartWindow" Height="250" Width="400">
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="AUto"/>
+            <RowDefinition Height="AUto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="1" Text="Добро пожаловать" HorizontalAlignment="Center" FontSize="35"/>
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Grid.Row="0" VerticalAlignment="Top">
+
+            <Button Height="30" Width="30" Name="EscapeButton" Click="EscapeButton_Click">
+                <TextBlock Text="ESC" FontSize="10"/>
+            </Button>
+            <Button Height="30" Width="30" Name="EditorButton" Click="EditorButton_Click">
+                <TextBlock Text="EDIT" FontSize="10"/>
+            </Button>
+
+        </StackPanel>
+
+        <Button Height="50" Width="200" Grid.Row="2" Name="GamingButton" Click="GamingButton_Click">
+            <TextBlock Text="Начать" FontSize="40"/>
+        </Button>
+    </Grid>
+</Window>
