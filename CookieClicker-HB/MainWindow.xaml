@@ -5,8 +5,104 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CookieClicker_HB"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="400" Width="600">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/> 
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0">
+
+            <Button Height="30" Width="30" Name="EscapeButton" Click="EscapeButton_Click">
+                <TextBlock Text="ESC" FontSize="10"/>
+            </Button>
+            <Button Height="30" Width="30" Name="SavingButton" Click="SavingButton_Click">
+                <TextBlock Text="SAVE" FontSize="10"/>
+            </Button>
+            <Button Height="30" Width="30" Name="LoadingButton" Click="LoadingButton_Click">
+                <TextBlock Text="LOAD" FontSize="10"/>
+            </Button>
+
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,10,0,0" >
+
+            <StackPanel Orientation="Horizontal">
+
+                <Button Height="30" Width="60" Name="IconLoadingButton" Click="IconLoadingButton_Click" Margin="0,0,5,0" >
+                    <TextBlock Text="Load icons" FontSize="10"/>
+                </Button>
+
+                <TextBlock Text="Enemies:" HorizontalAlignment="Center" FontSize="20"/>
+
+            </StackPanel>
+
+            <ListBox ItemsSource="{Binding Enemies}" DisplayMemberPath="Name" Name="EnemyListBox" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="EnemyListBox_SelectionChanged"/>
+
+        </StackPanel>
+
+
+        <ListBox Grid.Row="2" Grid.Column="0" Name="IconListBox" SelectionMode="Single" ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionChanged="IconListBox_OnSelectionChanged" Margin="5,0,0,5">
+            <ListBox.ItemsPanel>
+                <!-- WrapPanel, чтобы иконки располагались в несколько рядов -->
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+            <ListBox.ItemTemplate>
+                <!-- Шаблон элемента, который отображает иконку -->
+                <DataTemplate>
+                    <Image Source="{Binding IconPath}" Width="50" Height="50"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="1" Grid.Column="1" Margin="5">
+            <TextBlock Text="Enemy Icon:" FontSize="20"/>
+            <Image Height="90" Width="90" VerticalAlignment="Top" HorizontalAlignment="Left" Source="{Binding ElementName=EnemyListBox, Path=SelectedItem.IconName}"/>
+        </StackPanel>
+
+        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="1" Grid.Column="2" Margin="5">
+            <TextBlock Text="Icon name"  FontSize="15"/>
+            <TextBox Text=""  FontSize="15" Margin="5" Name ="EnemyIcon"/>
+            <TextBlock Text="Enemy name"  FontSize="15"/>
+            <TextBox Text=""  FontSize="15" Margin="5" Name ="EnemyName"/>
+        </StackPanel>
+
+
+        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="2" Grid.Column="1" Margin="5">
+            <TextBlock Text="Base life"  FontSize="15"/>
+            <TextBox Text=""  FontSize="15" Margin="5" Name ="EnemyBaseLife"/>
+            <TextBlock Text="Life modifier"  FontSize="15"/>
+            <TextBox Text=""  FontSize="15" Margin="5" Name ="EnemyLifeMod"/>
+            <TextBlock Text="Spawn chanse (0 - 1)"  FontSize="15"/>
+            <TextBox Text=""  FontSize="15" Margin="5" Name ="EnemySpawnChanse"/>
+        </StackPanel>
+        
+        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="2" Grid.Column="2" Margin="5">
+            <TextBlock Text="Base gold"  FontSize="15"/>
+            <TextBox Text=""  FontSize="15" Margin="5" Name ="EnemyBaseGold"/>
+            <TextBlock Text="Gold modifier"  FontSize="15"/>
+            <TextBox Text=""  FontSize="15" Margin="5" Name ="EnemyGoldMod"/>
+
+            <StackPanel HorizontalAlignment="Left" VerticalAlignment="Bottom"  Margin="0,15,5,5" Orientation="Horizontal" >
+
+                <Button Height="30" Width="60" Name="AddingButton"  Margin="5" Click="AddingButton_Click">
+                    <TextBlock Text="ADD" FontSize="10"/>
+                </Button>
+                <Button Height="30" Width="60" Name="RemovingButton"  Margin="5" Click="RemovingButton_Click">
+                    <TextBlock Text="REMOVE" FontSize="10"/>
+                </Button>
+            </StackPanel>
+        </StackPanel>
     </Grid>
 </Window>
