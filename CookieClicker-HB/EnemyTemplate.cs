@@ -33,7 +33,7 @@ namespace CookieClicker_HB
             set { _name = value;}
         }
 
-        [JsonInclude]
+        [JsonInclude]// чисто теоретически можно это всё удалить тк будет работать и без
         public string IconName // название иконки
         {
             get { return _iconName; }

@@ -137,18 +137,22 @@ public partial class MainWindow : Window
 
     private void RemovingButton_Click(object sender, RoutedEventArgs e)
     {
-        enemyList.deleteEnemyByName(currentEnemy.Name);
-        if (enemyList.enemies.Count != 0)
+        if (currentEnemy != null)
         {
-            currentEnemy = enemyList.enemies[0];
-        }
-        else
-        {
-            currentEnemy = null;
-        }
-        EnemyListBox.SelectedItem = currentEnemy;
+            enemyList.deleteEnemyByName(currentEnemy.Name);
+            if (enemyList.enemies.Count != 0)
+            {
+                currentEnemy = enemyList.enemies[0];
+            }
+            else
+            {
+                currentEnemy = null;
+            }
+            EnemyListBox.SelectedItem = currentEnemy;
 
-        EnemyListBox.ItemsSource = enemyList.enemies;
+            EnemyListBox.ItemsSource = enemyList.enemies;
+        }
+        
         
     }
 
