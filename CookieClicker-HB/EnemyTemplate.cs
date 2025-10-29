@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace CookieClicker_HB
 {
-    public class EnemyTemplate : UniversalCreatureTemplate
+    public class EnemyTemplate
     {
-        private string _name, _iconName, _groupe;
+        private string _name, _iconName, _groupe, _iconSourse;
         private int _baseLife, _baseGold;
         private double _lifeModifier, _goldModifier, _spawnRate;
 
-        public EnemyTemplate(string name, string iconName, string groupe, int baseLife, int baseGold, double lifeModifier, double goldModifier, double spawnRate)
+        public EnemyTemplate(string name, string iconName, string iconSourse, string groupe, int baseLife, int baseGold, double lifeModifier, double goldModifier, double spawnRate)
         {
             _name = name;
             _iconName = iconName;
@@ -23,6 +23,7 @@ namespace CookieClicker_HB
             _lifeModifier = lifeModifier;
             _goldModifier = goldModifier;
             _spawnRate = spawnRate;
+            IconSourse = iconSourse;
         }
 
         [JsonInclude]// атрибуты нужны чтобы сохранять в json, ставим их тут чтобы не было проблем из-за приватности полей
@@ -33,10 +34,17 @@ namespace CookieClicker_HB
         }
 
         [JsonInclude]
-        public string IconName // название... иконки? АСЬ?
+        public string IconName // название иконки
         {
             get { return _iconName; }
             set { _iconName = value; }
+        }
+
+        [JsonInclude]
+        public string IconSourse // путь иконки
+        {
+            get { return _iconSourse; }
+            set { _iconSourse = value; }
         }
 
         [JsonInclude]

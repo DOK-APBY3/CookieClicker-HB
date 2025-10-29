@@ -46,7 +46,7 @@
 
             </StackPanel>
 
-            <ListBox  ItemsSource="{Binding Enemies}" DisplayMemberPath="Name" Name="EnemyListBox" SelectionChanged="EnemyListBox_SelectionChanged" SelectionMode="Single" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="0,10,0,0"/>
+            <ListBox  ItemsSource="{Binding enemies}" DisplayMemberPath="Name" Name="EnemyListBox" SelectionChanged="EnemyListBox_SelectionChanged" SelectionMode="Single" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="0,10,0,0"/>
 
         </StackPanel>
 
@@ -66,31 +66,31 @@
 
         <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="1" Grid.Column="1" Margin="5">
             <TextBlock Text="Enemy Icon:" FontSize="20"/>
-            <Image Height="90" Width="90" VerticalAlignment="Top" HorizontalAlignment="Left" Source="{Binding ElementName=EnemyListBox, Path=SelectedItem.IconName}"/>
+            <Image Height="90" Width="90" Name="EnemyIcon" VerticalAlignment="Top" HorizontalAlignment="Left" Source="{Binding ElementName=EnemyListBox, Path=SelectedItem.IconSourse}"/>
         </StackPanel>
 
         <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="1" Grid.Column="2" Margin="5">
             <TextBlock Text="Icon name"  FontSize="15"/>
-            <TextBox Text=""  FontSize="15" Margin="5" Name ="EnemyIcon"/>
+            <TextBlock Text="{Binding ElementName=EnemyListBox, Path=SelectedItem.IconName, Mode=OneWay}"  FontSize="15" Margin="5" Name ="EnemyIconName"/>
             <TextBlock Text="Enemy name"  FontSize="15"/>
-            <TextBox Text=""  FontSize="15" Margin="5" Name ="EnemyName"/>
+            <TextBox Text="{Binding ElementName=EnemyListBox, Path=SelectedItem.Name, Mode=TwoWay}"  FontSize="15" Margin="5" Name ="EnemyName"/>
         </StackPanel>
 
 
         <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="2" Grid.Column="1" Margin="5">
             <TextBlock Text="Base life"  FontSize="15"/>
-            <TextBox Text=""  FontSize="15" Margin="5" Name ="EnemyBaseLife"/>
+            <TextBox Text="{Binding ElementName=EnemyListBox, Path=SelectedItem.BaseLife, Mode=TwoWay}"  FontSize="15" Margin="5" Name ="EnemyBaseLife"/>
             <TextBlock Text="Life modifier"  FontSize="15"/>
-            <TextBox Text=""  FontSize="15" Margin="5" Name ="EnemyLifeMod"/>
+            <TextBox Text="{Binding ElementName=EnemyListBox, Path=SelectedItem.LifeModifier, Mode=TwoWay}"  FontSize="15" Margin="5" Name ="EnemyLifeMod"/>
             <TextBlock Text="Spawn chanse (0 - 1)"  FontSize="15"/>
-            <TextBox Text=""  FontSize="15" Margin="5" Name ="EnemySpawnChanse"/>
+            <TextBox Text="{Binding ElementName=EnemyListBox, Path=SelectedItem.SpawnRate, Mode=TwoWay}"  FontSize="15" Margin="5" Name ="EnemySpawnChanse"/>
         </StackPanel>
         
         <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="2" Grid.Column="2" Margin="5">
             <TextBlock Text="Base gold"  FontSize="15"/>
-            <TextBox Text=""  FontSize="15" Margin="5" Name ="EnemyBaseGold"/>
+            <TextBox Text="{Binding ElementName=EnemyListBox, Path=SelectedItem.BaseGold, Mode=TwoWay}"  FontSize="15" Margin="5" Name ="EnemyBaseGold"/>
             <TextBlock Text="Gold modifier"  FontSize="15"/>
-            <TextBox Text=""  FontSize="15" Margin="5" Name ="EnemyGoldMod"/>
+            <TextBox Text="{Binding ElementName=EnemyListBox, Path=SelectedItem.GoldModifier, Mode=TwoWay}"  FontSize="15" Margin="5" Name ="EnemyGoldMod"/>
 
             <StackPanel HorizontalAlignment="Left" VerticalAlignment="Bottom"  Margin="0,15,5,5" Orientation="Horizontal" >
 

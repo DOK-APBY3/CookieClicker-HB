@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -17,16 +18,17 @@ namespace CookieClicker_HB
     {
 
         [JsonInclude]
-        public List<EnemyTemplate> enemies;
+        public ObservableCollection<EnemyTemplate> enemies;
+
 
         public ListOfEnemyTemplate()
         {
-            enemies = new List<EnemyTemplate>();
+            enemies = new ObservableCollection<EnemyTemplate>();
         }
 
-        public void addEnemy(string name, string iconName, string groupe, int baseLife, int baseGold, double lifeModifier, double goldModifier, double spawnRate)
+        public void addEnemy(string name, string iconName, string iconSourse, string groupe, int baseLife, int baseGold, double lifeModifier, double goldModifier, double spawnRate)
         {
-            enemies.Add(new EnemyTemplate(name, iconName, groupe, baseLife, baseGold, lifeModifier, goldModifier, spawnRate));
+            enemies.Add(new EnemyTemplate(name, iconName, iconSourse, groupe, baseLife, baseGold, lifeModifier, goldModifier, spawnRate));
         }
 
         public override void addListOfEnemys(List<EnemyTemplate> data)
@@ -34,7 +36,7 @@ namespace CookieClicker_HB
 
             foreach (EnemyTemplate enemy in data)
             {
-                enemies.Add(new EnemyTemplate(enemy.Name, enemy.IconName, enemy.Groupe, enemy.BaseLife, enemy.BaseGold, enemy.LifeModifier, enemy.GoldModifier, enemy.SpawnRate));
+                enemies.Add(new EnemyTemplate(enemy.Name, enemy.IconName, enemy.IconSourse, enemy.Groupe, enemy.BaseLife, enemy.BaseGold, enemy.LifeModifier, enemy.GoldModifier, enemy.SpawnRate));
             }
         }
 
@@ -108,7 +110,7 @@ namespace CookieClicker_HB
 
         public void loadFromJson(string result)
         {
-            enemies = JsonSerializer.Deserialize<List<EnemyTemplate>>(result);
+            enemies = JsonSerializer.Deserialize<ObservableCollection<EnemyTemplate>>(result);
         }
 
     }

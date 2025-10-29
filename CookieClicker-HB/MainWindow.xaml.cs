@@ -3,7 +3,6 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Microsoft.Win32;
 using System.IO;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -26,18 +25,27 @@ public partial class MainWindow : Window
 
     List<EnemyIcon> listOfEnemyIcons = new List<EnemyIcon>();
 
+    EnemyTemplate currentEnemy;
+
+    bool loadingFlag = true;
+
 
     public MainWindow()
     {
         InitializeComponent();
 
         testing();
+
+        DataContext = enemyList;
+        EnemyListBox.ItemsSource = enemyList.enemies;
     }
 
     private void testing()
     {
-        enemy_AddRandomByNameToList("labubsli", "stalnoy zad", "bosses", enemyList);
-        //listOfEnemys.deleteEnemyByIndex(42);
+        LoadIcons();
+        //enemy_AddRandomByName("labubskii");
+        //enemy_AddRandomByName("abobskii");
+        //enemy_AddRandomByName("Milsher");
     }
 
     public void deleteEnemyWithThisName(string name)
@@ -45,45 +53,17 @@ public partial class MainWindow : Window
         enemyList.deleteEnemyByName(name);
     }
 
-    public void deleteEnemyWithThisIndex(int index)
-    {
-        enemyList.deleteEnemyByIndex(index);
-    }
 
     public void takeEnemyWithThisName(string name)
     {
         enemyList.getEnemyByName(name);
     }
 
-    public void takeEnemyWithThisIndex(int index)
+    
+    public void enemy_AddRandomByName(string name)
     {
-        enemyList.getEnemyByIndex(index);
-    }
-
-    //public void AddCurrentEnemy()  будет работать когда будеи интерфейс
-    //{
-    //    enemyList.addEnemy(name, iconName, groupe,
-    //        rnd.Next(1, 10),
-    //        rnd.Next(1, 10),
-    //        Math.Round(rnd.NextDouble() * 10, 2),
-    //        Math.Round(rnd.NextDouble() * 10, 2),
-    //        Math.Round(rnd.NextDouble(), 2));
-    //}
-
-    public void saveListOfEnemies()
-    {
-        FileManager.SaveToSelectedFile(enemyList);
-    }
-
-    public void loadListOfEnemies()
-    {
-        FileManager.LoadFromSelectedFile(enemyList);
-    }
-
-
-    public void enemy_AddRandomByNameToList(string name, string iconName, string groupe, ListOfEnemyTemplate neededList)
-    {
-        neededList.addEnemy(name, iconName, groupe,
+        int newIcon = rnd.Next(0, listOfEnemyIcons.Count);
+        enemyList.addEnemy(name, listOfEnemyIcons[newIcon].Name, listOfEnemyIcons[newIcon].ImagePath, "ganganstyle",
             rnd.Next(1, 10),
             rnd.Next(1, 10),
             Math.Round(rnd.NextDouble() * 10, 2),
@@ -93,10 +73,16 @@ public partial class MainWindow : Window
 
     private void IconLoadingButton_Click(object sender, RoutedEventArgs e)
     {
+        LoadIcons();
+    }
+    
+    private void LoadIcons()
+    {
         OpenFolderDialog dlg = new OpenFolderDialog();
         dlg.ShowDialog();
         LoadAllIconsFromFolder(dlg.FolderName);
     }
+
     public void LoadAllIconsFromFolder(string path)
     {
         string fileType = "*.png";
@@ -119,10 +105,12 @@ public partial class MainWindow : Window
     {
         ListBox iconsOnScreen = sender as ListBox;
 
-        if (iconsOnScreen.SelectedItem is Image selectedImage && iconsOnScreen.SelectedItem != null)
-        {
-            string iconName = System.IO.Path.GetFileName(selectedImage.Source.ToString());
-            // CurrentEnemy.IconName = iconName; будет когда объеденим
+        if (iconsOnScreen.SelectedItem != null && currentEnemy != null)
+        {            currentEnemy!.IconName = (IconListBox.SelectedItem as EnemyIcon)!.Name;
+            currentEnemy!.IconSourse = (IconListBox.SelectedItem as EnemyIcon)!.ImagePath;
+            EnemyIconName.Text = (IconListBox.SelectedItem as EnemyIcon)!.Name;
+            EnemyIcon.Source = new BitmapImage(new Uri((IconListBox.SelectedItem as EnemyIcon)!.ImagePath));
+
         }
     }
 
@@ -130,30 +118,64 @@ public partial class MainWindow : Window
     private void EnemyListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
 
+        ListBox enemyListBox = sender as ListBox;
+        currentEnemy = enemyListBox.SelectedItem as EnemyTemplate;
+        if (currentEnemy != null)
+        {
+            EnemyIconName.Text = currentEnemy!.IconName;
+            EnemyIcon.Source = new BitmapImage(new Uri(currentEnemy!.IconSourse));
+        }
+        
     }
 
 
 
     private void AddingButton_Click(object sender, RoutedEventArgs e)
     {
-
+        enemy_AddRandomByName("New enemy");
     }
 
     private void RemovingButton_Click(object sender, RoutedEventArgs e)
     {
+        enemyList.deleteEnemyByName(currentEnemy.Name);
+        if (enemyList.enemies.Count != 0)
+        {
+            currentEnemy = enemyList.enemies[0];
+        }
+        else
+        {
+            currentEnemy = null;
+        }
+        EnemyListBox.SelectedItem = currentEnemy;
 
+        EnemyListBox.ItemsSource = enemyList.enemies;
+        
     }
 
     private void SavingButton_Click(object sender, RoutedEventArgs e)
     {
-
+        FileManager.SaveToSelectedFile(enemyList);
     }
 
     private void LoadingButton_Click(object sender, RoutedEventArgs e)
     {
+        
 
+        if (loadingFlag)
+        {
+            MessageBox.Show("ВНИМАНИЕ!!! При загрзке все несохранённые данные будут утеряны! Если вы готовы загрузить список нажмите на кнопку загрузки ещё раз");
+            loadingFlag = false;
+        }
+        else
+        {
+            FileManager.LoadFromSelectedFile(enemyList);
+            DataContext = enemyList;
+            EnemyListBox.ItemsSource = enemyList.enemies;
+            loadingFlag = true;
+        }
+
+        
     }
-
 
 
 
