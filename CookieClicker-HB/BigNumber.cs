@@ -14,6 +14,7 @@ namespace CookieClicker_HB
     {
         private int[] _number;
         private const int _base = 1000;
+        private string _beautifuly;
         public int _arrayLen;
 
         public BigNumber(string number)
@@ -25,6 +26,23 @@ namespace CookieClicker_HB
         public int[] GetNum()
         {
             return _number;
+        }
+
+        public string Beautiful
+        {
+            get { return _beautifuly; }
+            private set { _beautifuly = value; }
+        }
+
+        public string DoABeauti()
+        {
+            string result = "";
+            string numstr = this.ToString();
+            string shorty = $"{numstr[0]},{numstr[1]}";
+
+            result = $"{shorty} e+{numstr.Length - 1}";
+            Beautiful = result;
+            return result;
         }
 
         public BigNumber Clone()
@@ -108,8 +126,8 @@ namespace CookieClicker_HB
             for (int i = 0; i < minLen;i++)
             {
                 tmp_num = a_num[i] + b_num[i] + next_num;
-                i_num = tmp_num % 1000;
-                next_num = tmp_num / 1000;
+                i_num = tmp_num % _base;
+                next_num = tmp_num / _base;
 
                 tmp_sum = i_num.ToString("D3") + tmp_sum;
             }
@@ -119,8 +137,8 @@ namespace CookieClicker_HB
                 for (int i = minLen; i < a_num.Length; i++)
                 {
                     tmp_num = a_num[i] + next_num;
-                    i_num = tmp_num % 1000;
-                    next_num = tmp_num / 1000;
+                    i_num = tmp_num % _base;
+                    next_num = tmp_num / _base;
 
                     tmp_sum = i_num.ToString("D3") + tmp_sum;
                 }
@@ -130,8 +148,8 @@ namespace CookieClicker_HB
                 for (int i = minLen; i < b_num.Length; i++)
                 {
                     tmp_num = b_num[i] + next_num;
-                    i_num = tmp_num % 1000;
-                    next_num = tmp_num / 1000;
+                    i_num = tmp_num % _base;
+                    next_num = tmp_num / _base;
 
                     tmp_sum = i_num.ToString("D3") + tmp_sum;
                 }
@@ -141,7 +159,7 @@ namespace CookieClicker_HB
                 
         }
         private BigNumber Substruct(BigNumber secNum) //отрицательные числа пока не робят! (отрицательные итоги) (а надо ли нам это? помоему нет)
-        {                                             //теперь работают, даже правильно, но чтоб их юзать надо всю систему заново делать
+        {                                             //теперь работают, даже правильно, но чтоб их юзать надо много чё менять
             int[] a_num;
             int[] b_num;
             bool isPositive;
@@ -176,7 +194,7 @@ namespace CookieClicker_HB
                 }
                 else // a - (b+n) <0
                 {
-                    tmp_num = a_num[i] + 1000 - next_num - b_num[i];
+                    tmp_num = a_num[i] + _base   - next_num - b_num[i];
                     next_num = 1;
                     tmp_sub = tmp_num.ToString("D3") + tmp_sub;
                 }
@@ -192,7 +210,7 @@ namespace CookieClicker_HB
                 }
                 else
                 {
-                    tmp_num = a_num[i] + 1000 - next_num;
+                    tmp_num = a_num[i] + _base - next_num;
                     next_num = 1;
                     tmp_sub = tmp_num.ToString("D3") + tmp_sub;
                 }
@@ -200,18 +218,86 @@ namespace CookieClicker_HB
 
             if (!isPositive)
             {
-                tmp_sub = "-" + tmp_sub;
+                //tmp_sub = "-" + tmp_sub;
+                MessageBox.Show("Ошибка вычисления, резуоттат не модет быть отрицательным");
+                return null; // можно ещё 0 вернуть (или 000)
             }
 
             return new BigNumber(tmp_sub);
         }
-        private BigNumber Multiply(BigNumber secNum)
+        private BigNumber Multiply(double multyplier) // размер может стать больше!!!
         {
-            return this;
+            int[] a_num = this.GetNum();
+
+            int tmp_num;
+            int i_num;
+            int next_num = 0;
+            string tmp_sum = "";
+            
+            for (int i = 0; i < a_num.Length; i++)
+            {
+                tmp_num = (int)((a_num[i] * multyplier ) + next_num);
+
+                i_num = tmp_num % _base;
+                next_num = tmp_num / _base;
+
+                tmp_sum = i_num.ToString("D3") + tmp_sum;
+            }
+
+            return new BigNumber(tmp_sum);
         }
-        private BigNumber Divide(BigNumber secNum)
+        private BigNumber Divide(double devidor)
         {
-            return this;
+            int[] a_num = this.GetNum();
+
+            int tmp_num;
+            int i_num;
+            int next_num = 0;
+            string tmp_sum = "";
+
+            for (int i = a_num.Length - 1; i >= 0; i--)
+            {
+                tmp_num = (a_num[i] + next_num);
+
+                i_num = (int)(tmp_num / devidor);
+                next_num = (int)((double)tmp_num % devidor) * _base;
+
+                tmp_sum += i_num.ToString("D3");
+            }
+            
+            return new BigNumber(tmp_sum);
+        }
+
+
+        private int[] Delete_zero_elems(int[] numb)
+        {
+            int[] resultArray = numb;
+
+            int firstNonZeroIndex = -1;
+            for (int i = resultArray.Length - 1; i >= 0; i--) // ищем где не 0
+            {
+                if (resultArray[i] != 0)
+                {
+                    firstNonZeroIndex = i;
+                    break;
+                }
+            }
+            int[] finalResultArray;
+
+            if (firstNonZeroIndex == -1)
+            {
+                // Все элементы были нулями, значит это 0 (так не должно быть но мало ли)
+                finalResultArray = new int[] { 0 };
+            }
+            else
+            {
+                finalResultArray = new int[resultArray.Length - firstNonZeroIndex];
+                for (int i = 0; i < finalResultArray.Length; i++)
+                {
+                    finalResultArray[i] = resultArray[i];
+                }
+            }
+            return finalResultArray;
         }
 
         // treamLeadingZeroes - убирание "назначащих нулей"
@@ -223,6 +309,14 @@ namespace CookieClicker_HB
         public static BigNumber operator -(BigNumber a, BigNumber b)
         {
             return (a.Substruct(b));
+        }
+        public static BigNumber operator *(BigNumber a, double b)
+        {
+            return (a.Multiply(b));
+        }
+        public static BigNumber operator /(BigNumber a, double b)
+        {
+            return (a.Divide(b));
         }
 
         public static bool operator >(BigNumber a, BigNumber b)
@@ -279,6 +373,23 @@ namespace CookieClicker_HB
                 }
             } // если мы прошлись по условиям и циклм и ничего не вернули, остаётся только одно - они равны
             return false;
+        }
+
+        public static bool operator ==(BigNumber a, BigNumber b)
+        {
+            if (a.ToString() == b.ToString())
+            {
+                return true;
+            }
+            else { return false; }
+        }
+        public static bool operator !=(BigNumber a, BigNumber b)
+        {
+            if (a.ToString() != b.ToString())
+            {
+                return true;
+            }
+            else { return false; }
         }
     }
 }

@@ -23,5 +23,36 @@ namespace CookieClicker_HB
         {
             InitializeComponent();
         }
+
+
+        private void SavingButton_Click(object sender, RoutedEventArgs e)
+        {
+            //FileManager.SaveToSelectedFile(enemyList);
+        }
+
+        private void LoadingButton_Click(object sender, RoutedEventArgs e)
+        {
+
+
+            //if (loadingFlag)
+            //{
+            //    MessageBox.Show("ВНИМАНИЕ!!! При загрзке все несохранённые данные будут утеряны! Если вы готовы загрузить список нажмите на кнопку загрузки ещё раз");
+            //    loadingFlag = false;
+            //}
+            //else
+            //{
+            //    FileManager.LoadFromSelectedFile(enemyList);
+            //    DataContext = enemyList;
+            //    EnemyListBox.ItemsSource = enemyList.enemies;
+            //    loadingFlag = true;
+            //}
+
+
+        }
+
+        private void EscapeButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
     }
 }
