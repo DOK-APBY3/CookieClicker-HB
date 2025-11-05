@@ -22,7 +22,7 @@
                 <TextBlock Text="ESC" FontSize="10"/>
             </Button>
             <Button Height="30" Width="30" Name="EditorButton" Click="EditorButton_Click">
-                <TextBlock Text="EDIT" FontSize="10"/>
+                <TextBlock Text="EDIT" FontSize="10" Height="20" Width="20"/>
             </Button>
 
         </StackPanel>
