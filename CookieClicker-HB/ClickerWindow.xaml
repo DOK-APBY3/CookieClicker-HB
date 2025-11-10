@@ -58,7 +58,7 @@
                 <TextBlock x:Name="g" Text="1.5 e+142" FontSize="30" VerticalAlignment="Center"/>
             </StackPanel>
 
-            <StackPanel Orientation="Horizontal" Margin="5, 200, 5, 5" >
+            <StackPanel Orientation="Horizontal" Margin="5, 180, 5, 5" >
                 <Button>
                     <TextBlock Text="Рипит" FontSize="30" Width="80" VerticalAlignment="Center" Margin="3"/>
                 </Button>
@@ -66,6 +66,21 @@
                     <TextBlock Text="некст" FontSize="30" Width="80" VerticalAlignment="Center" Margin="3"/>
                 </Button>
             </StackPanel>
+
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top">
+
+            <TextBlock x:Name="Enemy_Name" Text="imya" FontSize="30" TextAlignment="Center"/>
+
+            <ProgressBar x:Name="enemy_Hp" Width="150" Height="20" Margin="5"/> 
+            <!--возможно реализовать полоску хп не получится и будет прото цифра-->
+
+            <Canvas x:Name="IconCanv" Height="220" Width="200">
+
+                <Image x:Name="EnemyIcon" />
+
+            </Canvas>
 
         </StackPanel>
     </Grid>
