@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace CookieClicker_HB
 {
@@ -11,7 +12,7 @@ namespace CookieClicker_HB
 
         private int _lvl;// уровень пока хз чего
         private BigNumber _gold;// колво золота
-        private BigNumber _goldSpended;//пторачено золота (для статистики) (возможно в перспективе
+        private BigNumber _GoldRaised;//заработано золота (для статистики) (возможно в перспективе
         private BigNumber _damage;//урон                                     сделать статистику 
         private double _damageMod;//модификатор для прокачки урона            в отделььной вкладке)
         private BigNumber _damageDealed;//количество нанесённого урона
@@ -30,10 +31,10 @@ namespace CookieClicker_HB
             get { return _gold; }
             private set { _gold = value; }
         }
-        public BigNumber GoldSpended
+        public BigNumber GoldRaised
         {
-            get { return _goldSpended; }
-            private set { _goldSpended = value; }
+            get { return _GoldRaised; }
+            private set { _GoldRaised = value; }
         }
         public BigNumber Damage
         {
@@ -63,7 +64,7 @@ namespace CookieClicker_HB
         public int KilledEnemy
         {
             get { return _killedEnemy; }
-            private set { _killedEnemy = value; }
+            set { _killedEnemy = value; }
         }
 
         public Player()
@@ -73,12 +74,26 @@ namespace CookieClicker_HB
 
         public void AddGold(BigNumber addedGold)
         {
+            Gold = Gold + addedGold;
+            GoldRaised = GoldRaised + addedGold;
+        }
 
+        public void removeGold(BigNumber removedGold)
+        {
+            if (TrySpendGold(removedGold))
+            {
+                Gold = Gold - removedGold;
+            }
+            else
+            {
+                MessageBox.Show("Извините, вы НИЩИЙ!", "Вак вак вак");
+            }
         }
 
         public bool TryUpgrade()
         {
-            return true;
+            if (TrySpendGold(UpgradeCost)) return true;
+            else return false;
         }
 
         public BigNumber DealDamage()
@@ -103,7 +118,14 @@ namespace CookieClicker_HB
 
         private bool TrySpendGold(BigNumber spendedGold)
         {
-            return true;
+            if (_gold >= spendedGold)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

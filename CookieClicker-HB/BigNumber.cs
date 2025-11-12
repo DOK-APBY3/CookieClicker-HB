@@ -10,7 +10,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace CookieClicker_HB
 {
-    internal class BigNumber
+    public class BigNumber
     {
         private int[] _number;
         private const int _base = 1000;
@@ -160,7 +160,7 @@ namespace CookieClicker_HB
         }
         private BigNumber Substruct(BigNumber secNum) //отрицательные числа пока не робят! (отрицательные итоги) (а надо ли нам это? помоему нет)
         {                                             //теперь работают, даже правильно, но чтоб их юзать надо много чё менять
-            int[] a_num;
+            int[] a_num;                              //они нам по итогу не нужны. Ну лан, не буду менять
             int[] b_num;
             bool isPositive;
             int tmp_num;
@@ -390,6 +390,30 @@ namespace CookieClicker_HB
                 return true;
             }
             else { return false; }
+        }
+
+        public static bool operator >=(BigNumber a, BigNumber b)
+        {
+            if (a > b || a == b)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public static bool operator <=(BigNumber a, BigNumber b)
+        {
+            if (a < b || a == b)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

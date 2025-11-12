@@ -20,6 +20,8 @@ namespace CookieClicker_HB
         [JsonInclude]
         public ObservableCollection<EnemyTemplate> enemies;
 
+        Random rnd = new Random();
+
 
         public ListOfEnemyTemplate()
         {
@@ -43,6 +45,28 @@ namespace CookieClicker_HB
         public override List<EnemyTemplate> GetCurrentList()
         {
             return new List<EnemyTemplate>(enemies);
+        }
+
+        public void normalizeChances() 
+        {
+            double sum = 0;
+            for (int i = 0; i < enemies.Count; i++)
+                sum += enemies[i].SpawnRate;
+            for (int i = 0; i < enemies.Count; i++)
+                enemies[i].SpawnRate /= sum;
+        }
+
+        public EnemyTemplate ReturnRandomEnemy() 
+        {
+            double chance = Math.Round(rnd.NextDouble(), 2);
+            double sum = 0;
+            for (int i = 0; i < enemies.Count; i++)
+            {
+                
+            sum += enemies[i].SpawnRate;
+                if (sum >= chance) return enemies[i];
+            }
+            return null;
         }
 
 

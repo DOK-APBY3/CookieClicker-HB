@@ -35,15 +35,14 @@
 
         <StackPanel Grid.Row="1" >
             <StackPanel Orientation="Horizontal" Margin="5">
-                <Button>
-                    <Image Height="50" Width="50"/>
-                </Button>
+                
+                <Image Height="50" Width="50" Source="/icons/Interfase/icon money.png"/>
+                
                 <TextBlock x:Name="Gold_TB" Text=" ВЫ НИЩИЙ" FontSize="30" VerticalAlignment="Center"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="5">
-                <Button>
-                    <Image Height="50" Width="50"/>
-                </Button>
+                
+                <Image Height="50" Width="50" Source="/icons/Interfase/icon damage.png"/>
                 <TextBlock x:Name="Damage_TB" Text="1.5 e+142" FontSize="30" VerticalAlignment="Center"/>
             </StackPanel>
         </StackPanel>
@@ -52,8 +51,8 @@
 
             <StackPanel Orientation="Horizontal" Margin="5" >
                 <TextBlock x:Name="f" Text="УР 1" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Right"/>
-                <Button>
-                    <Image Height="50" Width="50"/>
+                <Button Click="SwordUpgrade_Click">
+                    <Image Height="50" Width="50" Source="/icons/Interfase/icon upgrade.png"/>
                 </Button>
                 <TextBlock x:Name="g" Text="1.5 e+142" FontSize="30" VerticalAlignment="Center"/>
             </StackPanel>
@@ -71,16 +70,30 @@
 
         <StackPanel Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top">
 
-            <TextBlock x:Name="Enemy_Name" Text="imya" FontSize="30" TextAlignment="Center"/>
+            <TextBlock x:Name="Enemy_Name" Text="{Binding CurrentEnemy.Name}" FontSize="30" TextAlignment="Center"/>
 
             <ProgressBar x:Name="enemy_Hp" Width="150" Height="20" Margin="5"/> 
             <!--возможно реализовать полоску хп не получится и будет прото цифра-->
 
-            <Canvas x:Name="IconCanv" Height="220" Width="200">
 
-                <Image x:Name="EnemyIcon" />
+            <Grid x:Name="IconCanv" Height="220" Width="200" MouseLeftButtonDown="EnemyWasClicked" >
 
-            </Canvas>
+                <Image x:Name="EnemyIcon" Source="{Binding CurrentEnemy.Icon.ImagePath}"/>
+
+            </Grid>
+
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Top">
+
+            <TextBlock Text="Денег заработано"  FontSize="30"/>
+            <TextBox Text="{Binding Gamer.GoldRaised}"  FontSize="30" Margin="5" Name ="StatTotalMoney"/>
+            <TextBlock Text="Урона нанесено"  FontSize="30"/>
+            <TextBox Text="{Binding Gamer.DamageDealed}"  FontSize="30" Margin="5" Name ="StatTotalDamage"/>
+            <TextBlock Text="Врагов убито"  FontSize="30"/>
+            <TextBox Text="{Binding Gamer.KilledEnemy}"  FontSize="30" Margin="5" Name ="StatTotalKills"/>
+
+
 
         </StackPanel>
     </Grid>

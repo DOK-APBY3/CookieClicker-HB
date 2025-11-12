@@ -19,11 +19,25 @@ namespace CookieClicker_HB
     /// </summary>
     public partial class ClickerWindow : Window
     {
+        Enemy Current_Enemy;
+        Player Gamer;
+        
         public ClickerWindow()
         {
             InitializeComponent();
         }
 
+
+
+        private void EnemyWasClicked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void SwordUpgrade_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
 
         private void SavingButton_Click(object sender, RoutedEventArgs e)
         {
@@ -49,6 +63,7 @@ namespace CookieClicker_HB
 
 
         }
+
 
         private void EscapeButton_Click(object sender, RoutedEventArgs e)
         {
