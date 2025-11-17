@@ -156,6 +156,10 @@ public partial class MainWindow : Window
         
     }
 
+    private void NormalaiseSR_Click(object sender, RoutedEventArgs e)
+    {
+        enemyList.normalizeChances();
+    }
     private void SavingButton_Click(object sender, RoutedEventArgs e)
     {
         FileManager.SaveToSelectedFile(enemyList);
@@ -181,12 +185,18 @@ public partial class MainWindow : Window
         
     }
 
-
+    private void BackButton_Click(object sender, RoutedEventArgs e)
+    {
+        StartWindow newMainWindow = new StartWindow();
+        Application.Current.MainWindow = newMainWindow;
+        newMainWindow.Show();
+        this.Close();
+    }
 
     private void EscapeButton_Click(object sender, RoutedEventArgs e)
     {
         this.Close();
     }
 
-    
+  
 }

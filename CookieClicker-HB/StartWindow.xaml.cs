@@ -29,8 +29,8 @@ namespace CookieClicker_HB
             //MessageBox.Show($"{n1 - n2}\n-1064601752");
             //MessageBox.Show($" {n2*42}\n 45758087088");
             //MessageBox.Show($" {n2/10}\n 108947826");
-            MessageBox.Show($" { n2.DoABeauti() }");
-            MessageBox.Show($" { n1.DoABeauti() }");
+            //MessageBox.Show($" { n2.DoABeauti() }");
+            //MessageBox.Show($" { n1.DoABeauti() }");
         }
 
         private void EscapeButton_Click(object sender, RoutedEventArgs e)

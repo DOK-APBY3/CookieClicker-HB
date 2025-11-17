@@ -8,11 +8,19 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="icons\Interfase\icon_damage.png" />
+    <None Remove="icons\Interfase\icon_money.png" />
+    <None Remove="icons\Interfase\icon_upgrade.png" />
+  </ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="MaterialDesignThemes" Version="5.3.0" />
 		<PackageReference Include="System.Text.Json" Version="9.0.9" />
 	</ItemGroup>
 	<ItemGroup>
-	  <Folder Include="icons\Interfase\" />
+	  <Resource Include="icons\Interfase\icon_damage.png" />
+	  <Resource Include="icons\Interfase\icon_money.png" />
+	  <Resource Include="icons\Interfase\icon_upgrade.png" />
 	</ItemGroup>
 </Project>

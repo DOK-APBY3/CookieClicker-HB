@@ -66,7 +66,7 @@ namespace CookieClicker_HB
             sum += enemies[i].SpawnRate;
                 if (sum >= chance) return enemies[i];
             }
-            return null;
+            return enemies[0];
         }
 
 

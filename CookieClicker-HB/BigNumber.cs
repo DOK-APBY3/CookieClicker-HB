@@ -1,9 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
+using System.Numerics;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Media.TextFormatting;
 using static System.Runtime.InteropServices.JavaScript.JSType;
@@ -25,24 +30,32 @@ namespace CookieClicker_HB
 
         public int[] GetNum()
         {
-            return _number;
+            return Delete_zero_elems(_number);
         }
 
         public string Beautiful
         {
-            get { return _beautifuly; }
+            get { return this.DoABeauti(); }
             private set { _beautifuly = value; }
         }
 
         public string DoABeauti()
         {
-            string result = "";
-            string numstr = this.ToString();
-            string shorty = $"{numstr[0]},{numstr[1]}";
+            if (this._arrayLen <= 3)
+            {
+                return this.ToString();
+            }
+            else
+            {
+                string result = "";
+                string numstr = this.ToString();
+                string shorty = $"{numstr[0]},{numstr[1]}";
 
-            result = $"{shorty} e+{numstr.Length - 1}";
-            Beautiful = result;
-            return result;
+                result = $"{shorty} E+{numstr.Length - 1}";
+                Beautiful = result;
+                return result;
+            }
+            
         }
 
         public BigNumber Clone()
@@ -61,6 +74,10 @@ namespace CookieClicker_HB
             }
             
             string resultStr = sb.ToString().TrimStart('0');
+            if (resultStr == "")
+            {
+                resultStr = "0";
+            }
             return resultStr;
         }
 
@@ -95,8 +112,29 @@ namespace CookieClicker_HB
 
             Array.Reverse(result);
 
+            return Delete_zero_elems(result);
+        }
+
+        public BigInteger ToBigInteger()
+        {
+            if (_number == null || _number.Length == 0)
+            {
+                return BigInteger.Zero;
+            }
+
+            BigInteger result = 0;
+            BigInteger multiplier = 1; 
+
+            foreach (int chunk in _number)
+            {
+                result += (BigInteger)chunk * multiplier;
+                multiplier *= 1000;
+            }
+
             return result;
         }
+
+
 
 
         private BigNumber Add(BigNumber secNum)
@@ -169,6 +207,11 @@ namespace CookieClicker_HB
             string tmp_sub = "";
             int minLen;
 
+            if (this.ToString() == secNum.ToString())
+            {
+                return new BigNumber("0");
+            }
+
             if (this > secNum)
             {
                 a_num = this.GetNum();
@@ -219,8 +262,9 @@ namespace CookieClicker_HB
             if (!isPositive)
             {
                 //tmp_sub = "-" + tmp_sub;
-                MessageBox.Show("Ошибка вычисления, резуоттат не модет быть отрицательным");
-                return null; // можно ещё 0 вернуть (или 000)
+                //MessageBox.Show("Ошибка вычисления, резуоттат не модет быть отрицательным");
+                //return null; // можно ещё 0 вернуть (или 000)
+                return new BigNumber("0");
             }
 
             return new BigNumber(tmp_sub);
@@ -321,12 +365,13 @@ namespace CookieClicker_HB
 
         public static bool operator >(BigNumber a, BigNumber b)
         {
-
-            if (a._arrayLen > b._arrayLen)
+            string aStr = a.ToString();
+            string bStr = b.ToString();
+            if (aStr.Length > bStr.Length)
             {
                 return true;
             }
-            else if (a._arrayLen < b._arrayLen)
+            else if (aStr.Length < bStr.Length)
             {
                 return false;
             }
@@ -334,11 +379,11 @@ namespace CookieClicker_HB
             {
                 for (int i = 0; i < a._arrayLen; i++)
                 {
-                    if (a.ToString()[i] > b.ToString()[i])
+                    if (Convert.ToInt32(aStr[i]) > Convert.ToInt32(bStr[i]))
                     {
                         return true;
                     }
-                    else if (a.ToString()[i] < b.ToString()[i])
+                    else if (Convert.ToInt32(aStr[i]) < Convert.ToInt32(bStr[i]))
                     {
                         return false;
                     }
@@ -349,12 +394,14 @@ namespace CookieClicker_HB
 
         public static bool operator <(BigNumber a, BigNumber b)
         {
+            string aStr = a.ToString();
+            string bStr = b.ToString();
 
-            if (a._arrayLen > b._arrayLen)
+            if (aStr.Length > bStr.Length)
             {
                 return false;
             }
-            else if (a._arrayLen < b._arrayLen)
+            else if (aStr.Length < bStr.Length)
             {
                 return true;
             }
@@ -362,11 +409,11 @@ namespace CookieClicker_HB
             {
                 for (int i = 0; i < a._arrayLen; i++)
                 {
-                    if (a.ToString()[i] > b.ToString()[i])
+                    if (Convert.ToInt32(aStr[i]) > Convert.ToInt32(bStr[i]))
                     {
                         return false;
                     }
-                    else if (a.ToString()[i] < b.ToString()[i])
+                    else if (Convert.ToInt32(aStr[i]) < Convert.ToInt32(bStr[i]))
                     {
                         return true;
                     }
@@ -416,4 +463,21 @@ namespace CookieClicker_HB
             }
         }
     }
+
+    public class bigToString : IValueConverter
+    {
+        //Наш класс конверт, который будет иметь 2 функции.
+        //IValueConverter - интерфейс, : значит что мы наследуемся от него.
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            BigNumber r = value as BigNumber;
+            return r.ToString();
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
 }
