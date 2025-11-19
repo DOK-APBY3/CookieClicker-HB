@@ -49,7 +49,7 @@ namespace CookieClicker_HB
             dlg.ShowDialog();
             string path = dlg.FileName;
 
-            string jsonString = File.ReadAllText(path);
+            string jsonString = File.ReadAllText(path); 
 
             
             sourse.loadFromJson(jsonString);

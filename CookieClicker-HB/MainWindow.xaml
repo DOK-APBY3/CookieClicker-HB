@@ -25,6 +25,9 @@
             <Button Height="30" Width="30" Name="EscapeButton" Click="EscapeButton_Click">
                 <TextBlock Text="ESC" FontSize="10"/>
             </Button>
+            <Button Height="30" Width="30" Name="BackButton" Click="BackButton_Click">
+                <TextBlock Text="BACK" FontSize="10"/>
+            </Button>
             <Button Height="30" Width="30" Name="SavingButton" Click="SavingButton_Click">
                 <TextBlock Text="SAVE" FontSize="10"/>
             </Button>
@@ -76,6 +79,9 @@
             <TextBlock Text="{Binding ElementName=EnemyListBox, Path=SelectedItem.IconName, Mode=OneWay}"  FontSize="15" Margin="5" Name ="EnemyIconName"/>
             <TextBlock Text="Enemy name"  FontSize="15"/>
             <TextBox Text="{Binding ElementName=EnemyListBox, Path=SelectedItem.Name, Mode=TwoWay}"  FontSize="15" Margin="5" Name ="EnemyName"/>
+
+            <Button x:Name="NormalaiseSR" Content="Normolise SpawwnRate" Height="36" Click="NormalaiseSR_Click"/>
+
         </StackPanel>
 
 

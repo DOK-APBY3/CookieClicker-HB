@@ -1,49 +1,493 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
+using System.Numerics;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Media.TextFormatting;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace CookieClicker_HB
 {
-    internal class BigNumber
+    public class BigNumber
     {
-        private int _number;
+        private int[] _number;
         private const int _base = 1000;
+        private string _beautifuly;
         public int _arrayLen;
 
-        public BigNumber(int number)
+        public BigNumber(string number)
         {
-            _number = number;
+            _number = SplitString(number);
+            _arrayLen = _number.Length;
+        }
+
+        public int[] GetNum()
+        {
+            return Delete_zero_elems(_number);
+        }
+
+        public string Beautiful
+        {
+            get { return this.DoABeauti(); }
+            private set { _beautifuly = value; }
+        }
+
+        public string DoABeauti()
+        {
+            if (this._arrayLen <= 2)
+            {
+                return this.ToString();
+            }
+            else
+            {
+                string result = "";
+                string numstr = this.ToString();
+                string shorty = $"{numstr[0]},{numstr[1]}";
+
+                result = $"{shorty} E+{numstr.Length - 1}";
+                Beautiful = result;
+                return result;
+            }
+            
         }
 
         public BigNumber Clone()
         {
-            return new BigNumber(_number);
+            return new BigNumber(_number.ToString());
         }
         public override string ToString()
-        { 
-            return _number.ToString();
+        {
+            StringBuilder sb = new StringBuilder();
+            for (int i = _number.Length - 1; i >= 0; i--)
+            {
+                if (i == _number.Length - 1)
+                    sb.Append(_number[i].ToString());
+                else
+                    sb.Append(_number[i].ToString("D3"));
+            }
+            
+            string resultStr = sb.ToString().TrimStart('0');
+            if (resultStr == "")
+            {
+                resultStr = "0";
+            }
+            return resultStr;
         }
 
+        private int[] SplitString(string numberStr)
+        {
+            
+            string numst = numberStr;
+            int str_len = numberStr.Length;
+            int length = Convert.ToInt32(Math.Ceiling((double)str_len / 3));
+
+            int currentStrIndex = 0; // Индекс в исходной строке numberStr
+            int currentResultIndex = 0; // Индекс в массиве result
+
+            int lastThreeLength = str_len % 3;
+            if (lastThreeLength == 0)
+            {
+                lastThreeLength = 3;
+            }
+
+            int[] result = new int[length];
+            
+            result[currentResultIndex] = int.Parse(numberStr.Substring(currentStrIndex, lastThreeLength));
+            currentStrIndex += lastThreeLength;
+            currentResultIndex++;
+
+            while (currentStrIndex < numberStr.Length)
+            {
+                result[currentResultIndex] = int.Parse(numberStr.Substring(currentStrIndex, 3));
+                currentStrIndex += 3;
+                currentResultIndex++;
+            }
+
+            Array.Reverse(result);
+
+            return Delete_zero_elems(result);
+        }
+
+        public BigInteger ToBigInteger()
+        {
+            if (_number == null || _number.Length == 0)
+            {
+                return BigInteger.Zero;
+            }
+
+            BigInteger result = 0;
+            BigInteger multiplier = 1; 
+
+            foreach (int chunk in _number)
+            {
+                result += (BigInteger)chunk * multiplier;
+                multiplier *= 1000;
+            }
+
+            return result;
+        }
+
+
+
+
         private BigNumber Add(BigNumber secNum)
-        {
-            return this;
+        { 
+            int[] a_num = this.GetNum();
+            int[] b_num = secNum.GetNum();
+
+            int tmp_num;
+            int i_num;
+            int next_num = 0;
+
+            bool is_A_bigger;
+
+            string tmp_sum = "";
+            int minLen;
+            if (a_num.Length > b_num.Length)
+            {
+                minLen = b_num.Length;
+                is_A_bigger = true;
+            }
+            else
+            {
+                minLen = a_num.Length;
+                is_A_bigger = false;
+            }
+
+            for (int i = 0; i < minLen;i++)
+            {
+                tmp_num = a_num[i] + b_num[i] + next_num;
+                i_num = tmp_num % _base;
+                next_num = tmp_num / _base;
+
+                tmp_sum = i_num.ToString("D3") + tmp_sum;
+            }
+
+            if (is_A_bigger)
+            {
+                for (int i = minLen; i < a_num.Length; i++)
+                {
+                    tmp_num = a_num[i] + next_num;
+                    i_num = tmp_num % _base;
+                    next_num = tmp_num / _base;
+
+                    tmp_sum = i_num.ToString("D3") + tmp_sum;
+                }
+            }
+            else
+            {
+                for (int i = minLen; i < b_num.Length; i++)
+                {
+                    tmp_num = b_num[i] + next_num;
+                    i_num = tmp_num % _base;
+                    next_num = tmp_num / _base;
+
+                    tmp_sum = i_num.ToString("D3") + tmp_sum;
+                }
+            }
+
+            if (next_num != 0)
+            {
+                tmp_sum = next_num.ToString("D3") + tmp_sum;
+            }
+
+            return new BigNumber(tmp_sum);
+                
         }
-        private BigNumber Substruct(BigNumber secNum)
-        {
-            return this;
+        private BigNumber Substruct(BigNumber secNum) //отрицательные числа пока не робят! (отрицательные итоги) (а надо ли нам это? помоему нет)
+        {                                             //теперь работают, даже правильно, но чтоб их юзать надо много чё менять
+            int[] a_num;                              //они нам по итогу не нужны. Ну лан, не буду менять
+            int[] b_num;
+            bool isPositive;
+            int tmp_num;
+            int i_num;
+            int next_num = 0;
+            string tmp_sub = "";
+            int minLen;
+
+            if (this.ToString() == secNum.ToString())
+            {
+                return new BigNumber("0");
+            }
+
+            if (this > secNum)
+            {
+                a_num = this.GetNum();
+                b_num = secNum.GetNum();
+                isPositive = true;
+                minLen = b_num.Length;
+            }
+            else
+            {
+                b_num = this.GetNum();
+                a_num = secNum.GetNum();
+                isPositive = false;
+                minLen = b_num.Length;
+            }
+
+            for (int i = 0; i < minLen; i++)
+            {
+                if (a_num[i] - next_num - b_num[i] >=0 )
+                {
+                    tmp_num = a_num[i] - next_num - b_num[i];
+                    next_num = 0;
+                    tmp_sub = tmp_num.ToString("D3") + tmp_sub;
+                }
+                else // a - (b+n) <0
+                {
+                    tmp_num = a_num[i] + _base   - next_num - b_num[i];
+                    next_num = 1;
+                    tmp_sub = tmp_num.ToString("D3") + tmp_sub;
+                }
+            }
+
+            for (int i = minLen; i < a_num.Length; i++)
+            {
+                if (a_num[i] - next_num >= 0)
+                {
+                    tmp_num = a_num[i] - next_num;
+                    next_num = 0;
+                    tmp_sub = tmp_num.ToString("D3") + tmp_sub;
+                }
+                else
+                {
+                    tmp_num = a_num[i] + _base - next_num;
+                    next_num = 1;
+                    tmp_sub = tmp_num.ToString("D3") + tmp_sub;
+                }
+            }
+
+            if (!isPositive)
+            {
+                //tmp_sub = "-" + tmp_sub;
+                //MessageBox.Show("Ошибка вычисления, резуоттат не модет быть отрицательным");
+                //return null; // можно ещё 0 вернуть (или 000)
+                return new BigNumber("0");
+            }
+
+            return new BigNumber(tmp_sub);
         }
-        private BigNumber Multiply(BigNumber secNum)
+        private BigNumber Multiply(double multyplier) // размер может стать больше!!!
         {
-            return this;
+            int[] a_num = this.GetNum();
+
+            int tmp_num;
+            int i_num;
+            int next_num = 0;
+            string tmp_sum = "";
+            
+            for (int i = 0; i < a_num.Length; i++)
+            {
+                tmp_num = (int)((a_num[i] * multyplier ) + next_num);
+
+                i_num = tmp_num % _base;
+                next_num = tmp_num / _base;
+
+                tmp_sum = i_num.ToString("D3") + tmp_sum;
+            }
+
+            if (next_num != 0)
+            {
+                tmp_sum = next_num.ToString("D3") + tmp_sum;
+            }
+
+            return new BigNumber(tmp_sum);
         }
-        private BigNumber Divide(BigNumber secNum)
+        private BigNumber Divide(double devidor)
         {
-            return this;
+            int[] a_num = this.GetNum();
+
+            int tmp_num;
+            int i_num;
+            int next_num = 0;
+            string tmp_sum = "";
+
+            for (int i = a_num.Length - 1; i >= 0; i--)
+            {
+                tmp_num = (a_num[i] + next_num);
+
+                i_num = (int)(tmp_num / devidor);
+                next_num = (int)((double)tmp_num % devidor) * _base;
+
+                tmp_sum += i_num.ToString("D3");
+            }
+            
+            return new BigNumber(tmp_sum);
+        }
+
+
+        private int[] Delete_zero_elems(int[] numb)
+        {
+            int[] resultArray = numb;
+
+            int firstNonZeroIndex = -1;
+            for (int i = resultArray.Length - 1; i >= 0; i--) // ищем где не 0
+            {
+                if (resultArray[i] != 0)
+                {
+                    firstNonZeroIndex = i;
+                    break;
+                }
+            }
+            int[] finalResultArray;
+
+            if (firstNonZeroIndex == -1)
+            {
+                // Все элементы были нулями, значит это 0 (так не должно быть но мало ли)
+                finalResultArray = new int[] { 0 };
+            }
+            else
+            {
+                finalResultArray = new int[firstNonZeroIndex + 1];
+                for (int i = 0; i < finalResultArray.Length; i++)
+                {
+                    finalResultArray[i] = resultArray[i];
+                }
+            }
+            return finalResultArray;
         }
 
         // treamLeadingZeroes - убирание "назначащих нулей"
 
+        public static BigNumber operator +(BigNumber a, BigNumber b)
+        {
+            return(a.Add(b));
+        }
+        public static BigNumber operator -(BigNumber a, BigNumber b)
+        {
+            return (a.Substruct(b));
+        }
+        public static BigNumber operator *(BigNumber a, double b)
+        {
+            return (a.Multiply(b));
+        }
+        public static BigNumber operator /(BigNumber a, double b)
+        {
+            return (a.Divide(b));
+        }
+
+        public static bool operator >(BigNumber a, BigNumber b)
+        {
+            string aStr = a.ToString();
+            string bStr = b.ToString();
+            if (aStr.Length > bStr.Length)
+            {
+                return true;
+            }
+            else if (aStr.Length < bStr.Length)
+            {
+                return false;
+            }
+            else // если числа одинаковой длины
+            {
+                for (int i = 0; i < aStr.Length; i++)
+                {
+                    if (Convert.ToInt32(aStr[i]) > Convert.ToInt32(bStr[i]))
+                    {
+                        return true;
+                    }
+                    else if (Convert.ToInt32(aStr[i]) < Convert.ToInt32(bStr[i]))
+                    {
+                        return false;
+                    }
+                }
+            } // если мы прошлись по условиям и циклм и ничего не вернули, остаётся только одно - они равны
+            return false;
+        }
+
+        public static bool operator <(BigNumber a, BigNumber b)
+        {
+            string aStr = a.ToString();
+            string bStr = b.ToString();
+
+            if (aStr.Length > bStr.Length)
+            {
+                return false;
+            }
+            else if (aStr.Length < bStr.Length)
+            {
+                return true;
+            }
+            else // если числа одинаковой длины
+            {
+                for (int i = 0; i < aStr.Length; i++)
+                {
+                    if (Convert.ToInt32(aStr[i]) > Convert.ToInt32(bStr[i]))
+                    {
+                        return false;
+                    }
+                    else if (Convert.ToInt32(aStr[i]) < Convert.ToInt32(bStr[i]))
+                    {
+                        return true;
+                    }
+                }
+            } // если мы прошлись по условиям и циклм и ничего не вернули, остаётся только одно - они равны
+            return false;
+        }
+
+        public static bool operator ==(BigNumber a, BigNumber b)
+        {
+            if (a.ToString() == b.ToString())
+            {
+                return true;
+            }
+            else { return false; }
+        }
+        public static bool operator !=(BigNumber a, BigNumber b)
+        {
+            if (a.ToString() != b.ToString())
+            {
+                return true;
+            }
+            else { return false; }
+        }
+
+        public static bool operator >=(BigNumber a, BigNumber b)
+        {
+            if (a > b || a == b)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public static bool operator <=(BigNumber a, BigNumber b)
+        {
+            if (a < b || a == b)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
+
+    public class bigToString : IValueConverter
+    {
+        //Наш класс конверт, который будет иметь 2 функции.
+        //IValueConverter - интерфейс, : значит что мы наследуемся от него.
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            BigNumber r = value as BigNumber;
+            return r.DoABeauti();
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
 }

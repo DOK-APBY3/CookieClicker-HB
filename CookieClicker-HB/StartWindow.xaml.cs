@@ -19,6 +19,18 @@ namespace CookieClicker_HB
         public StartWindow()
         {
             InitializeComponent();
+
+            BigNumber n1 = new BigNumber("24876512");
+            BigNumber n2 = new BigNumber("1089478264");
+
+
+            //MessageBox.Show($"{n1 + n2}\n1114354776");
+            //MessageBox.Show($"{n2 - n1}\n1064601752");
+            //MessageBox.Show($"{n1 - n2}\n-1064601752");
+            //MessageBox.Show($" {n2*42}\n 45758087088");
+            //MessageBox.Show($" {n2/10}\n 108947826");
+            //MessageBox.Show($" { n2.DoABeauti() }");
+            //MessageBox.Show($" { n1.DoABeauti() }");
         }
 
         private void EscapeButton_Click(object sender, RoutedEventArgs e)
