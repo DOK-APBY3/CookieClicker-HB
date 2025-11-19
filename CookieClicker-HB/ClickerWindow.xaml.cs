@@ -31,6 +31,10 @@ namespace CookieClicker_HB
 
         private Player _gamer;
 
+
+        int heroeLvl = 2;
+        int killsToHarder = 10;
+
         public Player Gamer
         {
             get => _gamer;
@@ -77,24 +81,35 @@ namespace CookieClicker_HB
                 Gamer.EnemyKilled();
                 CreateNewEnemy();
             }
-            else UpgateHP();
 
+            else UpgateHP();
         }
 
         private void CreateNewEnemy()
         {
-            int heroeLvl = Gamer.Lvl;
+
+
+
+            if (killsToHarder == 0)
+            {
+                heroeLvl = Gamer.Lvl;
+                killsToHarder = 10;
+                
+            }
+            else killsToHarder --; 
+
             EnemyTemplate tCE = enemyList.ReturnRandomEnemy();
 
             BigNumber new_HP = new BigNumber(tCE.BaseLife.ToString());
             double lifeMod = tCE.LifeModifier;
-            double HPRandomComponent = (rnd.NextDouble() * (2 * lifeMod * (heroeLvl - 2))) - lifeMod * (heroeLvl - 2);
-            new_HP = new_HP * (lifeMod * (heroeLvl - 1) * (heroeLvl - 1) + HPRandomComponent);
+            double HPRandomComponent = (rnd.NextDouble() * (2 * lifeMod * ( heroeLvl - 2))) - lifeMod * (heroeLvl - 2);
+            new_HP = new_HP * (lifeMod * (heroeLvl - 1) + HPRandomComponent);
 
             BigNumber new_Gold = new BigNumber(tCE.BaseGold.ToString());
             double GoldMod = tCE.LifeModifier;
             double GoldRandomComponent = (rnd.NextDouble() * (2 * GoldMod * (heroeLvl - 2))) - GoldMod * (heroeLvl - 2);
-            new_Gold = new_Gold * (GoldMod * (heroeLvl - 1) * (heroeLvl - 1) + GoldRandomComponent);
+            double addedGold = (GoldMod * (heroeLvl - 1) * (heroeLvl - 1) + GoldRandomComponent);
+            new_Gold = new_Gold * addedGold;
 
             Current_Enemy = new Enemy(tCE.Name, new_HP, new_Gold, new EnemyIcon(tCE.IconName, tCE.IconSourse));
             UpgateHP();
@@ -140,7 +155,7 @@ namespace CookieClicker_HB
         {
             if (Gamer.TryUpgradeSword())
             {
-                Gamer.UpgradeSword();
+                
             }
             else
             {

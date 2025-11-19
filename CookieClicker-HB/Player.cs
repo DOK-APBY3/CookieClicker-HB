@@ -107,7 +107,7 @@ namespace CookieClicker_HB
         {
             Lvl = 1;
             SwordLvl = 1;
-            Gold = new BigNumber("0");
+            Gold = new BigNumber("10");
             GoldRaised = new BigNumber("0");
             Damage = new BigNumber("2");
             DamageMod = 1.25;
@@ -169,9 +169,28 @@ namespace CookieClicker_HB
         }
         private BigNumber CalculateNexyUpgradeCoast()
         {
-            double coastRandomComponent = (rnd.NextDouble() * (2 * UpgradeMod * (SwordLvl - 1))) - UpgradeMod * (SwordLvl - 1);
-            
-            BigNumber newSwordUpgradeCost = SwordUpgradeCost * (UpgradeMod * SwordLvl + coastRandomComponent); ;
+            BigNumber newSwordUpgradeCost;
+
+
+            if ( SwordLvl > 5)
+            {
+
+                double coastRandomComponent = (rnd.NextDouble() * (2 * UpgradeMod * (SwordLvl - 4))) - UpgradeMod * (SwordLvl - 4);
+
+                newSwordUpgradeCost = (SwordUpgradeCost * (UpgradeMod * (SwordLvl - 3) + coastRandomComponent))/(SwordLvl/2.65);
+
+            }
+            else
+            {
+                int tmpSwordLvl = SwordLvl;
+                SwordLvl = 5;
+
+                double coastRandomComponent = (rnd.NextDouble() * (2 * UpgradeMod * (SwordLvl - 4))) - UpgradeMod * (SwordLvl - 4);
+
+                newSwordUpgradeCost = SwordUpgradeCost * (UpgradeMod * (SwordLvl - 3) + coastRandomComponent);
+
+                SwordLvl = tmpSwordLvl;
+            }
 
             return newSwordUpgradeCost;
         }
@@ -179,7 +198,8 @@ namespace CookieClicker_HB
         {
             double damageRandomComponent = (rnd.NextDouble() * (2 * DamageMod * (SwordLvl - 1))) - DamageMod * (SwordLvl - 1);
 
-            BigNumber newDamage = Damage * (DamageMod * SwordLvl + damageRandomComponent); ;
+            BigNumber newDamage = Damage * DamageMod + new BigNumber(Convert.ToString(Convert.ToInt32(DamageMod * SwordLvl + damageRandomComponent)));
+            //BigNumber newDamage = Damage * (DamageMod * SwordLvl + damageRandomComponent);
 
             return newDamage;
         }

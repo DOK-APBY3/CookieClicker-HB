@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CookieClicker_HB"
         mc:Ignorable="d"
-        Title="ClickerWindow" Height="500" Width="800">
+        Title="ClickerWindow" Height="550" Width="800">
 
     <Window.Resources>
         <local:bigToString x:Key="myBigConverter" />
@@ -74,6 +74,8 @@
 
             <TextBlock x:Name="Enemy_Name" Text="{Binding Path=Name}" FontSize="30" TextAlignment="Center"/>
 
+            <TextBlock x:Name="Enemy_HP" Text="{Binding Path=Current_hit_points}" FontSize="30" TextAlignment="Center"/>
+            
             <ProgressBar x:Name="enemy_Hp" Width="150" Height="20" Margin="5" Background="Red"/> 
             <!--возможно реализовать полоску хп не получится и будет прото цифра-->
 

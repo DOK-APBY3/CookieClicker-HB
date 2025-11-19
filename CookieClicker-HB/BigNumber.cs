@@ -41,7 +41,7 @@ namespace CookieClicker_HB
 
         public string DoABeauti()
         {
-            if (this._arrayLen <= 3)
+            if (this._arrayLen <= 2)
             {
                 return this.ToString();
             }
@@ -193,6 +193,11 @@ namespace CookieClicker_HB
                 }
             }
 
+            if (next_num != 0)
+            {
+                tmp_sum = next_num.ToString("D3") + tmp_sum;
+            }
+
             return new BigNumber(tmp_sum);
                 
         }
@@ -288,6 +293,11 @@ namespace CookieClicker_HB
                 tmp_sum = i_num.ToString("D3") + tmp_sum;
             }
 
+            if (next_num != 0)
+            {
+                tmp_sum = next_num.ToString("D3") + tmp_sum;
+            }
+
             return new BigNumber(tmp_sum);
         }
         private BigNumber Divide(double devidor)
@@ -335,7 +345,7 @@ namespace CookieClicker_HB
             }
             else
             {
-                finalResultArray = new int[resultArray.Length - firstNonZeroIndex];
+                finalResultArray = new int[firstNonZeroIndex + 1];
                 for (int i = 0; i < finalResultArray.Length; i++)
                 {
                     finalResultArray[i] = resultArray[i];
@@ -377,7 +387,7 @@ namespace CookieClicker_HB
             }
             else // если числа одинаковой длины
             {
-                for (int i = 0; i < a._arrayLen; i++)
+                for (int i = 0; i < aStr.Length; i++)
                 {
                     if (Convert.ToInt32(aStr[i]) > Convert.ToInt32(bStr[i]))
                     {
@@ -407,7 +417,7 @@ namespace CookieClicker_HB
             }
             else // если числа одинаковой длины
             {
-                for (int i = 0; i < a._arrayLen; i++)
+                for (int i = 0; i < aStr.Length; i++)
                 {
                     if (Convert.ToInt32(aStr[i]) > Convert.ToInt32(bStr[i]))
                     {
@@ -471,7 +481,7 @@ namespace CookieClicker_HB
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             BigNumber r = value as BigNumber;
-            return r.ToString();
+            return r.DoABeauti();
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
