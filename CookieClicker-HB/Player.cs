@@ -15,8 +15,8 @@ namespace CookieClicker_HB
 
         Random rnd = new Random();
 
-        private int _lvl;// уровень пока хз чего                                                            0
-        private int _swordLvl; // lvl mrcha                                                                 1
+        private int _lvl;// уровень пока хз чего   -    теперь это отвечает за базу по ур сложности         1
+        private int _swordLvl; // lvl mеcha                                                                 1
         private BigNumber _gold;// колво золота                                                             1
         private BigNumber _GoldRaised;//заработано золота (для статистики) (возможно в перспективе          1
         private BigNumber _damage;//урон                                     сделать статистику             1
@@ -24,8 +24,23 @@ namespace CookieClicker_HB
         private BigNumber _damageDealed;//количество нанесённого урона                                      0
         private BigNumber _swordupgradeCost;// стоймость прокачки меча                                      1
         private double _upgradeMod;//модификатор стоймости                                                  1
-        private int _killedEnemy;//убитые враги                                                             0
+        private int _killedEnemy;//убитые враги
 
+
+        private bool _canClick;
+        private double _timeBeforeClick;
+        private CountDownTimer _countdownTimer;
+
+        public bool CanClick
+        { 
+            get { return _canClick; } 
+            private set { _canClick = value; }
+        }
+        public double TimeBeforeClick
+        {
+            get { return TimeBeforeClick; }
+            private set { TimeBeforeClick = value; }
+        }
 
         public int Lvl
         {
@@ -103,7 +118,7 @@ namespace CookieClicker_HB
             }
         }
 
-        public Player()
+        public Player(double timeBeforeClick)
         {
             Lvl = 1;
             SwordLvl = 1;
@@ -115,6 +130,24 @@ namespace CookieClicker_HB
             SwordUpgradeCost = new BigNumber("15");
             UpgradeMod = 1.35;
             KilledEnemy = 0;
+            TimeBeforeClick = timeBeforeClick;
+
+        }
+
+        public void mouseCkick(Point mousePosition)
+        {
+
+        }
+        public void countdownEnded()
+        {
+            CanClick = true;
+        }
+        public void update(double delta)
+        {
+
+        }
+        public void increaseSpeed(double speedMod)
+        {
 
         }
 
