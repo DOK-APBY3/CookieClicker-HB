@@ -17,26 +17,26 @@ namespace CookieClicker_HB
         private double _llifeTime;
         protected Ellipse _sprite;
 
-        public System.Windows.Point Position
+        public override System.Windows.Point Position
         {
             get { return _position; }
-            private set { _position = value; }
+            set { _position = value; }
         }
-        public System.Windows.Size SpriteSize
+        public override System.Windows.Size SpriteSize
         {
             get { return _spriteSize; }
-            private set { _spriteSize = value; }
+            set { _spriteSize = value; }
         }
-        public double LifeTime
+        public override double LifeTime
         {
             get { return _llifeTime; }
-            private set { _llifeTime = value; }
+            set { _llifeTime = value; }
         }
 
-        public Ellipse Sprite
+        public override Ellipse Sprite
         {
             get { return _sprite; }
-            private set { _sprite = value; }
+            set { _sprite = value; }
         }
 
         public GoldGiver(System.Windows.Point position, double size, double lifeTime) : base(position, size, lifeTime)
@@ -58,18 +58,18 @@ namespace CookieClicker_HB
             Sprite.RenderTransform = new TranslateTransform(position.X, position.Y);
         }
 
-        public bool isMouseOnObject(System.Windows.Point mousePointPos)
+        public override bool isMouseOnObject(System.Windows.Point mousePointPos)
         {
             return false;
         }
 
 
-        public Ellipse GetSprite()
+        public override Ellipse GetSprite()
         {
             return _sprite;
         }
 
-        public bool onClick(Player player, System.Windows.Point mousePointPos)
+        public override bool onClick(Player player, System.Windows.Point mousePointPos)
         {
             if (((mousePointPos.X > Position.X - SpriteSize.Width) && (mousePointPos.X < Position.X + SpriteSize.Width)) &&
                 ((mousePointPos.Y > Position.Y - SpriteSize.Height) && (mousePointPos.Y < Position.Y + SpriteSize.Height)))
@@ -81,7 +81,7 @@ namespace CookieClicker_HB
 
         }
 
-        public bool updateLifetime(double delta)
+        public override bool updateLifetime(double delta)
         {
             LifeTime -= delta;
 

@@ -115,14 +115,23 @@ namespace CookieClicker_HB
 
         public void spawnObject()
         {
-
+            ColectableItem newItem = null;
+            int nextType = rnd.Next(1, 49);
             double newSize = (rnd.NextDouble() *(MaxSpriteSize - MinSpriteSize)) + MinSpriteSize;
             double newLifeTime = (rnd.NextDouble() * (MaxLifeTime - MinLifeTime)) + MinLifeTime;
             Point newPos = new Point();
             newPos.X = rnd.Next(Convert.ToInt32(newSize), Convert.ToInt32(SceneSize.Width - newSize));
             newPos.Y = rnd.Next(Convert.ToInt32(newSize), Convert.ToInt32(SceneSize.Height - newSize));
 
-            ColectableItem newItem = new ColectableItem(newPos, newSize, newLifeTime);
+            if (nextType <= 8) newItem = new ClickSpeeder(newPos, newSize, newLifeTime);
+            else if (nextType <= 16) newItem = new DamageBooster(newPos, newSize, newLifeTime);
+            else if (nextType <= 24) newItem = new DamgeDealler(newPos, newSize, newLifeTime);
+            else if (nextType <= 32) newItem = new GoldGiver(newPos, newSize, newLifeTime);
+            else if (nextType <= 40) newItem = new LifeTimeIncreeser(newPos, newSize, newLifeTime);
+            else if (nextType <= 48) newItem = new SpawnRateIncreeser(newPos, newSize, newLifeTime);
+            else newItem = new BossSpawner(newPos, newSize, newLifeTime);
+
+
 
             Objects.Add(newItem);
 

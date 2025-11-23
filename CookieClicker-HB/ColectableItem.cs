@@ -11,33 +11,33 @@ using System.Windows.Shapes;
 
 namespace CookieClicker_HB
 {
-    public class ColectableItem
+    public abstract class ColectableItem
     {
         private System.Windows.Point _position;
         protected System.Windows.Size _spriteSize;
         private double _llifeTime;
         protected Ellipse _sprite;
 
-        public System.Windows.Point Position
+        public abstract System.Windows.Point Position
         {
-            get { return _position; }
-            private set { _position = value; }
+            get;
+            set;
         }
-        public System.Windows.Size SpriteSize
+        public abstract System.Windows.Size SpriteSize
         {
-            get { return _spriteSize; }
-            private set { _spriteSize = value; }
+            get;
+            set;
         }
-        public double LifeTime
+        public abstract double LifeTime
         {
-            get { return _llifeTime; }
-            private set { _llifeTime = value; }
+            get;
+            set;
         }
         
-        public Ellipse Sprite
+        public abstract Ellipse Sprite
         {
-            get { return _sprite; }
-            private set { _sprite = value; }
+            get;
+            set;
         }
 
         public ColectableItem(System.Windows.Point position, double size, double lifeTime)
@@ -59,35 +59,13 @@ namespace CookieClicker_HB
             Sprite.RenderTransform = new TranslateTransform(position.X, position.Y);
         }
 
-        public bool isMouseOnObject(System.Windows.Point mousePointPos) // а зачем??
-        {
-            return false;
-        }
+        public abstract bool isMouseOnObject(System.Windows.Point mousePointPos); // а зачем??
 
 
-        public Ellipse GetSprite()
-        {
-            return _sprite;
-        }
+        public abstract Ellipse GetSprite();
 
-        public bool onClick(Player player, System.Windows.Point mousePointPos)
-        {
-            if (((mousePointPos.X > Position.X - SpriteSize.Width) && (mousePointPos.X < Position.X + SpriteSize.Width)) &&
-                ((mousePointPos.Y > Position.Y - SpriteSize.Height) && (mousePointPos.Y < Position.Y + SpriteSize.Height)))
-            {
-                return true;
-                //скорее всего от сюда надо дать плееру бонус
-            }
-            else return false;
+        public abstract bool onClick(Player player, System.Windows.Point mousePointPos);
 
-        }
-
-        public bool updateLifetime(double delta)
-        {
-            LifeTime -= delta;
-
-            if (LifeTime > 0) return true;
-            else return false;
-        }
+        public abstract bool updateLifetime(double delta);
     }
 }
