@@ -118,7 +118,7 @@ namespace CookieClicker_HB
             ColectableItem newItem = null;
             int nextType = rnd.Next(1, 49);
             double newSize = (rnd.NextDouble() *(MaxSpriteSize - MinSpriteSize)) + MinSpriteSize;
-            double newLifeTime = (rnd.NextDouble() * (MaxLifeTime - MinLifeTime)) + MinLifeTime;
+            double newLifeTime = ((rnd.NextDouble() * (MaxLifeTime - MinLifeTime)) + MinLifeTime) * BoosterManager.lifeTimeMultiplyer;
             Point newPos = new Point();
             newPos.X = rnd.Next(Convert.ToInt32(newSize), Convert.ToInt32(SceneSize.Width - newSize));
             newPos.Y = rnd.Next(Convert.ToInt32(newSize), Convert.ToInt32(SceneSize.Height - newSize));
@@ -162,7 +162,7 @@ namespace CookieClicker_HB
             }
             else
             {
-                Time = SpawnRate;
+                Time = SpawnRate * BoosterManager.SpawnRateDevider;
                 spawnObject();
             }
 

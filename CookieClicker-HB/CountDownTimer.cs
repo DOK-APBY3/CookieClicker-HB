@@ -23,7 +23,11 @@ namespace CookieClicker_HB
 
         public void update(double delta)
         {
+            if (TargetTime > 0)
+            {
+                TargetTime -= delta;
 
+            }
         }
     }
 }

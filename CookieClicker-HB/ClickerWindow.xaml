@@ -58,15 +58,22 @@
         <StackPanel Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Top">
 
             <StackPanel Orientation="Horizontal" Margin="5" Name="PlayerUpgrasePanel">
-                <TextBlock Text="УР " FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Right"/>
-                <TextBlock x:Name="f" Text="{Binding Path=SwordLvl}" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                <TextBlock Text=" Меч " FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                <TextBlock  Text="{Binding Path=SwordLvl}" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Right"/>
                 <Button Click="SwordUpgrade_Click">
                     <Image Height="50" Width="50" Source="/icons/Interfase/icon_upgrade.png"/>
                 </Button>
-                <TextBlock x:Name="g" Text="{Binding Path=SwordUpgradeCost, Converter={StaticResource myBigConverter}}" FontSize="30" VerticalAlignment="Center"/>
+                <TextBlock  Text="{Binding Path=SwordUpgradeCost, Converter={StaticResource myBigConverter}}" FontSize="30" VerticalAlignment="Center"/>
             </StackPanel>
 
-            
+            <StackPanel Orientation="Horizontal" Margin="5" Name="PlayerClickUpgrasePanel">
+                <TextBlock Text="Клик " FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                <TextBlock  Text="{Binding Path=ClickLvl}" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                <Button Click="ClickUpgrade_Click">
+                    <Image Height="50" Width="50" Source="/icons/Interfase/icon_upgrade.png"/>
+                </Button>
+                <TextBlock  Text="{Binding Path=ClickupgradeCost, Converter={StaticResource myBigConverter}}" FontSize="30" VerticalAlignment="Center"/>
+            </StackPanel>
 
         </StackPanel>
 

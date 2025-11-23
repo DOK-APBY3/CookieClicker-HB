@@ -76,8 +76,8 @@ namespace CookieClicker_HB
             if (((mousePointPos.X > Position.X - SpriteSize.Width) && (mousePointPos.X < Position.X + SpriteSize.Width)) &&
                 ((mousePointPos.Y > Position.Y - SpriteSize.Height) && (mousePointPos.Y < Position.Y + SpriteSize.Height)))
             {
+                BoosterManager.IsDamageIncreesed = true;
                 return true;
-                //скорее всего от сюда надо дать плееру бонус
             }
             else return false;
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.Eventing.Reader;
 using System.IO;
 using System.Linq;
 using System.Numerics;
@@ -49,16 +50,15 @@ namespace CookieClicker_HB
             }
         }
 
-
-
         public ClickerWindow()
         {
             InitializeComponent();
 
-            Gamer = new Player(1.0);
+            Gamer = new Player(0.5);
             SimpleStatsPanel.DataContext = Gamer;
             GlobalStatPanel.DataContext = Gamer;
             PlayerUpgrasePanel.DataContext = Gamer;
+            PlayerClickUpgrasePanel.DataContext = Gamer;
 
             timer = new DispatcherTimer();
             timer.Interval = new TimeSpan(0, 0, 0, 0, 100);
@@ -113,10 +113,15 @@ namespace CookieClicker_HB
 
         private void SphereContainer_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            Point mousePos = e.GetPosition(SphereContainer);
-            if (controller.mouseClick(mousePos))
+            if (Gamer.CanClick)
             {
-                e.Handled = true;
+                
+                Point mousePos = e.GetPosition(SphereContainer);
+                if (controller.mouseClick(mousePos))
+                {
+                    e.Handled = true;
+                    Gamer.mouseCkick();
+                }
             }
         }
 
@@ -124,23 +129,25 @@ namespace CookieClicker_HB
 
         private void EnemyWasClicked(object sender, RoutedEventArgs e)
         {
-            BigNumber reward;
-            bool isKilled = Current_Enemy.TakeDamage(Gamer.DealDamage(), out reward);
-
-            if (isKilled)
+            if (Gamer.CanClick)
             {
-                Gamer.AddGold(reward);
-                Gamer.EnemyKilled();
-                CreateNewEnemy();
-            }
+                BigNumber reward;
+                bool isKilled = Current_Enemy.TakeDamage(Gamer.DealDamage(), out reward);
 
-            else UpgateHP();
+                Gamer.mouseCkick();
+
+                if (isKilled)
+                {
+                    Gamer.AddGold(reward);
+                    Gamer.EnemyKilled();
+                    CreateNewEnemy();
+                }
+                else UpgateHP();
+            }
         }
 
         private void CreateNewEnemy()
         {
-
-
 
             if (killsToHarder == 0)
             {
@@ -148,9 +155,12 @@ namespace CookieClicker_HB
                 killsToHarder = 10;
                 
             }
-            else killsToHarder --; 
+            else killsToHarder --;
 
-            EnemyTemplate tCE = enemyList.ReturnRandomEnemy();
+            EnemyTemplate tCE;
+
+            if (BoosterManager.BossSpawnerActivated) tCE = enemyList.getEnemyByIndex(5);
+            else tCE = enemyList.ReturnRandomEnemy();
 
             BigNumber new_HP = new BigNumber(tCE.BaseLife.ToString());
             double lifeMod = tCE.LifeModifier;
@@ -214,7 +224,17 @@ namespace CookieClicker_HB
                 MessageBox.Show("А! А! А! Денег не ма!");
             }
         }
+        private void ClickUpgrade_Click(object sender, RoutedEventArgs e)
+        {
+            if (Gamer.TryUpgradeClick())
+            {
 
+            }
+            else
+            {
+                MessageBox.Show("А! А! А! Денег не ма!");
+            }
+        }
         private void SavingButton_Click(object sender, RoutedEventArgs e)
         {
             //FileManager.SaveToSelectedFile(enemyList);
@@ -259,5 +279,7 @@ namespace CookieClicker_HB
         {
             this.Close();
         }
+
+        
     }
 }
