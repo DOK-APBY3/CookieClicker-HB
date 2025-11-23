@@ -10,7 +10,7 @@ using System.Windows.Shapes;
 
 namespace CookieClicker_HB
 {
-    public class DamgeDealler : ColectableItem
+    public class DamgeDealler : ColectableItem  // сносит 10 атак
     {
         
 
@@ -49,7 +49,7 @@ namespace CookieClicker_HB
 
             Sprite = new Ellipse();
 
-            Sprite.Fill = Brushes.Aquamarine;
+            Sprite.Fill = Brushes.Red;
             Sprite.StrokeThickness = 2;
             Sprite.Stroke = Brushes.Black;
 
@@ -73,7 +73,22 @@ namespace CookieClicker_HB
 
         public bool onClick(Player player, System.Windows.Point mousePointPos)
         {
-            return false;
+            if (((mousePointPos.X > Position.X - SpriteSize.Width) && (mousePointPos.X < Position.X + SpriteSize.Width)) &&
+                ((mousePointPos.Y > Position.Y - SpriteSize.Height) && (mousePointPos.Y < Position.Y + SpriteSize.Height)))
+            {
+                return true;
+                //скорее всего от сюда надо дать плееру бонус
+            }
+            else return false;
+
+        }
+
+        public bool updateLifetime(double delta)
+        {
+            LifeTime -= delta;
+
+            if (LifeTime > 0) return true;
+            else return false;
         }
     }
 }

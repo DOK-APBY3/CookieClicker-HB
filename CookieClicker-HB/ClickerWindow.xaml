@@ -83,6 +83,7 @@
 
                 <Image x:Name="EnemyIcon" Source="{Binding Path =Icon.ImagePath}"/>
 
+                <Canvas Name="SphereContainer" MouseLeftButtonDown="SphereContainer_MouseLeftButtonDown" Background="Transparent" Width="190" Height="210"/>
             </Grid>
 
         </StackPanel>

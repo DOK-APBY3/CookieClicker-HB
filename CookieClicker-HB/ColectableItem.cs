@@ -11,7 +11,7 @@ using System.Windows.Shapes;
 
 namespace CookieClicker_HB
 {
-    public abstract class ColectableItem
+    public class ColectableItem
     {
         private System.Windows.Point _position;
         protected System.Windows.Size _spriteSize;
@@ -59,7 +59,7 @@ namespace CookieClicker_HB
             Sprite.RenderTransform = new TranslateTransform(position.X, position.Y);
         }
 
-        public bool isMouseOnObject(System.Windows.Point mousePointPos)
+        public bool isMouseOnObject(System.Windows.Point mousePointPos) // а зачем??
         {
             return false;
         }
@@ -72,7 +72,22 @@ namespace CookieClicker_HB
 
         public bool onClick(Player player, System.Windows.Point mousePointPos)
         {
-            return false;
+            if (((mousePointPos.X > Position.X - SpriteSize.Width) && (mousePointPos.X < Position.X + SpriteSize.Width)) &&
+                ((mousePointPos.Y > Position.Y - SpriteSize.Height) && (mousePointPos.Y < Position.Y + SpriteSize.Height)))
+            {
+                return true;
+                //скорее всего от сюда надо дать плееру бонус
+            }
+            else return false;
+
+        }
+
+        public bool updateLifetime(double delta)
+        {
+            LifeTime -= delta;
+
+            if (LifeTime > 0) return true;
+            else return false;
         }
     }
 }

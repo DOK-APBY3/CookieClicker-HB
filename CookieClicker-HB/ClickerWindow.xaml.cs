@@ -15,6 +15,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace CookieClicker_HB
 {
@@ -30,6 +31,9 @@ namespace CookieClicker_HB
         Random rnd = new Random();
 
         private Player _gamer;
+
+        private Controller controller;
+        private DispatcherTimer timer;
 
 
         int heroeLvl = 2;
@@ -51,11 +55,17 @@ namespace CookieClicker_HB
         {
             InitializeComponent();
 
-            Gamer = new Player();
+            Gamer = new Player(1.0);
             SimpleStatsPanel.DataContext = Gamer;
             GlobalStatPanel.DataContext = Gamer;
             PlayerUpgrasePanel.DataContext = Gamer;
 
+            timer = new DispatcherTimer();
+            timer.Interval = new TimeSpan(0, 0, 0, 0, 100);
+            timer.Tick += Timer_Tick;
+            
+            Size sceneSize = new Size(SphereContainer.Width, SphereContainer.Height);
+            controller = new Controller(1, 1, sceneSize, Gamer);
 
             string jsonString = File.ReadAllText(@"C:\Users\arbuz\source\repos\DOK-APBY3\CookieClicker-HB\CookieClicker-HB\icons\Monsters\RUCasualEnemiesStack.json");
             enemyList.loadFromJson(jsonString);
@@ -66,6 +76,48 @@ namespace CookieClicker_HB
             UpgateHP();
 
             EnemyPanel.DataContext = Current_Enemy; 
+
+            timer.Start();
+        }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            controller.Update(0.1);
+            Gamer.update(0.1);
+            Update(0.1);
+        }
+
+        private void Update(double delta)
+        {
+            if (controller.IsChange) // отрисовка новых точек если что-то поменялось
+            {
+                if (controller.NewObjects.Count > 0)
+                {
+                    foreach (ColectableItem obj in controller.NewObjects)
+                    {
+                        SphereContainer.Children.Add(obj.Sprite);
+                    }
+                }
+                if (controller.DeletedObjects.Count > 0)
+                {
+                    foreach (ColectableItem obj in controller.DeletedObjects)
+                    {
+                        SphereContainer.Children.Remove(obj.Sprite);
+                    }
+                }
+
+                controller.ChangesDone();
+            }
+        }
+
+
+        private void SphereContainer_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            Point mousePos = e.GetPosition(SphereContainer);
+            if (controller.mouseClick(mousePos))
+            {
+                e.Handled = true;
+            }
         }
 
 

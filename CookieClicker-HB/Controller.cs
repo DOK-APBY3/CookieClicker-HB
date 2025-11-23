@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
+using System.Windows;
 using System.Linq;
 using System.Runtime.Intrinsics.Arm;
 using System.Text;
@@ -11,6 +11,8 @@ namespace CookieClicker_HB
     public class Controller
     {
         private List<ColectableItem> objects = new List<ColectableItem>();
+        private List<ColectableItem> newObjects = new List<ColectableItem>();
+        private List<ColectableItem> deletedObjects = new List<ColectableItem>();
         private double _spawnRate;
         private double _time;
         Random rnd = new Random();
@@ -20,12 +22,24 @@ namespace CookieClicker_HB
         private double _minSpriteSize;
         private Size _sceneSize;
         private double _points;
+        private Player _player;
+        private bool _isChanged;
 
 
         public List<ColectableItem> Objects
         {
             get { return objects; }
             private set { objects = value; }
+        }
+        public List<ColectableItem> NewObjects
+        {
+            get { return newObjects; }
+            private set { newObjects = value; }
+        }
+        public List<ColectableItem> DeletedObjects
+        {
+            get { return deletedObjects; }
+            private set { deletedObjects = value; }
         }
         public double SpawnRate
         {
@@ -75,8 +89,14 @@ namespace CookieClicker_HB
             set { _points = value; }
         }
 
+        public bool IsChange
+        {
+            get { return _isChanged; }
+            set { _isChanged = value; }
+        }
 
-        public Controller(double spawnRate, ulong startTime, Size sceneSize)
+
+        public Controller(double spawnRate, int startTime, Size sceneSize, Player player)
         {
             rnd = new Random();
             objects = new List<ColectableItem>();
@@ -84,36 +104,92 @@ namespace CookieClicker_HB
             Time = startTime;
             SceneSize = sceneSize;
             Points = 0;
-            MinLifeTime = 1;
-            MaxLifeTime = 5;
-            MinSpriteSize = 10;
-            MaxSpriteSize = 20;
+            MinLifeTime = 2;
+            MaxLifeTime = 10;
+            MinSpriteSize = 20;
+            MaxSpriteSize = 40;
+
+            IsChange = false;
+            _player = player;
         }
 
         public void spawnObject()
         {
-            
+
+            double newSize = (rnd.NextDouble() *(MaxSpriteSize - MinSpriteSize)) + MinSpriteSize;
+            double newLifeTime = (rnd.NextDouble() * (MaxLifeTime - MinLifeTime)) + MinLifeTime;
+            Point newPos = new Point();
+            newPos.X = rnd.Next(Convert.ToInt32(newSize), Convert.ToInt32(SceneSize.Width - newSize));
+            newPos.Y = rnd.Next(Convert.ToInt32(newSize), Convert.ToInt32(SceneSize.Height - newSize));
+
+            ColectableItem newItem = new ColectableItem(newPos, newSize, newLifeTime);
+
+            Objects.Add(newItem);
+
+            IsChange = true;
+            newObjects.Add(newItem);
         }
 
         public void destroyObject(ColectableItem obj)
         {
-            objects.Remove(obj);
+            IsChange = true;
+            deletedObjects.Add(obj);
+        }
+
+        private void deleteObjects()
+        {
+            foreach (ColectableItem item in deletedObjects)
+            {
+                Objects.Remove(item);
+            }
         }
 
         public void Update(double delta)
         {
 
+            if (Time >0)
+            {
+                Time -= delta;
+            }
+            else
+            {
+                Time = SpawnRate;
+                spawnObject();
+            }
+
+            foreach (ColectableItem item in Objects)
+            {
+                if (! item.updateLifetime(delta))
+                {
+                    destroyObject(item);
+                }
+            }
 
         }
 
-        public void mouseClick(Point mousePos)
+        public void ChangesDone()
         {
-             
+            NewObjects.Clear();
+            DeletedObjects.Clear();
+            IsChange = false;
         }
 
-        public void pointsIncrease(double pointsValue)
+        public bool mouseClick(System.Windows.Point mousePos)
         {
-            Points += pointsValue;
+            bool isClick = false;
+             foreach (ColectableItem obj in objects)
+             {
+                if (obj.onClick(_player, mousePos))
+                {
+                    destroyObject(obj);
+                    isClick = true;
+                }
+             }
+
+            deleteObjects();
+            return isClick;
         }
+
+        
     }
 }

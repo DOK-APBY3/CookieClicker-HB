@@ -38,8 +38,8 @@ namespace CookieClicker_HB
         }
         public double TimeBeforeClick
         {
-            get { return TimeBeforeClick; }
-            private set { TimeBeforeClick = value; }
+            get { return _timeBeforeClick; }
+            private set { _timeBeforeClick = value; }
         }
 
         public int Lvl
