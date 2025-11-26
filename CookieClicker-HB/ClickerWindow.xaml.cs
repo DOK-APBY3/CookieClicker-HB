@@ -65,7 +65,7 @@ namespace CookieClicker_HB
             timer.Tick += Timer_Tick;
             
             Size sceneSize = new Size(SphereContainer.Width, SphereContainer.Height);
-            controller = new Controller(1, 1, sceneSize, Gamer);
+            controller = new Controller(2, 2, sceneSize, Gamer);
 
             string jsonString = File.ReadAllText(@"C:\Users\arbuz\source\repos\DOK-APBY3\CookieClicker-HB\CookieClicker-HB\icons\Monsters\RUCasualEnemiesStack.json");
             enemyList.loadFromJson(jsonString);
