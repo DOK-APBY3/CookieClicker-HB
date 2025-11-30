@@ -8,10 +8,16 @@ namespace CookieClicker_HB
 {
     class UcorachEnemy : Enemy
     {
+        private int _heigt;
         public UcorachEnemy(string name, BigNumber HP, BigNumber gold, EnemyIcon icon) : base(name, HP, gold, icon)
         {
 
         }
+
+
+        public int Heigt
+        { get { return _heigt; } protected set { _heigt = value; OnPropertyChanged("Heigt"); } }
+
         public virtual bool TakeDamage(BigNumber damage, out BigNumber reward)
         {
             reward = Gold_reward;
@@ -24,6 +30,10 @@ namespace CookieClicker_HB
             {
                 Current_hit_points -= damage;
                 return false;
+                if (_heigt >= 60)
+                {
+                    _heigt -= 10;
+                }
             }
         }
     }

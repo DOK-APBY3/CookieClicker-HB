@@ -10,6 +10,7 @@ using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Shapes;
 using System.Xml.Linq;
 
 
@@ -19,7 +20,7 @@ namespace CookieClicker_HB
     {
 
         [JsonInclude]
-        public ObservableCollection<EnemyTemplate> enemies;
+        public ObservableCollection<EnemyTemplate> enemies { get; set; } = new ObservableCollection<EnemyTemplate>();
 
         Random rnd = new Random();
 
@@ -28,7 +29,7 @@ namespace CookieClicker_HB
 
         public ListOfEnemyTemplate()
         {
-            enemies = new ObservableCollection<EnemyTemplate>();
+            
         }
 
         public void addEnemy(string name, string iconName, string iconSourse, string groupe, int baseLife, int baseGold, double lifeModifier, double goldModifier, double spawnRate)
@@ -127,17 +128,20 @@ namespace CookieClicker_HB
 
         public override void saveToJson(string path)
         {
-            string jsonString = JsonSerializer.Serialize(enemies); // сериализация списка (хз что это, наверное когда фильм режут на сериал чтобы больше денег нафармить)
-            File.WriteAllText(path, jsonString); // сохранялка (джисус крайст, итс Json Борн)
+            List<EnemyTemplate> savableList = new List<EnemyTemplate>(enemies);
+            _serializer.Save(savableList, path);
         }
 
-
-        
-
-
-        public void loadFromJson(string result)
+        public void loadFromJson(string path)
         {
-            enemies = JsonSerializer.Deserialize<ObservableCollection<EnemyTemplate>>(result);
+            
+            List<EnemyTemplate> loadedList = _serializer.Load(path);
+
+            enemies.Clear();
+            foreach (var item in loadedList)
+            {
+                enemies.Add(item);
+            }
         }
 
     }

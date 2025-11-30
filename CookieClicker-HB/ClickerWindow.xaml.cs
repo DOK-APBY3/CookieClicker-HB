@@ -40,6 +40,7 @@ namespace CookieClicker_HB
         int heroeLvl = 2;
         int killsToHarder = 10;
 
+
         public Player Gamer
         {
             get => _gamer;
@@ -72,7 +73,7 @@ namespace CookieClicker_HB
 
             EnemyTemplate tCE = enemyList.ReturnRandomEnemy();
 
-            Current_Enemy = new Enemy(tCE.Name, new BigNumber(tCE.BaseLife.ToString()), new BigNumber(tCE.BaseGold.ToString()), new EnemyIcon(tCE.IconName, tCE.IconSourse));
+            IEnemy Current_Enemy = EnemyZavod.CreateEnemy("CasualEnemy", tCE.Name, new BigNumber(tCE.BaseLife.ToString()), new BigNumber(tCE.BaseGold.ToString()), new EnemyIcon(tCE.IconName, tCE.IconSourse));
             UpgateHP();
 
             EnemyPanel.DataContext = Current_Enemy; 
@@ -173,7 +174,7 @@ namespace CookieClicker_HB
             double addedGold = (GoldMod * (heroeLvl - 1) * (heroeLvl - 1) + GoldRandomComponent);
             new_Gold = new_Gold * addedGold;
 
-            Current_Enemy = new Enemy(tCE.Name, new_HP, new_Gold, new EnemyIcon(tCE.IconName, tCE.IconSourse));
+            IEnemy Current_Enemy = EnemyZavod.CreateEnemy("CasualEnemy", tCE.Name, new_HP, new_Gold, new EnemyIcon(tCE.IconName, tCE.IconSourse));
             UpgateHP();
             EnemyPanel.DataContext = Current_Enemy;
         }

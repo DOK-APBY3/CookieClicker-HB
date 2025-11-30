@@ -48,11 +48,10 @@ namespace CookieClicker_HB
             dlg.Filter = "Text documents (.json)|*.json";
             dlg.ShowDialog();
             string path = dlg.FileName;
-
-            string jsonString = File.ReadAllText(path); 
+ 
 
             
-            sourse.loadFromJson(jsonString);
+            sourse.loadFromJson(path);
             
         }
 

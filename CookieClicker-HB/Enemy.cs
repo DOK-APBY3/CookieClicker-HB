@@ -16,6 +16,7 @@ namespace CookieClicker_HB
         private BigNumber _gold_reward;
         private bool _isDead;
         private EnemyIcon _icon;
+        private int _heigt;
  
         public string Name
         { get { return _name; } protected set { _name = value; OnPropertyChanged("Name"); } }
@@ -29,6 +30,9 @@ namespace CookieClicker_HB
         { get { return _isDead; } protected set { _isDead = value; OnPropertyChanged("IsDead"); } }
         public EnemyIcon Icon
         { get { return _icon; } protected set { _icon = value; OnPropertyChanged("Icon"); } }
+        public int Heigt
+        { get { return _heigt; } protected set { _heigt = value; OnPropertyChanged("Heigt"); } }
+
 
         public Enemy(string name, BigNumber HP, BigNumber gold, EnemyIcon icon)
         {
@@ -37,6 +41,7 @@ namespace CookieClicker_HB
             _current_hit_points = HP;
             _gold_reward = gold;
             _icon = icon;
+            Heigt = 220;
          }
 
         public virtual bool TakeDamage(BigNumber damage, out BigNumber reward)

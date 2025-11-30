@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CookieClicker_HB.EnemyClasses;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,13 +23,22 @@ namespace CookieClicker_HB
                 switch (type)
                 {
                     //Определение типа бронированного противника
-                    case "CArmoredEnemyTemplate":
+                    case "ArmoredEnemyTemplaye":
                         return
                        JsonSerializer.Deserialize<ArmoredEnemyTemplaye>(jsonDoc.RootElement.GetRawText(), options);
                     //Определение типа обычного противника
-                    case "CNormalEnemyTemplate":
+                    case "CasualEnemeTemplate":
                         return
                        JsonSerializer.Deserialize<CasualEnemeTemplate>(jsonDoc.RootElement.GetRawText(), options);
+                    case "HealingEnemyTemplate":
+                        return
+                       JsonSerializer.Deserialize<HealingEnemyTemplate>(jsonDoc.RootElement.GetRawText(), options);
+                    case "NinjaEnemyTemplate":
+                        return
+                       JsonSerializer.Deserialize<NinjaEnemyTemplate>(jsonDoc.RootElement.GetRawText(), options);
+                    case "UcorachEnemyTemplate":
+                        return
+                       JsonSerializer.Deserialize<UcorachEnemyTemplate>(jsonDoc.RootElement.GetRawText(), options);
                     default:
                         throw new NotSupportedException($"Unknown type: {type}");
                 }

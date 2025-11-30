@@ -86,7 +86,7 @@
             <ProgressBar x:Name="enemy_Hp" Width="150" Height="20" Margin="5" Background="Red"/> 
             <!--возможно реализовать полоску хп не получится и будет прото цифра-->
 
-            <Grid x:Name="IconCanv" Height="220" Width="200" MouseLeftButtonDown="EnemyWasClicked" >
+            <Grid x:Name="IconCanv" Height="{Binding Path=Heigt}" Width="200" MouseLeftButtonDown="EnemyWasClicked" >
 
                 <Image x:Name="EnemyIcon" Source="{Binding Path =Icon.ImagePath}"/>
 
