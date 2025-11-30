@@ -18,23 +18,23 @@ namespace CookieClicker_HB
         private double _llifeTime;
         protected Ellipse _sprite;
 
-        public abstract System.Windows.Point Position
+        public System.Windows.Point Position
         {
             get;
             set;
         }
-        public abstract System.Windows.Size SpriteSize
+        public System.Windows.Size SpriteSize
         {
             get;
             set;
         }
-        public abstract double LifeTime
+        public double LifeTime
         {
             get;
             set;
         }
         
-        public abstract Ellipse Sprite
+        public Ellipse Sprite
         {
             get;
             set;

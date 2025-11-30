@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CookieClicker_HB.EnemyClasses;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -22,6 +23,8 @@ namespace CookieClicker_HB
 
         Random rnd = new Random();
 
+        private readonly ISaveList<List<EnemyTemplate>> _serializer = new JsonEnemySaver();
+
 
         public ListOfEnemyTemplate()
         {
@@ -30,7 +33,7 @@ namespace CookieClicker_HB
 
         public void addEnemy(string name, string iconName, string iconSourse, string groupe, int baseLife, int baseGold, double lifeModifier, double goldModifier, double spawnRate)
         {
-            enemies.Add(new EnemyTemplate(name, iconName, iconSourse, groupe, baseLife, baseGold, lifeModifier, goldModifier, spawnRate));
+            enemies.Add(new CasualEnemeTemplate(name, iconName, iconSourse, groupe, baseLife, baseGold, lifeModifier, goldModifier, spawnRate));
         }
 
         public override void addListOfEnemys(List<EnemyTemplate> data)
@@ -38,7 +41,7 @@ namespace CookieClicker_HB
 
             foreach (EnemyTemplate enemy in data)
             {
-                enemies.Add(new EnemyTemplate(enemy.Name, enemy.IconName, enemy.IconSourse, enemy.Groupe, enemy.BaseLife, enemy.BaseGold, enemy.LifeModifier, enemy.GoldModifier, enemy.SpawnRate));
+                enemies.Add(new CasualEnemeTemplate(enemy.Name, enemy.IconName, enemy.IconSourse, enemy.Groupe, enemy.BaseLife, enemy.BaseGold, enemy.LifeModifier, enemy.GoldModifier, enemy.SpawnRate));
             }
         }
 

@@ -5,11 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CookieClicker_HB"
         mc:Ignorable="d"
-        Title="MainWindow" Height="400" Width="600">
+        Title="MainWindow" Height="450" Width="600">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/> 
+            <RowDefinition Height="aUTO"/> 
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
@@ -72,13 +72,16 @@
         <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="1" Grid.Column="1" Margin="5">
             <TextBlock Text="Enemy Icon:" FontSize="20"/>
             <Image Height="90" Width="90" Name="EnemyIcon" VerticalAlignment="Top" HorizontalAlignment="Left" Source="{Binding ElementName=EnemyListBox, Path=SelectedItem.IconSourse}"/>
+            <TextBlock Text="Icon name"  FontSize="15"/>
+            <TextBlock Text="{Binding ElementName=EnemyListBox, Path=SelectedItem.IconName, Mode=OneWay}"  FontSize="15" Margin="5" Name ="EnemyIconName"/>
         </StackPanel>
 
         <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="1" Grid.Column="2" Margin="5">
-            <TextBlock Text="Icon name"  FontSize="15"/>
-            <TextBlock Text="{Binding ElementName=EnemyListBox, Path=SelectedItem.IconName, Mode=OneWay}"  FontSize="15" Margin="5" Name ="EnemyIconName"/>
             <TextBlock Text="Enemy name"  FontSize="15"/>
             <TextBox Text="{Binding ElementName=EnemyListBox, Path=SelectedItem.Name, Mode=TwoWay}"  FontSize="15" Margin="5" Name ="EnemyName"/>
+            
+            <TextBlock Text="Enemy type"  FontSize="15"/>
+            <TextBox Text="{Binding ElementName=EnemyListBox, Path=SelectedItem.Name, Mode=TwoWay}"  FontSize="15" Margin="5" Name ="EnemyType"/>
 
             <Button x:Name="NormalaiseSR" Content="Normolise SpawwnRate" Height="36" Click="NormalaiseSR_Click"/>
 

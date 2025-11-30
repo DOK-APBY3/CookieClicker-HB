@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CookieClicker_HB
 {
-    public class EnemyTemplate
+    public abstract class EnemyTemplate
     {
         private string _name, _iconName, _groupe, _iconSourse;
         private int _baseLife, _baseGold;
