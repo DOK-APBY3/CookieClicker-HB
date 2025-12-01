@@ -10,9 +10,12 @@ namespace CookieClicker_HB
     {
         private double _healingChanse, _healingStrengh;
 
-        public HealingEnemyTemplate(string name, string iconName, string iconSourse, string groupe, int baseLife, int baseGold, double lifeModifier, double goldModifier, double spawnRate, double healingChanse, double healingStrengh)
+        public HealingEnemyTemplate(string name, string iconName, string iconSourse, string groupe, int baseLife, int baseGold, double lifeModifier, double goldModifier, double spawnRate)
             : base(name, iconName, iconSourse, groupe, baseLife, baseGold, lifeModifier, goldModifier, spawnRate)
         {
+            double healingChanse = 0;
+            double healingStrengh = 0;
+
             _healingChanse = healingChanse;
             _healingStrengh = healingStrengh;
         }

@@ -29,6 +29,8 @@ public partial class MainWindow : Window
 
     bool loadingFlag = true;
 
+    string currentTypeName = "CasualEnemeTemplate";
+
 
     public MainWindow()
     {
@@ -43,9 +45,7 @@ public partial class MainWindow : Window
     private void testing()
     {
         LoadIcons();
-        //enemy_AddRandomByName("labubskii");
-        //enemy_AddRandomByName("abobskii");
-        //enemy_AddRandomByName("Milsher");
+        
     }
 
     public void deleteEnemyWithThisName(string name)
@@ -63,12 +63,12 @@ public partial class MainWindow : Window
     public void enemy_AddRandomByName(string name)
     {
         int newIcon = rnd.Next(0, listOfEnemyIcons.Count);
-        enemyList.addEnemy(name, listOfEnemyIcons[newIcon].Name, listOfEnemyIcons[newIcon].ImagePath, "ganganstyle",
+        enemyList.addEnemy(currentTypeName , name, listOfEnemyIcons[newIcon].Name, listOfEnemyIcons[newIcon].ImagePath, "ganganstyle",
             rnd.Next(1, 10),
             rnd.Next(1, 10),
             Math.Round(rnd.NextDouble() * 10, 2),
             Math.Round(rnd.NextDouble() * 10, 2),
-            Math.Round(rnd.NextDouble(), 2));
+            Math.Round(rnd.NextDouble(), 2) , []) ;
     }
 
     private void IconLoadingButton_Click(object sender, RoutedEventArgs e)
@@ -198,5 +198,12 @@ public partial class MainWindow : Window
         this.Close();
     }
 
-  
+    private void EnemyTypeCB_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        ComboBox TypeCB = sender as ComboBox;
+
+        ComboBoxItem currentType = TypeCB.SelectedItem as ComboBoxItem;
+
+        currentTypeName = currentType.Name;
+    }
 }

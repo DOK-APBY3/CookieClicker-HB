@@ -11,10 +11,10 @@ namespace CookieClicker_HB
     {
         private int _armor;
 
-        public ArmoredEnemyTemplaye(string name, string iconName, string iconSourse, string groupe, int baseLife, int baseGold, double lifeModifier, double goldModifier, double spawnRate, int armor)
+        public ArmoredEnemyTemplaye(string name, string iconName, string iconSourse, string groupe, int baseLife, int baseGold, double lifeModifier, double goldModifier, double spawnRate)
             : base(name, iconName, iconSourse, groupe, baseLife, baseGold, lifeModifier, goldModifier, spawnRate)
         {
-            
+            int armor = 0;
             _armor = armor;
         }
 

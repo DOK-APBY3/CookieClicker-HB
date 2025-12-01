@@ -1,0 +1,28 @@
+[
+  {
+    "$type": "HealingEnemyTemplate",
+    "HealingChanse": 0,
+    "HealingStrange": 0,
+    "Name": "hihihiler",
+    "IconName": "skeleton_1.png",
+    "IconSourse": "C:\\Users\\arbuz\\source\\repos\\DOK-APBY3\\CookieClicker-HB\\CookieClicker-HB\\icons\\Monsters\\skeleton_1.png",
+    "Groupe": "ganganstyle",
+    "BaseLife": 9,
+    "LifeModifier": 0.76,
+    "BaseGold": 2,
+    "GoldModifier": 4.17,
+    "SpawnRate": 0.72
+  },
+  {
+    "$type": "UcorachEnemyTemplate",
+    "Name": "kuka",
+    "IconName": "goblin_1.png",
+    "IconSourse": "C:\\Users\\arbuz\\source\\repos\\DOK-APBY3\\CookieClicker-HB\\CookieClicker-HB\\icons\\Monsters\\goblin_1.png",
+    "Groupe": "ganganstyle",
+    "BaseLife": 5,
+    "LifeModifier": 6.3,
+    "BaseGold": 6,
+    "GoldModifier": 5.04,
+    "SpawnRate": 0.37
+  }
+]
