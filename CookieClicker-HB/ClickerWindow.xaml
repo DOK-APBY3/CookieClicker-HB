@@ -88,7 +88,7 @@
 
             <Grid x:Name="IconCanv" Height="{Binding Path=Heigt}" Width="200" MouseLeftButtonDown="EnemyWasClicked" >
 
-                <Image x:Name="EnemyIcon" Source="{Binding Path =Icon.ImagePath}"/>
+                <Image x:Name="EnemyIcon" Height="{Binding Path=Heigt}" Source="{Binding Path =Icon.ImagePath}"/>
 
                 <Canvas Name="SphereContainer" MouseLeftButtonDown="SphereContainer_MouseLeftButtonDown" Background="Transparent" Width="190" Height="210"/>
             </Grid>

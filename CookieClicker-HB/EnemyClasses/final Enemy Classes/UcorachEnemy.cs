@@ -11,14 +11,17 @@ namespace CookieClicker_HB
         private int _heigt;
         public UcorachEnemy(string name, BigNumber HP, BigNumber gold, EnemyIcon icon) : base(name, HP, gold, icon)
         {
-
+            Heigt = 220;
         }
 
 
         public int Heigt
-        { get { return _heigt; } protected set { _heigt = value; OnPropertyChanged("Heigt"); } }
+        { get { return _heigt; } protected set { 
+                _heigt = value;
+                OnPropertyChanged("Heigt");
+            } }
 
-        public virtual bool TakeDamage(BigNumber damage, out BigNumber reward)
+        public override bool TakeDamage(BigNumber damage, out BigNumber reward)
         {
             reward = Gold_reward;
             if (damage >= Current_hit_points)
@@ -28,12 +31,13 @@ namespace CookieClicker_HB
             }
             else
             {
+
+                if (Heigt >= 60)
+                {
+                    Heigt -= 30;
+                }
                 Current_hit_points -= damage;
                 return false;
-                if (_heigt >= 60)
-                {
-                    _heigt -= 10;
-                }
             }
         }
     }

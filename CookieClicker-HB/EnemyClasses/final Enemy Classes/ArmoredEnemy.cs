@@ -21,7 +21,7 @@ namespace CookieClicker_HB
                 _armor = 90;
             }
         }
-        public virtual bool TakeDamage(BigNumber damage, out BigNumber reward)
+        public override bool TakeDamage(BigNumber damage, out BigNumber reward)
         {
             reward = Gold_reward;
 

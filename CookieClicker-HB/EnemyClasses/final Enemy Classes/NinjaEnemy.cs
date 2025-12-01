@@ -15,7 +15,7 @@ namespace CookieClicker_HB
             if (uvoritingChanse <= 0.1) _uvoritingChanse = uvoritingChanse;
             else _uvoritingChanse = 0.1;
         }
-        public virtual bool TakeDamage(BigNumber damage, out BigNumber reward)
+        public override bool TakeDamage(BigNumber damage, out BigNumber reward)
         {
             reward = Gold_reward;
 

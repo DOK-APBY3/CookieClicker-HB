@@ -12,7 +12,7 @@ namespace CookieClicker_HB
         {
             
         }
-        public virtual bool TakeDamage(BigNumber damage, out BigNumber reward)
+        public override bool TakeDamage(BigNumber damage, out BigNumber reward)
         {
             reward = Gold_reward;
             if (damage >= Current_hit_points)

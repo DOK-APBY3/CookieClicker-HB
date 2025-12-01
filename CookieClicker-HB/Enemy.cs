@@ -44,20 +44,7 @@ namespace CookieClicker_HB
             Heigt = 220;
          }
 
-        public virtual bool TakeDamage(BigNumber damage, out BigNumber reward)
-        {
-            reward = _gold_reward;
-            if (damage >= Current_hit_points)
-            {
-                Die();
-                return true;
-            }
-            else
-            {
-                Current_hit_points -= damage;
-                return false;
-            }
-        }
+        public abstract bool TakeDamage(BigNumber damage, out BigNumber reward);
 
         protected virtual void Die()
         {
