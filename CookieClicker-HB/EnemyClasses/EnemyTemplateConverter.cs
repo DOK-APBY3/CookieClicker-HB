@@ -14,19 +14,15 @@ namespace CookieClicker_HB
 
         public override EnemyTemplate Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            // Создаем JSON-документ
             var jsonDoc = JsonDocument.ParseValue(ref reader);
             try
             {
-                // Получаем тип объекта
                 string type = jsonDoc.RootElement.GetProperty("$type").GetString();
                 switch (type)
                 {
-                    //Определение типа бронированного противника
                     case "ArmoredEnemyTemplaye":
                         return
                        JsonSerializer.Deserialize<ArmoredEnemyTemplaye>(jsonDoc.RootElement.GetRawText(), options);
-                    //Определение типа обычного противника
                     case "CasualEnemeTemplate":
                         return
                        JsonSerializer.Deserialize<CasualEnemeTemplate>(jsonDoc.RootElement.GetRawText(), options);
@@ -52,15 +48,15 @@ namespace CookieClicker_HB
 
         public override void Write(Utf8JsonWriter writer, EnemyTemplate value, JsonSerializerOptions options)
         {
-            string type = value.GetType().Name; // Определяем тип
+            string type = value.GetType().Name; 
 
             string json = JsonSerializer.Serialize(value, value.GetType(), options);
             var jsonDoc = JsonDocument.Parse(json);
             try
             {
                 writer.WriteStartObject();
-                writer.WriteString("$type", type); // Добавляем информацию о типе
-                                                   // Копируем все свойства
+                writer.WriteString("$type", type); 
+                                                   
                 foreach (var property in jsonDoc.RootElement.EnumerateObject())
                 {
                     property.WriteTo(writer);
@@ -69,9 +65,35 @@ namespace CookieClicker_HB
             }
             finally
             {
-                jsonDoc.Dispose(); // Освобождаем ресурс
+                jsonDoc.Dispose(); 
             }
         }
 
+    }
+
+    public class BigNumberJsonConverter : JsonConverter<BigNumber>
+    {
+        public override BigNumber Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        {
+            
+
+            string value = reader.GetString();
+
+            if (string.IsNullOrEmpty(value))
+            {
+                return new BigNumber("0");
+            }
+
+            
+            
+            return new BigNumber(value);
+            
+        }
+
+        public override void Write(Utf8JsonWriter writer, BigNumber value, JsonSerializerOptions options)
+        {
+            
+            writer.WriteStringValue(value.ToString());
+        }
     }
 }

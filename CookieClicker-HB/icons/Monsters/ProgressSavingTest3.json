@@ -1,0 +1,22 @@
+{
+  "ClickLvl": 5,
+  "ClickupgradeCost": "696",
+  "BossSpawnerActivated": false,
+  "BossSpawnerTimeLeft": 0,
+  "ClickSpeederActiveated": false,
+  "ClickSpeederTimeLeft": 0,
+  "DamadeBoosterActiveated": false,
+  "DamadeBoosterTimeLeft": 0,
+  "CanClick": true,
+  "TimeBeforeClick": 0.10240000000000003,
+  "Lvl": 5,
+  "SwordLvl": 6,
+  "Gold": "90",
+  "GoldRaised": "1572",
+  "Damage": "42",
+  "DamageMod": 1.25,
+  "DamageDealed": "226",
+  "SwordUpgradeCost": "583",
+  "UpgradeMod": 1.35,
+  "KilledEnemy": 4
+}

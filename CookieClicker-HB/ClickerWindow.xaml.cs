@@ -17,6 +17,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using static MaterialDesignThemes.Wpf.Theme.ToolBar;
 
 namespace CookieClicker_HB
 {
@@ -36,9 +37,7 @@ namespace CookieClicker_HB
         private Controller controller;
         private DispatcherTimer timer;
 
-
-        
-
+        private bool loadingFlag = false;
 
         public Player Gamer
         {
@@ -92,7 +91,7 @@ namespace CookieClicker_HB
 
         private void Update(double delta)
         {
-            if (controller.IsChange) // отрисовка новых точек если что-то поменялось
+            if (controller.IsChange) // перерисовка точек если что-то поменялось
             {
                 if (controller.NewObjects.Count > 0)
                 {
@@ -224,27 +223,41 @@ namespace CookieClicker_HB
         }
         private void SavingButton_Click(object sender, RoutedEventArgs e)
         {
-            //FileManager.SaveToSelectedFile(enemyList);
+            FileManager.SaveProgressToSelectedFile(Gamer);
         }
 
         private void LoadingButton_Click(object sender, RoutedEventArgs e)
         {
 
+            if (loadingFlag)
+            {
+                MessageBox.Show("ВНИМАНИЕ!!! При загрзке все несохранённые данные будут утеряны! Если вы готовы загрузить список нажмите на кнопку загрузки ещё раз");
+                loadingFlag = false;
+            }
+            else
+            {
+                Gamer = FileManager.LoadProgressFromSelectedFile();
+                SimpleStatsPanel.DataContext = Gamer;
+                GlobalStatPanel.DataContext = Gamer;
+                PlayerUpgrasePanel.DataContext = Gamer;
+                PlayerClickUpgrasePanel.DataContext = Gamer;
+                EnemyZavod.AddPlayer(Gamer);
 
-            //if (loadingFlag)
-            //{
-            //    MessageBox.Show("ВНИМАНИЕ!!! При загрзке все несохранённые данные будут утеряны! Если вы готовы загрузить список нажмите на кнопку загрузки ещё раз");
-            //    loadingFlag = false;
-            //}
-            //else
-            //{
-            //    FileManager.LoadFromSelectedFile(enemyList);
-            //    DataContext = enemyList;
-            //    EnemyListBox.ItemsSource = enemyList.enemies;
-            //    loadingFlag = true;
-            //}
 
 
+                EnemyTemplate tCE = enemyList.ReturnRandomEnemy();
+
+                Current_Enemy = EnemyZavod.CreateEnemyFromTemplate(tCE);
+                UpgateHP();
+
+                EnemyPanel.DataContext = Current_Enemy;
+
+                controller.clear();
+                Update(0.1);
+
+                Size sceneSize = new Size(SphereContainer.Width, SphereContainer.Height);
+                controller = new Controller(2, 2, sceneSize, Gamer);
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

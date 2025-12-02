@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using CookieClicker_HB.EnemyClasses;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -19,7 +20,7 @@ namespace CookieClicker_HB
 
         static ListOfEnemyTemplate loader = new ListOfEnemyTemplate();
 
-        
+        private static JsonPlayerSaver gameSaver = new JsonPlayerSaver();
 
 
         private static void LastSavedFinder()
@@ -38,6 +39,39 @@ namespace CookieClicker_HB
                 loader.loadFromJson(lastFilePath);
             }
         }
+
+        public static Player LoadProgressFromSelectedFile()
+        {
+            OpenFileDialog dlg = new OpenFileDialog();
+
+            dlg.FileName = "Document";
+            dlg.DefaultExt = ".json";
+            dlg.Filter = "Text documents (.json)|*.json";
+            dlg.ShowDialog();
+            string path = dlg.FileName;
+
+            Player tmpPlayer = gameSaver.Load(path);
+
+            return tmpPlayer;
+        }
+
+        
+
+
+        public static void SaveProgressToSelectedFile(Player sourse)
+        {
+            SaveFileDialog dlg = new SaveFileDialog();
+
+            dlg.FileName = "Document";
+            dlg.DefaultExt = ".json";
+            dlg.Filter = "Text documents (.json)|*.json";
+            dlg.ShowDialog();
+            string path = dlg.FileName;
+
+            gameSaver.Save(sourse, path);
+
+        }
+
 
         public static void LoadFromSelectedFile(ListOfEnemyTemplate sourse)
         {

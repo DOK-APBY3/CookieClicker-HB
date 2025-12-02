@@ -32,12 +32,12 @@
             <Button Height="30" Width="30" Name="BackButton" Click="BackButton_Click">
                 <TextBlock Text="BACK" FontSize="10"/>
             </Button>
-            <!--<Button Height="30" Width="30" Name="SavingButton" Click="SavingButton_Click">
+            <Button Height="30" Width="30" Name="SavingButton" Click="SavingButton_Click">
                 <TextBlock Text="SAVE" FontSize="10"/>
             </Button>
             <Button Height="30" Width="30" Name="LoadingButton" Click="LoadingButton_Click">
                 <TextBlock Text="LOAD" FontSize="10"/>
-            </Button>-->
+            </Button>
 
         </StackPanel>
 
@@ -46,12 +46,12 @@
                 
                 <Image Height="50" Width="50" Source="/icons/Interfase/icon_money.png"/>
 
-                <TextBlock x:Name="Gold_TB" Text="{Binding Path=Gold, Converter={StaticResource myBigConverter}}" FontSize="30" VerticalAlignment="Center"/>
+                <TextBlock x:Name="Gold_TB" Text="{Binding Path=Gold, Converter={StaticResource myBigConverter} , Mode=OneWay}" FontSize="30" VerticalAlignment="Center"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="5">
                 
                 <Image Height="50" Width="50" Source="/icons/Interfase/icon_damage.png"/>
-                <TextBlock x:Name="Damage_TB" Text="{Binding Path=Damage, Converter={StaticResource myBigConverter}}" FontSize="30" VerticalAlignment="Center"/>
+                <TextBlock x:Name="Damage_TB" Text="{Binding Path=Damage, Converter={StaticResource myBigConverter} , Mode=OneWay}" FontSize="30" VerticalAlignment="Center"/>
             </StackPanel>
         </StackPanel>
 
@@ -59,20 +59,20 @@
 
             <StackPanel Orientation="Horizontal" Margin="5" Name="PlayerUpgrasePanel">
                 <TextBlock Text=" Меч " FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Right"/>
-                <TextBlock  Text="{Binding Path=SwordLvl}" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                <TextBlock  Text="{Binding Path=SwordLvl , Mode=OneWay}" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Right"/>
                 <Button Click="SwordUpgrade_Click">
                     <Image Height="50" Width="50" Source="/icons/Interfase/icon_upgrade.png"/>
                 </Button>
-                <TextBlock  Text="{Binding Path=SwordUpgradeCost, Converter={StaticResource myBigConverter}}" FontSize="30" VerticalAlignment="Center"/>
+                <TextBlock  Text="{Binding Path=SwordUpgradeCost, Converter={StaticResource myBigConverter} , Mode=OneWay}" FontSize="30" VerticalAlignment="Center"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Margin="5" Name="PlayerClickUpgrasePanel">
                 <TextBlock Text="Клик " FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Right"/>
-                <TextBlock  Text="{Binding Path=ClickLvl}" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                <TextBlock  Text="{Binding Path=ClickLvl , Mode=OneWay}" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Right"/>
                 <Button Click="ClickUpgrade_Click">
                     <Image Height="50" Width="50" Source="/icons/Interfase/icon_upgrade.png"/>
                 </Button>
-                <TextBlock  Text="{Binding Path=ClickupgradeCost, Converter={StaticResource myBigConverter}}" FontSize="30" VerticalAlignment="Center"/>
+                <TextBlock  Text="{Binding Path=ClickupgradeCost, Converter={StaticResource myBigConverter} , Mode=OneWay}" FontSize="30" VerticalAlignment="Center"/>
             </StackPanel>
 
         </StackPanel>
@@ -98,11 +98,11 @@
         <StackPanel Grid.Row="2" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Top" Name="GlobalStatPanel">
 
             <TextBlock Text="Денег заработано"  FontSize="30"/>
-            <TextBlock Text="{Binding Path=GoldRaised, Converter={StaticResource myBigConverter}}"  FontSize="30" Margin="5" Name ="StatTotalMoney"/>
+            <TextBlock Text="{Binding Path=GoldRaised, Converter={StaticResource myBigConverter} , Mode=OneWay}"  FontSize="30" Margin="5" Name ="StatTotalMoney"/>
             <TextBlock Text="Урона нанесено"  FontSize="30"/>
-            <TextBlock Text="{Binding Path=DamageDealed, Converter={StaticResource myBigConverter}}"  FontSize="30" Margin="5" Name ="StatTotalDamage"/>
+            <TextBlock Text="{Binding Path=DamageDealed, Converter={StaticResource myBigConverter} , Mode=OneWay}"  FontSize="30" Margin="5" Name ="StatTotalDamage"/>
             <TextBlock Text="Врагов убито"  FontSize="30"/>
-            <TextBlock Text="{Binding Path=KilledEnemy}"  FontSize="30" Margin="5" Name ="StatTotalKills"/>
+            <TextBlock Text="{Binding Path=KilledEnemy , Mode=OneWay}"  FontSize="30" Margin="5" Name ="StatTotalKills"/>
 
         </StackPanel>
     </Grid>
