@@ -153,6 +153,14 @@ namespace CookieClicker_HB
             }
         }
 
+        public void clear()
+        {
+            foreach (ColectableItem item in objects)
+            {
+                destroyObject(item);
+            }
+        }
+
         public void Update(double delta)
         {
 

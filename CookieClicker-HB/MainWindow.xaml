@@ -5,11 +5,52 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CookieClicker_HB"
         mc:Ignorable="d"
-        Title="MainWindow" Height="400" Width="600">
+        Title="MainWindow" Height="600" Width="600">
+
+    <Window.Resources>
+        <local:TypeNameConverter x:Key="TypeNameConverter" />
+
+        <!-- Пустой шаблон -->
+        <DataTemplate x:Key="EmptyTemplate">
+            <!-- Ничего не содержит -->
+        </DataTemplate>
+
+        <!-- Шаблон для бронированного врага -->
+        <DataTemplate x:Key="ArmoredTemplate">
+            <StackPanel>
+                <TextBlock Text="Броня (0 - 90)"  FontSize="15"/>
+                <TextBox Text="{Binding Armor, Mode=TwoWay}"  FontSize="15" Margin="5" />
+            </StackPanel>
+        </DataTemplate>
+
+        
+        <DataTemplate x:Key="HealingTemplate">
+            <StackPanel>
+                <TextBlock Text="Шанс лечения"  FontSize="15"/>
+                <TextBox Text="{Binding HealingChanse, Mode=TwoWay}"  FontSize="15" Margin="5" />
+                <TextBlock Text="Сила лечения"  FontSize="15"/>
+                <TextBox Text="{Binding HealingStrange, Mode=TwoWay}"  FontSize="15" Margin="5" />
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="NinjaTemplate">
+            <StackPanel>
+                <TextBlock Text="Шанс уворота"  FontSize="15"/>
+                <TextBox Text="{Binding UvoritingChanse, Mode=TwoWay}"  FontSize="15" Margin="5" />
+            </StackPanel>
+        </DataTemplate>
+
+        <!-- Селектор -->
+        <local:UniquePropertiesTemplateSelector x:Key="UniquePropsSelector"
+                                                ArmoredTemplate="{StaticResource ArmoredTemplate}"
+                                                EmptyTemplate="{StaticResource EmptyTemplate}"
+                                                HealingTemplate="{StaticResource HealingTemplate}"
+                                                NinjaTemplate="{StaticResource NinjaTemplate}"/>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/> 
+            <RowDefinition Height="aUTO"/> 
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
@@ -72,13 +113,16 @@
         <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="1" Grid.Column="1" Margin="5">
             <TextBlock Text="Enemy Icon:" FontSize="20"/>
             <Image Height="90" Width="90" Name="EnemyIcon" VerticalAlignment="Top" HorizontalAlignment="Left" Source="{Binding ElementName=EnemyListBox, Path=SelectedItem.IconSourse}"/>
+            <TextBlock Text="Icon name"  FontSize="15"/>
+            <TextBlock Text="{Binding ElementName=EnemyListBox, Path=SelectedItem.IconName, Mode=OneWay}"  FontSize="15" Margin="5" Name ="EnemyIconName"/>
         </StackPanel>
 
         <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="1" Grid.Column="2" Margin="5">
-            <TextBlock Text="Icon name"  FontSize="15"/>
-            <TextBlock Text="{Binding ElementName=EnemyListBox, Path=SelectedItem.IconName, Mode=OneWay}"  FontSize="15" Margin="5" Name ="EnemyIconName"/>
             <TextBlock Text="Enemy name"  FontSize="15"/>
             <TextBox Text="{Binding ElementName=EnemyListBox, Path=SelectedItem.Name, Mode=TwoWay}"  FontSize="15" Margin="5" Name ="EnemyName"/>
+            
+            <TextBlock Text="Enemy type"  FontSize="15"/>
+            <TextBlock Text="{Binding ElementName=EnemyListBox, Path=SelectedItem, Converter={StaticResource TypeNameConverter}, Mode=OneWay}"  FontSize="15" Margin="5" Name ="EnemyType"/>
 
             <Button x:Name="NormalaiseSR" Content="Normolise SpawwnRate" Height="36" Click="NormalaiseSR_Click"/>
 
@@ -92,9 +136,7 @@
             <TextBox Text="{Binding ElementName=EnemyListBox, Path=SelectedItem.LifeModifier, Mode=TwoWay}"  FontSize="15" Margin="5" Name ="EnemyLifeMod"/>
             <TextBlock Text="Spawn chanse (0 - 1)"  FontSize="15"/>
             <TextBox Text="{Binding ElementName=EnemyListBox, Path=SelectedItem.SpawnRate, Mode=TwoWay}"  FontSize="15" Margin="5" Name ="EnemySpawnChanse"/>
-        </StackPanel>
-        
-        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="2" Grid.Column="2" Margin="5">
+
             <TextBlock Text="Base gold"  FontSize="15"/>
             <TextBox Text="{Binding ElementName=EnemyListBox, Path=SelectedItem.BaseGold, Mode=TwoWay}"  FontSize="15" Margin="5" Name ="EnemyBaseGold"/>
             <TextBlock Text="Gold modifier"  FontSize="15"/>
@@ -109,6 +151,22 @@
                     <TextBlock Text="REMOVE" FontSize="10"/>
                 </Button>
             </StackPanel>
+
+            <ComboBox Name="EnemyTypeCB" SelectionChanged="EnemyTypeCB_SelectionChanged">
+                <ComboBoxItem Content="Дефолтыч" Name="CasualEnemeTemplate"/>
+                <ComboBoxItem Content="Стальной зад" Name="ArmoredEnemyTemplaye"/>
+                <ComboBoxItem Content="Хилер" Name="HealingEnemyTemplate"/>
+                <ComboBoxItem Content="Ниндзя" Name="NinjaEnemyTemplate"/>
+                <ComboBoxItem Content="Кукорач" Name="UcorachEnemyTemplate"/>
+            </ComboBox>
+            
+        </StackPanel>
+
+
+        <ContentPresenter Grid.Row="2" Grid.Column="2" Content="{Binding ElementName=EnemyListBox, Path=SelectedItem}" ContentTemplateSelector="{StaticResource UniquePropsSelector}" Margin="5"/>
+        
+        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="2" Grid.Column="2" Margin="5">
+            
         </StackPanel>
     </Grid>
 </Window>

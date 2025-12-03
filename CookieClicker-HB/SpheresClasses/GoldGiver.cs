@@ -12,32 +12,7 @@ namespace CookieClicker_HB
 {
     public class GoldGiver : ColectableItem
     {
-        private System.Windows.Point _position;
-        protected System.Windows.Size _spriteSize;
-        private double _llifeTime;
-        protected Ellipse _sprite;
-
-        public override System.Windows.Point Position
-        {
-            get { return _position; }
-            set { _position = value; }
-        }
-        public override System.Windows.Size SpriteSize
-        {
-            get { return _spriteSize; }
-            set { _spriteSize = value; }
-        }
-        public override double LifeTime
-        {
-            get { return _llifeTime; }
-            set { _llifeTime = value; }
-        }
-
-        public override Ellipse Sprite
-        {
-            get { return _sprite; }
-            set { _sprite = value; }
-        }
+        
 
         public GoldGiver(System.Windows.Point position, double size, double lifeTime) : base(position, size, lifeTime)
         {

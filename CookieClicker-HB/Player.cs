@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -88,6 +89,7 @@ namespace CookieClicker_HB
         }
 
 
+        [JsonInclude]
         public bool CanClick
         { 
             get { return _canClick; } 
@@ -98,12 +100,14 @@ namespace CookieClicker_HB
                 }
                 _canClick = value; }
         }
+        [JsonInclude]
         public double TimeBeforeClick
         {
             get { return _timeBeforeClick * BoosterManager.ClickSpeederDevider; }
             private set { _timeBeforeClick = value; }
         }
 
+        [JsonInclude]
         public int Lvl
         {
             get { return _lvl; }
@@ -113,6 +117,7 @@ namespace CookieClicker_HB
                 OnPropertyChanged("Lvl");
             }
         }
+        [JsonInclude]
         public int SwordLvl
         {
             get { return _swordLvl; }
@@ -122,6 +127,7 @@ namespace CookieClicker_HB
                 OnPropertyChanged("SwordLvl");
             }
         }
+        [JsonInclude]
         public BigNumber Gold
         {
             get { return _gold; }
@@ -129,6 +135,7 @@ namespace CookieClicker_HB
                 OnPropertyChanged("Gold");
             }
         }
+        [JsonInclude]
         public BigNumber GoldRaised
         {
             get { return _GoldRaised; }
@@ -136,6 +143,7 @@ namespace CookieClicker_HB
                 OnPropertyChanged("GoldRaised");
             }
         }
+        [JsonInclude]
         public BigNumber Damage
         {
             get { return _damage; }
@@ -143,6 +151,7 @@ namespace CookieClicker_HB
                 OnPropertyChanged("Damage");
             }
         }
+        [JsonInclude]
         public double DamageMod
         {
             get { return _damageMod; }
@@ -157,6 +166,7 @@ namespace CookieClicker_HB
                 OnPropertyChanged("DamageDealed");
             }
         }
+        [JsonInclude]
         public BigNumber SwordUpgradeCost
         {
             get { return _swordupgradeCost; }
@@ -165,6 +175,7 @@ namespace CookieClicker_HB
                 OnPropertyChanged("SwordUpgradeCost");
             }
         }
+        [JsonInclude]
         public double UpgradeMod
         {
             get { return _upgradeMod; }
@@ -172,6 +183,7 @@ namespace CookieClicker_HB
                 OnPropertyChanged("UpgradeMod");
             }
         }
+        [JsonInclude]
         public int KilledEnemy
         {
             get { return _killedEnemy; }

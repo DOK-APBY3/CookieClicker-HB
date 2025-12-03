@@ -1,0 +1,34 @@
+{
+  "ClickLvl": 5,
+  "ClickupgradeCost": {
+    "Beautiful": "841"
+  },
+  "BossSpawnerActivated": false,
+  "BossSpawnerTimeLeft": 0,
+  "ClickSpeederActiveated": false,
+  "ClickSpeederTimeLeft": 0,
+  "DamadeBoosterActiveated": false,
+  "DamadeBoosterTimeLeft": 0,
+  "CanClick": true,
+  "TimeBeforeClick": 0.10240000000000003,
+  "Lvl": 12,
+  "SwordLvl": 5,
+  "Gold": {
+    "Beautiful": "1582"
+  },
+  "GoldRaised": {
+    "Beautiful": "2350"
+  },
+  "Damage": {
+    "Beautiful": "33"
+  },
+  "DamageMod": 1.25,
+  "DamageDealed": {
+    "Beautiful": "996"
+  },
+  "SwordUpgradeCost": {
+    "Beautiful": "663"
+  },
+  "UpgradeMod": 1.35,
+  "KilledEnemy": 11
+}

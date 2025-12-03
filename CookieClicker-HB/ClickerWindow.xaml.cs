@@ -17,6 +17,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using static MaterialDesignThemes.Wpf.Theme.ToolBar;
 
 namespace CookieClicker_HB
 {
@@ -36,9 +37,7 @@ namespace CookieClicker_HB
         private Controller controller;
         private DispatcherTimer timer;
 
-
-        int heroeLvl = 2;
-        int killsToHarder = 10;
+        private bool loadingFlag = false;
 
         public Player Gamer
         {
@@ -54,11 +53,13 @@ namespace CookieClicker_HB
         {
             InitializeComponent();
 
+
             Gamer = new Player(0.5);
             SimpleStatsPanel.DataContext = Gamer;
             GlobalStatPanel.DataContext = Gamer;
             PlayerUpgrasePanel.DataContext = Gamer;
             PlayerClickUpgrasePanel.DataContext = Gamer;
+            EnemyZavod.AddPlayer(Gamer);
 
             timer = new DispatcherTimer();
             timer.Interval = new TimeSpan(0, 0, 0, 0, 100);
@@ -67,12 +68,13 @@ namespace CookieClicker_HB
             Size sceneSize = new Size(SphereContainer.Width, SphereContainer.Height);
             controller = new Controller(2, 2, sceneSize, Gamer);
 
-            string jsonString = File.ReadAllText(@"C:\Users\arbuz\source\repos\DOK-APBY3\CookieClicker-HB\CookieClicker-HB\icons\Monsters\RUCasualEnemiesStack.json");
-            enemyList.loadFromJson(jsonString);
+            
+            enemyList.loadFromJson(@"C:\Users\arbuz\source\repos\DOK-APBY3\CookieClicker-HB\CookieClicker-HB\icons\Monsters\TESTxxRUMagicalEnemiesStack.json");
+
 
             EnemyTemplate tCE = enemyList.ReturnRandomEnemy();
 
-            Current_Enemy = new Enemy(tCE.Name, new BigNumber(tCE.BaseLife.ToString()), new BigNumber(tCE.BaseGold.ToString()), new EnemyIcon(tCE.IconName, tCE.IconSourse));
+            Current_Enemy = EnemyZavod.CreateEnemyFromTemplate(tCE);
             UpgateHP();
 
             EnemyPanel.DataContext = Current_Enemy; 
@@ -89,7 +91,7 @@ namespace CookieClicker_HB
 
         private void Update(double delta)
         {
-            if (controller.IsChange) // отрисовка новых точек если что-то поменялось
+            if (controller.IsChange) // перерисовка точек если что-то поменялось
             {
                 if (controller.NewObjects.Count > 0)
                 {
@@ -149,31 +151,15 @@ namespace CookieClicker_HB
         private void CreateNewEnemy()
         {
 
-            if (killsToHarder == 0)
-            {
-                heroeLvl = Gamer.Lvl;
-                killsToHarder = 10;
-                
-            }
-            else killsToHarder --;
-
+            
             EnemyTemplate tCE;
 
             if (BoosterManager.BossSpawnerActivated) tCE = enemyList.getEnemyByIndex(5);
             else tCE = enemyList.ReturnRandomEnemy();
 
-            BigNumber new_HP = new BigNumber(tCE.BaseLife.ToString());
-            double lifeMod = tCE.LifeModifier;
-            double HPRandomComponent = (rnd.NextDouble() * (2 * lifeMod * ( heroeLvl - 2))) - lifeMod * (heroeLvl - 2);
-            new_HP = new_HP * (lifeMod * (heroeLvl - 1) + HPRandomComponent);
+            
 
-            BigNumber new_Gold = new BigNumber(tCE.BaseGold.ToString());
-            double GoldMod = tCE.LifeModifier;
-            double GoldRandomComponent = (rnd.NextDouble() * (2 * GoldMod * (heroeLvl - 2))) - GoldMod * (heroeLvl - 2);
-            double addedGold = (GoldMod * (heroeLvl - 1) * (heroeLvl - 1) + GoldRandomComponent);
-            new_Gold = new_Gold * addedGold;
-
-            Current_Enemy = new Enemy(tCE.Name, new_HP, new_Gold, new EnemyIcon(tCE.IconName, tCE.IconSourse));
+            Current_Enemy = EnemyZavod.CreateEnemyFromTemplate(tCE);
             UpgateHP();
             EnemyPanel.DataContext = Current_Enemy;
         }
@@ -237,27 +223,41 @@ namespace CookieClicker_HB
         }
         private void SavingButton_Click(object sender, RoutedEventArgs e)
         {
-            //FileManager.SaveToSelectedFile(enemyList);
+            FileManager.SaveProgressToSelectedFile(Gamer);
         }
 
         private void LoadingButton_Click(object sender, RoutedEventArgs e)
         {
 
+            if (loadingFlag)
+            {
+                MessageBox.Show("ВНИМАНИЕ!!! При загрзке все несохранённые данные будут утеряны! Если вы готовы загрузить список нажмите на кнопку загрузки ещё раз");
+                loadingFlag = false;
+            }
+            else
+            {
+                Gamer = FileManager.LoadProgressFromSelectedFile();
+                SimpleStatsPanel.DataContext = Gamer;
+                GlobalStatPanel.DataContext = Gamer;
+                PlayerUpgrasePanel.DataContext = Gamer;
+                PlayerClickUpgrasePanel.DataContext = Gamer;
+                EnemyZavod.AddPlayer(Gamer);
 
-            //if (loadingFlag)
-            //{
-            //    MessageBox.Show("ВНИМАНИЕ!!! При загрзке все несохранённые данные будут утеряны! Если вы готовы загрузить список нажмите на кнопку загрузки ещё раз");
-            //    loadingFlag = false;
-            //}
-            //else
-            //{
-            //    FileManager.LoadFromSelectedFile(enemyList);
-            //    DataContext = enemyList;
-            //    EnemyListBox.ItemsSource = enemyList.enemies;
-            //    loadingFlag = true;
-            //}
 
 
+                EnemyTemplate tCE = enemyList.ReturnRandomEnemy();
+
+                Current_Enemy = EnemyZavod.CreateEnemyFromTemplate(tCE);
+                UpgateHP();
+
+                EnemyPanel.DataContext = Current_Enemy;
+
+                controller.clear();
+                Update(0.1);
+
+                Size sceneSize = new Size(SphereContainer.Width, SphereContainer.Height);
+                controller = new Controller(2, 2, sceneSize, Gamer);
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

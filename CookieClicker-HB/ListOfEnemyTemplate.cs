@@ -1,6 +1,8 @@
-﻿using System;
+﻿using CookieClicker_HB.EnemyClasses;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -9,6 +11,9 @@ using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
+using System.Windows.Media;
+using System.Windows.Shapes;
 using System.Xml.Linq;
 
 
@@ -18,19 +23,28 @@ namespace CookieClicker_HB
     {
 
         [JsonInclude]
-        public ObservableCollection<EnemyTemplate> enemies;
+        public ObservableCollection<EnemyTemplate> enemies { get; set; } = new ObservableCollection<EnemyTemplate>();
 
         Random rnd = new Random();
+
+        private readonly ISaveList<List<EnemyTemplate>> _serializer = new JsonEnemySaver();
+
+        
 
 
         public ListOfEnemyTemplate()
         {
-            enemies = new ObservableCollection<EnemyTemplate>();
+            
         }
 
-        public void addEnemy(string name, string iconName, string iconSourse, string groupe, int baseLife, int baseGold, double lifeModifier, double goldModifier, double spawnRate)
+        public void addEnemy(string typeName, string name, string iconName, string iconSourse, string groupe, int baseLife, int baseGold, double lifeModifier, double goldModifier, double spawnRate, params object[] additionalArgs )
         {
-            enemies.Add(new EnemyTemplate(name, iconName, iconSourse, groupe, baseLife, baseGold, lifeModifier, goldModifier, spawnRate));
+            // Создаём врага через фабрику, передав ему все необходимые аргументы
+            // Включая аргументы для уникальных свойств (например, armor для ArmoredEnemyTemplate)
+            // Все аргументы после базовых передаются как additionalArgs
+            var args = new object[] { name, iconName, iconSourse, groupe, baseLife, baseGold, lifeModifier, goldModifier, spawnRate }.Concat(additionalArgs).ToArray();
+            EnemyTemplate newEnemy = EnemyZavod.CreateEnemyTemplate(typeName, args);
+            enemies.Add(newEnemy);
         }
 
         public override void addListOfEnemys(List<EnemyTemplate> data)
@@ -38,7 +52,7 @@ namespace CookieClicker_HB
 
             foreach (EnemyTemplate enemy in data)
             {
-                enemies.Add(new EnemyTemplate(enemy.Name, enemy.IconName, enemy.IconSourse, enemy.Groupe, enemy.BaseLife, enemy.BaseGold, enemy.LifeModifier, enemy.GoldModifier, enemy.SpawnRate));
+                enemies.Add(enemy);
             }
         }
 
@@ -124,18 +138,39 @@ namespace CookieClicker_HB
 
         public override void saveToJson(string path)
         {
-            string jsonString = JsonSerializer.Serialize(enemies); // сериализация списка (хз что это, наверное когда фильм режут на сериал чтобы больше денег нафармить)
-            File.WriteAllText(path, jsonString); // сохранялка (джисус крайст, итс Json Борн)
+            List<EnemyTemplate> savableList = new List<EnemyTemplate>(enemies);
+            _serializer.Save(savableList, path);
         }
 
-
-        
-
-
-        public void loadFromJson(string result)
+        public void loadFromJson(string path)
         {
-            enemies = JsonSerializer.Deserialize<ObservableCollection<EnemyTemplate>>(result);
+            
+            List<EnemyTemplate> loadedList = _serializer.Load(path);
+
+            enemies.Clear();
+            foreach (var item in loadedList)
+            {
+                enemies.Add(item);
+            }
         }
+
 
     }
+
+
+    public class TypeNameConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value == null)
+                return "типа не ма";
+            return value.GetType().Name;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return value;
+        }
+    }
+
 }
