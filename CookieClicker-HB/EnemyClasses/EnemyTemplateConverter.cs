@@ -76,16 +76,12 @@ namespace CookieClicker_HB
         public override BigNumber Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             
-
             string value = reader.GetString();
 
             if (string.IsNullOrEmpty(value))
             {
                 return new BigNumber("0");
             }
-
-            
-            
             return new BigNumber(value);
             
         }

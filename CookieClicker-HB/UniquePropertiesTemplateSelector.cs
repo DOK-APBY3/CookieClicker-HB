@@ -15,7 +15,7 @@ namespace CookieClicker_HB
         public DataTemplate ArmoredTemplate { get; set; }
         public DataTemplate HealingTemplate { get; set; }
         public DataTemplate NinjaTemplate { get; set; }
-        public DataTemplate EmptyTemplate { get; set; } // Шаблон для врагов без уникальных свойств
+        public DataTemplate EmptyTemplate { get; set; }
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {

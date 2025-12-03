@@ -69,7 +69,7 @@ namespace CookieClicker_HB
             controller = new Controller(2, 2, sceneSize, Gamer);
 
             
-            enemyList.loadFromJson(@"C:\Users\arbuz\source\repos\DOK-APBY3\CookieClicker-HB\CookieClicker-HB\icons\Monsters\RUMagicalEnemiesStack.json");
+            enemyList.loadFromJson(@"C:\Users\arbuz\source\repos\DOK-APBY3\CookieClicker-HB\CookieClicker-HB\icons\Monsters\TESTxxRUMagicalEnemiesStack.json");
 
 
             EnemyTemplate tCE = enemyList.ReturnRandomEnemy();

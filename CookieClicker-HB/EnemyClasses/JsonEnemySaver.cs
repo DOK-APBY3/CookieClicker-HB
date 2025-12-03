@@ -30,8 +30,7 @@ namespace CookieClicker_HB.EnemyClasses
             {
                 string json = File.ReadAllText(path);
                 //Десериализация с определение класса противника
-                return JsonSerializer.Deserialize<List<EnemyTemplate>>(json, _options) ?? new
-               List<EnemyTemplate>();
+                return JsonSerializer.Deserialize<List<EnemyTemplate>>(json, _options) ?? new List<EnemyTemplate>();
             }
             return new List<EnemyTemplate>();
         }
