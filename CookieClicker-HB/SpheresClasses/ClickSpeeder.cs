@@ -46,11 +46,7 @@ namespace CookieClicker_HB
         }
 
 
-        public override Ellipse GetSprite()
-        {
-            return _sprite;
-        }
-
+        
         public override bool onClick(Player player, System.Windows.Point mousePointPos)
         {
             if (((mousePointPos.X > Position.X - SpriteSize.Width) && (mousePointPos.X < Position.X + SpriteSize.Width)) &&

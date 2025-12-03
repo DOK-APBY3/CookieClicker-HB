@@ -1,18 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows;
 using System.Linq;
 using System.Runtime.Intrinsics.Arm;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Shapes;
+using static MaterialDesignThemes.Wpf.Theme.ToolBar;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace CookieClicker_HB
 {
+
+    public class ControllerEventArgs : EventArgs
+    {
+        //ссылка на визуальное представление собираемого объекта
+        public Ellipse sprite;
+        public ControllerEventArgs(Ellipse sprite)
+        {
+            this.sprite = sprite;
+        }
+    }
+
+    public delegate void SphereEvent(object sender, ControllerEventArgs e);
+
+
     public class Controller
     {
         private List<ColectableItem> objects = new List<ColectableItem>();
-        private List<ColectableItem> newObjects = new List<ColectableItem>();
-        private List<ColectableItem> deletedObjects = new List<ColectableItem>();
+        private List<ColectableItem> objectsToDelete = new List<ColectableItem>();
         private double _spawnRate;
         private double _time;
         Random rnd = new Random();
@@ -23,7 +39,6 @@ namespace CookieClicker_HB
         private Size _sceneSize;
         private double _points;
         private Player _player;
-        private bool _isChanged;
 
 
         public List<ColectableItem> Objects
@@ -31,16 +46,7 @@ namespace CookieClicker_HB
             get { return objects; }
             private set { objects = value; }
         }
-        public List<ColectableItem> NewObjects
-        {
-            get { return newObjects; }
-            private set { newObjects = value; }
-        }
-        public List<ColectableItem> DeletedObjects
-        {
-            get { return deletedObjects; }
-            private set { deletedObjects = value; }
-        }
+        
         public double SpawnRate
         {
             get { return _spawnRate; }
@@ -89,12 +95,13 @@ namespace CookieClicker_HB
             set { _points = value; }
         }
 
-        public bool IsChange
-        {
-            get { return _isChanged; }
-            set { _isChanged = value; }
-        }
 
+
+        //ссылка на обработчик события добавления объекта в сцену
+        public event SphereEvent addObject;
+
+        //ссылка на обработчики событий удаления объекта из сцены
+        public event SphereEvent removeObject;
 
         public Controller(double spawnRate, int startTime, Size sceneSize, Player player)
         {
@@ -109,7 +116,6 @@ namespace CookieClicker_HB
             MinSpriteSize = 20;
             MaxSpriteSize = 40;
 
-            IsChange = false;
             _player = player;
         }
 
@@ -131,35 +137,14 @@ namespace CookieClicker_HB
             else if (nextType <= 48) newItem = new SpawnRateIncreeser(newPos, newSize, newLifeTime);
             else newItem = new BossSpawner(newPos, newSize, newLifeTime);
 
-
-
             Objects.Add(newItem);
 
-            IsChange = true;
-            newObjects.Add(newItem);
+            addObject?.Invoke(this, new ControllerEventArgs(newItem.GetSprite()));
+
+
         }
 
-        public void destroyObject(ColectableItem obj)
-        {
-            IsChange = true;
-            deletedObjects.Add(obj);
-        }
-
-        private void deleteObjects()
-        {
-            foreach (ColectableItem item in deletedObjects)
-            {
-                Objects.Remove(item);
-            }
-        }
-
-        public void clear()
-        {
-            foreach (ColectableItem item in objects)
-            {
-                destroyObject(item);
-            }
-        }
+        
 
         public void Update(double delta)
         {
@@ -178,35 +163,65 @@ namespace CookieClicker_HB
             {
                 if (! item.updateLifetime(delta))
                 {
-                    destroyObject(item);
+                    objectsToDelete.Add(item);
                 }
             }
 
+            
+
         }
 
-        public void ChangesDone()
+        public void DeleteAll()
         {
-            NewObjects.Clear();
-            DeletedObjects.Clear();
-            IsChange = false;
+            foreach (ColectableItem item in objectsToDelete)
+            {
+                deleteObject(item);
+            }
+            objectsToDelete.Clear();
         }
+
 
         public bool mouseClick(System.Windows.Point mousePos)
         {
+            ColectableItem DeletengObj = null;
+
             bool isClick = false;
              foreach (ColectableItem obj in objects)
              {
                 if (obj.onClick(_player, mousePos))
                 {
-                    destroyObject(obj);
+                    
                     isClick = true;
+
+                    DeletengObj = obj;
+                    break;
                 }
              }
+            if (DeletengObj != null)
+            {
+                deleteObject(DeletengObj);
+            }
 
-            deleteObjects();
             return isClick;
         }
 
         
+        private void deleteObject(ColectableItem obj)
+        {
+
+            removeObject?.Invoke(this, new ControllerEventArgs(obj.GetSprite()));
+            Objects.Remove(obj);
+            
+        }
+
+        public void clear()
+        {
+            foreach (ColectableItem item in objects)
+            {
+                objectsToDelete.Add(item);
+            }
+            
+            DeleteAll();
+        }
     }
 }

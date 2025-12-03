@@ -18,6 +18,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using static MaterialDesignThemes.Wpf.Theme.ToolBar;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace CookieClicker_HB
 {
@@ -67,8 +68,10 @@ namespace CookieClicker_HB
             
             Size sceneSize = new Size(SphereContainer.Width, SphereContainer.Height);
             controller = new Controller(2, 2, sceneSize, Gamer);
+            controller.addObject += addObjectInScene;
+            controller.removeObject += removeObjectFromScene;
 
-            
+
             enemyList.loadFromJson(@"C:\Users\arbuz\source\repos\DOK-APBY3\CookieClicker-HB\CookieClicker-HB\icons\Monsters\TESTxxRUMagicalEnemiesStack.json");
 
 
@@ -91,25 +94,34 @@ namespace CookieClicker_HB
 
         private void Update(double delta)
         {
-            if (controller.IsChange) // перерисовка точек если что-то поменялось
-            {
-                if (controller.NewObjects.Count > 0)
-                {
-                    foreach (ColectableItem obj in controller.NewObjects)
-                    {
-                        SphereContainer.Children.Add(obj.Sprite);
-                    }
-                }
-                if (controller.DeletedObjects.Count > 0)
-                {
-                    foreach (ColectableItem obj in controller.DeletedObjects)
-                    {
-                        SphereContainer.Children.Remove(obj.Sprite);
-                    }
-                }
+            //if (controller.IsChange) // перерисовка точек если что-то поменялось
+            //{
+            //    if (controller.NewObjects.Count > 0)
+            //    {
+            //        foreach (ColectableItem obj in controller.NewObjects)
+            //        {
+            //            SphereContainer.Children.Add(obj.Sprite);
+            //        }
+            //    }
+            //    if (controller.DeletedObjects.Count > 0)
+            //    {
+            //        foreach (ColectableItem obj in controller.DeletedObjects)
+            //        {
+            //            SphereContainer.Children.Remove(obj.Sprite);
+            //        }
+            //    }
 
-                controller.ChangesDone();
-            }
+            //    
+            //}
+        }
+
+        public void addObjectInScene(object sender, ControllerEventArgs e)
+        {
+            SphereContainer.Children.Add(e.sprite);
+        }
+        public void removeObjectFromScene(object sender, ControllerEventArgs e)
+        {
+            SphereContainer.Children.Remove(e.sprite);
         }
 
 
@@ -199,27 +211,17 @@ namespace CookieClicker_HB
         }
 
 
+
+
         private void SwordUpgrade_Click(object sender, RoutedEventArgs e)
         {
-            if (Gamer.TryUpgradeSword())
-            {
-                
-            }
-            else
-            {
-                MessageBox.Show("А! А! А! Денег не ма!");
-            }
+            if (Gamer.TryUpgradeSword()) ;
+            else MessageBox.Show("А! А! А! Денег не ма!");
         }
         private void ClickUpgrade_Click(object sender, RoutedEventArgs e)
         {
-            if (Gamer.TryUpgradeClick())
-            {
-
-            }
-            else
-            {
-                MessageBox.Show("А! А! А! Денег не ма!");
-            }
+            if (Gamer.TryUpgradeClick()) ;
+            else  MessageBox.Show("А! А! А! Денег не ма!");
         }
         private void SavingButton_Click(object sender, RoutedEventArgs e)
         {
