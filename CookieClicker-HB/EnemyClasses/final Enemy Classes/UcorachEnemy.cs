@@ -21,13 +21,12 @@ namespace CookieClicker_HB
                 OnPropertyChanged("Heigt");
             } }
 
-        public override bool TakeDamage(BigNumber damage, out BigNumber reward)
+        public override void TakeDamage(BigNumber damage)
         {
-            reward = Gold_reward;
+            
             if (damage >= Current_hit_points)
             {
                 Die();
-                return true;
             }
             else
             {
@@ -37,7 +36,7 @@ namespace CookieClicker_HB
                     Heigt -= 30;
                 }
                 Current_hit_points -= damage;
-                return false;
+                Damaged();
             }
         }
     }

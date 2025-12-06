@@ -4,10 +4,24 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Shapes;
 
 namespace CookieClicker_HB
 
 {
+    public class ZavodEventArgs : EventArgs
+    {
+        //ссылка на визуальное представление собираемого объекта
+        public Enemy _newenemy;
+        public ZavodEventArgs(Enemy newenemy)
+        {
+            this._newenemy = newenemy;
+        }
+    }
+
+    public delegate void ZavodEvent(ZavodEventArgs e);
+
+
     public static class EnemyZavod
     {
 
@@ -39,7 +53,7 @@ namespace CookieClicker_HB
             return (EnemyTemplate)Activator.CreateInstance(type, args);
         }
 
-        public static Enemy CreateEnemyFromTemplate(EnemyTemplate template)
+        public static void CreateEnemyFromTemplate(EnemyTemplate template)
         {
             
             string templateTypeName = template.GetType().Name;
@@ -55,8 +69,14 @@ namespace CookieClicker_HB
             // Нужно извлечь их из template
             object[] args = CreateArgsForEnemyConstructor(template);
 
-            return (Enemy)Activator.CreateInstance(enemyType, args);
+            Enemy newEnemy = (Enemy)Activator.CreateInstance(enemyType, args);
+
+            EnemyAdded?.Invoke(new ZavodEventArgs(newEnemy));
+
         }
+
+
+        public static event ZavodEvent EnemyAdded;
 
         // Метод для сопоставления имён
         private static string TemplateToEnemyType(string templateTypeName)

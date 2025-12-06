@@ -15,27 +15,23 @@ namespace CookieClicker_HB
             if (uvoritingChanse <= 0.1) _uvoritingChanse = uvoritingChanse;
             else _uvoritingChanse = 0.1;
         }
-        public override bool TakeDamage(BigNumber damage, out BigNumber reward)
+        public override void TakeDamage(BigNumber damage)
         {
-            reward = Gold_reward;
+            
 
             double D100 = rnd.NextDouble();
 
-            if (_uvoritingChanse >= D100)
-            {
-                return false;
-            }
+            if (_uvoritingChanse >= D100) ;
             else
             {
                 if (damage >= Current_hit_points)
                 {
                     Die();
-                    return true;
                 }
                 else
                 {
                     Current_hit_points -= damage;
-                    return false;
+                    Damaged();
                 }
             }
 

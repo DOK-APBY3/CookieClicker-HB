@@ -54,6 +54,8 @@ namespace CookieClicker_HB
         {
             InitializeComponent();
 
+            EnemyZavod.EnemyAdded += EnemyCreated;
+
 
             Gamer = new Player(0.5);
             SimpleStatsPanel.DataContext = Gamer;
@@ -75,12 +77,7 @@ namespace CookieClicker_HB
             enemyList.loadFromJson(@"C:\Users\arbuz\source\repos\DOK-APBY3\CookieClicker-HB\CookieClicker-HB\icons\Monsters\TESTxxRUMagicalEnemiesStack.json");
 
 
-            EnemyTemplate tCE = enemyList.ReturnRandomEnemy();
-
-            Current_Enemy = EnemyZavod.CreateEnemyFromTemplate(tCE);
-            UpgateHP();
-
-            EnemyPanel.DataContext = Current_Enemy; 
+            CreateNewEnemy();
 
             timer.Start();
         }
@@ -139,41 +136,42 @@ namespace CookieClicker_HB
             }
         }
 
+        private void EnemyGetDamage(object sender)
+        {
+            UpgateHP();
 
+        }
+
+        private void EnemyKilled(object sender)
+        {
+            Enemy killedEnemy = (Enemy)sender;
+            Gamer.AddGold(killedEnemy.Gold_reward);
+            Gamer.EnemyKilled();
+            CreateNewEnemy();
+        }
+
+        private void EnemyCreated(ZavodEventArgs e)
+        {
+            Current_Enemy = e._newenemy;
+            UpgateHP();
+            EnemyPanel.DataContext = Current_Enemy;
+            Current_Enemy.TakedDamage += EnemyGetDamage;
+            Current_Enemy.Killed += EnemyKilled;
+        }
 
         private void EnemyWasClicked(object sender, RoutedEventArgs e)
         {
             if (Gamer.CanClick)
             {
-                BigNumber reward;
-                bool isKilled = Current_Enemy.TakeDamage(Gamer.DealDamage(), out reward);
-
+                Current_Enemy.TakeDamage(Gamer.DealDamage());
                 Gamer.mouseCkick();
-
-                if (isKilled)
-                {
-                    Gamer.AddGold(reward);
-                    Gamer.EnemyKilled();
-                    CreateNewEnemy();
-                }
-                else UpgateHP();
             }
         }
 
         private void CreateNewEnemy()
         {
-
-            
-            EnemyTemplate tCE;
-
-            if (BoosterManager.BossSpawnerActivated) tCE = enemyList.getEnemyByIndex(5);
-            else tCE = enemyList.ReturnRandomEnemy();
-
-            
-
-            Current_Enemy = EnemyZavod.CreateEnemyFromTemplate(tCE);
-            UpgateHP();
-            EnemyPanel.DataContext = Current_Enemy;
+            EnemyTemplate tCE = enemyList.ReturnRandomEnemy();
+            EnemyZavod.CreateEnemyFromTemplate(tCE);
         }
 
 
@@ -245,14 +243,7 @@ namespace CookieClicker_HB
                 PlayerClickUpgrasePanel.DataContext = Gamer;
                 EnemyZavod.AddPlayer(Gamer);
 
-
-
-                EnemyTemplate tCE = enemyList.ReturnRandomEnemy();
-
-                Current_Enemy = EnemyZavod.CreateEnemyFromTemplate(tCE);
-                UpgateHP();
-
-                EnemyPanel.DataContext = Current_Enemy;
+                CreateNewEnemy();
 
                 controller.clear();
                 Update(0.1);

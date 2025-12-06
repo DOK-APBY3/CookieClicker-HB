@@ -8,6 +8,19 @@ using System.Threading.Tasks;
 
 namespace CookieClicker_HB
 {
+
+    //public class EnemyEventArgs : EventArgs
+    //{
+    //    //ссылка на визуальное представление собираемого объекта
+        
+    //    public EnemyEventArgs(Ellipse sprite)
+    //    {
+    //        this.sprite = sprite;
+    //    }
+    //}
+
+    public delegate void EnemyEvent(object sender);
+
     public abstract class Enemy : INotifyPropertyChanged, IEnemy
     {
         private string _name;
@@ -44,11 +57,16 @@ namespace CookieClicker_HB
             Heigt = 220;
          }
 
-        public abstract bool TakeDamage(BigNumber damage, out BigNumber reward);
+        public abstract void TakeDamage(BigNumber damage);
 
         protected virtual void Die()
         {
+            Killed?.Invoke(this);
+        }
 
+        protected virtual void Damaged()
+        {
+            TakedDamage?.Invoke(this);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -57,5 +75,10 @@ namespace CookieClicker_HB
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(prop));
         }
+
+
+        public virtual event EnemyEvent Killed;
+
+        public virtual event EnemyEvent TakedDamage;
     }
 }
