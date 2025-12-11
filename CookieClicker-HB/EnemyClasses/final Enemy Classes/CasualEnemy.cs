@@ -12,18 +12,16 @@ namespace CookieClicker_HB
         {
             
         }
-        public override bool TakeDamage(BigNumber damage, out BigNumber reward)
+        public override void TakeDamage(BigNumber damage)
         {
-            reward = Gold_reward;
             if (damage >= Current_hit_points)
             {
                 Die();
-                return true;
             }
             else
             {
                 Current_hit_points -= damage;
-                return false;
+                Damaged();
             }
         }
     }

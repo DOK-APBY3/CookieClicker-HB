@@ -21,21 +21,20 @@ namespace CookieClicker_HB
                 _armor = 90;
             }
         }
-        public override bool TakeDamage(BigNumber damage, out BigNumber reward)
+        public override void TakeDamage(BigNumber damage)
         {
-            reward = Gold_reward;
+            
 
             BigNumber currentDamage = damage - (damage * (_armor)/100);
 
             if (currentDamage >= Current_hit_points)
             {
                 Die();
-                return true;
             }
             else
             {
                 Current_hit_points -= currentDamage;
-                return false;
+                Damaged();
             }
         }
     }

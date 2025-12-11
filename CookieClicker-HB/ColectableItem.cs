@@ -62,7 +62,10 @@ namespace CookieClicker_HB
         public abstract bool isMouseOnObject(System.Windows.Point mousePointPos); // а зачем??
 
 
-        public abstract Ellipse GetSprite();
+        public  Ellipse GetSprite()
+        {
+            return Sprite;
+        }
 
         public abstract bool onClick(Player player, System.Windows.Point mousePointPos);
 
